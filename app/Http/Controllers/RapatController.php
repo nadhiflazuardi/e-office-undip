@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\RapatRequest;
+use App\Models\Pegawai;
+use App\Models\PresensiRapat;
 use App\Models\Rapat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -102,5 +105,23 @@ class RapatController extends Controller
         $rapat->delete();
 
         return response()->json($rapat);
+    }
+
+    public function updatePresensiPeserta(Request $request, Rapat $rapat, Pegawai $peserta)
+    {
+        $request->validate([
+            'status' => 'required|in:hadir,izin,sakit,notset',
+        ]);
+
+        PresensiRapat::where('rapat_id', $rapat->id)
+            ->where('peserta_id', $peserta->id)
+            ->update([
+                'status' => $request->status,
+                'alasan' => $request->alasan,
+            ]);
+
+        return response()->json([
+            'message' => 'Presensi peserta rapat berhasil diupdate.',
+        ]);
     }
 }
