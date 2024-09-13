@@ -95,4 +95,12 @@ class RapatController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        $rapat = Rapat::findOrFail($id);
+
+        $rapat->delete();
+
+        return response()->json($rapat);
+    }
 }

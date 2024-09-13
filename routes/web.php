@@ -19,3 +19,4 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 Route::get('/rapat', [RapatController::class, 'index'])->name('rapat.index');
 Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store');
 Route::patch('/rapat/update/{id}', [RapatController::class, 'update'])->name('rapat.update');
+Route::delete('/rapat/destroy/{id}', [RapatController::class, 'destroy'])->name('rapat.destroy');
