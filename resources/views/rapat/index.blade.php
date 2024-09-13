@@ -122,14 +122,41 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Rapat</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Agenda Rapat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Rapat</label>
-                        <input type="text" class="form-control" id="editTitle">
-                        <span id="titleError" class="text-danger"></span>
+                        <label for="editJudul" class="form-label">Judul Rapat</label>
+                        <input type="text" class="form-control" id="editJudul">
+                        <span id="editJudulError" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPerihal" class="form-label">Perihal</label>
+                        <input type="text" class="form-control" id="editPerihal">
+                        <span id="editPerihalError" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTempat" class="form-label">Tempat</label>
+                        <select class="form-control form-select" id="editTempat">
+                            <option value="">Pilih Tempat Rapat</option>
+                            <option value="Tempat1">Tempat 1</option>
+                            <option value="Tempat2">Tempat 2</option>
+                            <option value="Tempat3">Tempat 3</option>
+                            <option value="Tempat4">Tempat 4</option>
+                        </select>
+                        <span id="editTempatError" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPemimpin" class="form-label">Pemimpin Rapat</label>
+                        <select class="form-control form-select" id="editPemimpin">
+                            <option value="">Pilih Pegawai</option>
+                            <option value="1">Pegawai 1</option>
+                            <option value="2">Pegawai 2</option>
+                            <option value="3">Pegawai 3</option>
+                            <option value="4">Pegawai 4</option>
+                        </select>
+                        <span id="editPemimpinError" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="start-time" class="form-label">Waktu Mulai</label>
@@ -313,8 +340,8 @@
                         type: 'PATCH',
                         dataType: 'json',
                         data: {
-                            start_date: newStartDateTime,
-                            end_date: newEndDateTime
+                            waktuMulai: newStartDateTime,
+                            waktuSelesai: newEndDateTime
                         },
                         success: function(response) {
                             swal("Berhasil", "Rapat berhasil diperbarui", "success");
@@ -331,7 +358,10 @@
                 eventClick: function(event) {
                     const id = event.id;
 
-                    $('#editTitle').val(event.title);
+                    $('#editJudul').val(event.title);
+                    $('#editPerihal').val(event.perihal);
+                    $('#editTempat').val(event.tempat);
+                    $('#editPemimpin').val(event.pemimpinRapat);
                     $('#editStartTime').val(moment(event.start).format('HH:mm'));
                     $('#editEndTime').val(moment(event.end).format('HH:mm'));
                     $(`input[name=editColorOptions][value="${event.color}"]`).prop('checked', true);
@@ -359,7 +389,10 @@
                     });
 
                     $('#updateBtn').click(function() {
-                        const title = $('#editTitle').val();
+                        const judul = $('#editJudul').val();
+                        const perihal = $('#editPerihal').val();
+                        const tempat = $('#editTempat').val();
+                        const pemimpinRapat = $('#editPemimpin').val();
                         const color = $('input[name=editColorOptions]:checked').val();
                         const startTime = $('#editStartTime').val();
                         const endTime = $('#editEndTime').val();
@@ -367,8 +400,8 @@
                         const startDateTime = `${start_date} ${startTime}`;
                         const endDateTime = `${start_date} ${endTime}`;
 
-                        if (!title.trim()) {
-                            $('#titleError').text('Title is required');
+                        if (!judul.trim()) {
+                            $('#judulError').text('judul is required');
                             return;
                         }
 
@@ -387,10 +420,13 @@
                             type: 'PATCH',
                             dataType: 'json',
                             data: {
-                                title: title,
-                                start_date: startDateTime,
-                                end_date: endDateTime,
-                                color: color,
+                                judul: judul,
+                                perihal: perihal,
+                                tempat: tempat,
+                                pemimpinRapat: pemimpinRapat,
+                                waktuMulai: startDateTime,
+                                waktuSelesai: endDateTime,
+                                warnaLabel: color,
                             },
                             success: function(response) {
                                 $('#editModal').modal('hide');

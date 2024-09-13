@@ -17,6 +17,9 @@ class RapatController extends Controller
             $events[] = [
                 'id' => $rapat->id,
                 'title' => $rapat->judul,
+                'perihal' => $rapat->perihal,
+                'tempat' => $rapat->tempat,
+                'pemimpinRapat' => $rapat->pemimpin_rapat_id,
                 'start' => $rapat->waktu_mulai,
                 'end' => $rapat->waktu_selesai,
                 'color' => $rapat->warna_label ? $rapat->warna_label : '',
@@ -41,6 +44,45 @@ class RapatController extends Controller
                 'warna_label' => $request->warnaLabel,
             ]
         );
+
+        return response()->json([
+            'id' => $rapat->id,
+            'title' => $rapat->judul,
+            'start' => $rapat->waktu_mulai,
+            'end' => $rapat->waktu_selesai,
+            'color' => $rapat->warna_label ? $rapat->warna_label : '',
+            'startTime' => Carbon::parse($rapat->waktu_mulai)->format('H:i:s'),
+            'endTime' => Carbon::parse($rapat->waktu_selesai)->format('H:i:s'),
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rapat = Rapat::findOrFail($id);
+        // if rapat not found, return 404
+        if (!$rapat) {
+            return response()->json(['error' => 'rapat not found'], 404);
+        }
+
+        // if request doesn't have color, it means the process is drag and drop
+        if (!$request->warnaLabel) {
+            $rapat->update([
+                'waktu_mulai' => $request->waktuMulai,
+                'waktu_selesai' => $request->waktuSelesai,
+            ]);
+
+            return response()->json($rapat);
+        }
+
+        $rapat->update([
+            'judul' => $request->judul,
+            'perihal' => $request->perihal,
+            'tempat' => $request->tempat,
+            'pemimpin_rapat_id' => $request->pemimpinRapat,
+            'waktu_mulai' => $request->waktuMulai,
+            'waktu_selesai' => $request->waktuSelesai,
+            'warna_label' => $request->warnaLabel,
+        ]);
 
         return response()->json([
             'id' => $rapat->id,
