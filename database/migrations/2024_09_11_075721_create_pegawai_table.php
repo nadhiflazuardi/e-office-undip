@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->foreignId('unit_kerja_id')->constrained('unit_kerja');
-            $table->unsignedBigInteger('nip')->unique();
+            $table->foreignId('jabatan_id')->constrained('jabatan');
+            // $table->unsignedBigInteger('nip')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
@@ -30,9 +31,9 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('pegawai_id')->nullable()->index();
+            $table->foreignId('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
-            $table->text('pegawai_agent')->nullable();
+            $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });

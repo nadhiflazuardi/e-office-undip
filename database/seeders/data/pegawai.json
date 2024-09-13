@@ -1,0 +1,107 @@
+[
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 1,
+        "nama": "Ahmad",
+        "email": "ahmad@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 5,
+        "nama": "Siti",
+        "email": "siti@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 12,
+        "nama": "Budi",
+        "email": "budi@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 20,
+        "nama": "Dewi",
+        "email": "dewi@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 31,
+        "nama": "Eko",
+        "email": "eko@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 7,
+        "nama": "Fani",
+        "email": "fani@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 15,
+        "nama": "Gita",
+        "email": "gita@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 25,
+        "nama": "Hadi",
+        "email": "hadi@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 3,
+        "nama": "Indah",
+        "email": "indah@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 18,
+        "nama": "Joko",
+        "email": "joko@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 30,
+        "nama": "Kartika",
+        "email": "kartika@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 1,
+        "nama": "Lina",
+        "email": "lina@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 22,
+        "nama": "Muhammad",
+        "email": "muhammad@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 14,
+        "nama": "Nina",
+        "email": "nina@gmail.com",
+        "password": "password"
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 28,
+        "nama": "Oscar",
+        "email": "oscar@gmail.com",
+        "password": "password"
+    }
+]
