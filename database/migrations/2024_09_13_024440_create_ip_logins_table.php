@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presensi_harian', function (Blueprint $table) {
+        Schema::create('ip_login', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id')->constrained('pegawai');
-            $table->foreignId('ip_login_id')->constrained('ip_login');
-            $table->dateTime('waktu_kehadiran');
+            $table->string('alamat_ip');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presensi_harian');
+        Schema::dropIfExists('ip_login');
     }
 };

@@ -47,4 +47,9 @@ class Pegawai extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function presensiHarian()
+    {
+        return $this->hasMany(PresensiHarian::class);
+    }
 }
