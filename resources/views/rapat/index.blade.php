@@ -66,10 +66,9 @@
                         <label for="pemimpin" class="form-label">Pemimpin Rapat</label>
                         <select class="form-control form-select" id="pemimpin">
                             <option value="">Pilih Pegawai</option>
-                            <option value="1">Pegawai 1</option>
-                            <option value="2">Pegawai 2</option>
-                            <option value="3">Pegawai 3</option>
-                            <option value="4">Pegawai 4</option>
+                            @foreach ($pegawais as $pegawai)
+                                <option value="{{ $pegawai->id }}">{{ $pegawai->nama }}</option>
+                            @endforeach
                         </select>
                         <span id="pemimpinError" class="text-danger"></span>
                     </div>

@@ -14,6 +14,7 @@ class RapatController extends Controller
 {
     public function index()
     {
+        $pegawais = Pegawai::all();
         $events = array();
         $rapats = Rapat::all();
         foreach ($rapats as $rapat) {
@@ -31,7 +32,7 @@ class RapatController extends Controller
             ];
         }
 
-        return view('rapat.index', compact('events'));
+        return view('rapat.index', compact('events', 'pegawais'));
     }
 
     public function store(RapatRequest $request)
