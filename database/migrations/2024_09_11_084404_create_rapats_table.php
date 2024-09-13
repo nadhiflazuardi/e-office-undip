@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pemimpin_rapat_id')->constrained('pegawai');
             $table->string('judul');
-            $table->text('agenda');
+            $table->text('perihal');
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_selesai');
             $table->string('tempat');
+            $table->string('warna_label');
             $table->timestamps();
         });
     }
