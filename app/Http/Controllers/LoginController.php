@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Models\IpLogin;
+use App\Models\PresensiHarian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,14 +19,16 @@ class LoginController extends Controller
 
     public function authenticate(LoginRequest $request)
     {
-        if (Auth::attempt($request)) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             $ipAddress = $request->ip();
 
             if ($this->isAllowedIp($ipAddress)) {
+                $ipId = IpLogin::where('alamat_ip', $ipAddress)->first()->id;
+
                 PresensiHarian::create([
                     'pegawai_id' => $user->id,
-                    'ip_login_id' => $ipAddress,
+                    'ip_login_id' => $ipId,
                     'waktu_kehadiran' => now(),
                 ]);
 
@@ -52,6 +56,6 @@ class LoginController extends Controller
 
     private function isAllowedIp($ipAddress)
     {
-        return AllowedIp::where('ip_address', $ipAddress)->exists();
+        return IpLogin::where('alamat_ip', $ipAddress)->exists();
     }
 }

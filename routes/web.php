@@ -5,7 +5,7 @@ use App\Http\Controllers\RapatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home', [
+    return view('welcome', [
         'title' => 'Dashboard',
     ]);
 })
@@ -13,7 +13,7 @@ Route::get('/', function () {
     ->name('home');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->middleware('auth');
