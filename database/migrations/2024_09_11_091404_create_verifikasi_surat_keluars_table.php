@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('verifikasi_surat_keluar', function (Blueprint $table) {
             $table->id();
             $table->foreignId('surat_keluar_id')->constrained('surat_keluar');
-            $table->foreignId('verifikatur_id')->constrained('pegawai');
+            $table->foreignId('verifikatur_id')->constrained('user');
             $table->enum('status', ['Disetujui', 'Ditolak']);
             $table->string('catatan')->nullable();
             $table->timestamps();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('presensi_rapat', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rapat_id')->constrained('rapat');
-            $table->foreignId('pegawai_id')->constrained('pegawai');
+            $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('status_kehadiran_id')->constrained('status_kehadiran');
             $table->string('alasan')->nullable();
             $table->timestamps();

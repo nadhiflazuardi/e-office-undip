@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('presensi_harian', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id')->constrained('pegawai');
+            $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('ip_login_id')->constrained('ip_login');
             $table->dateTime('waktu_kehadiran');
             $table->timestamps();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rapat', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pemimpin_rapat_id')->constrained('pegawai');
+            $table->foreignId('pemimpin_rapat_id')->constrained('user');
             $table->string('judul');
             $table->text('perihal');
             $table->dateTime('waktu_mulai');

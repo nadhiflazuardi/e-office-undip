@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('surat_masuk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengarsip_id')->constrained('pegawai');
+            $table->foreignId('pengarsip_id')->constrained('user');
             $table->string('nomor_surat');
             $table->string('hal');
             $table->string('asal');

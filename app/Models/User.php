@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Pegawai extends Authenticatable
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -16,7 +16,7 @@ class Pegawai extends Authenticatable
      *
      * @var string
      */
-    protected $table = 'pegawai';
+    protected $table = 'user';
 
     /**
      * The attributes that are mass assignable.
