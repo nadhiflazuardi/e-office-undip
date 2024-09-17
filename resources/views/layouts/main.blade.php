@@ -36,9 +36,7 @@
         @yield('container')
     @else
         @include('partials.navbar')
-        <div class="container rounded my-5 p-3 shadow bg-white">
-            @yield('container')
-        </div>
+        @yield('container')
     @endif
 
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js">
