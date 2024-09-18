@@ -7,6 +7,7 @@ use App\Http\Requests\RapatRequest;
 use App\Models\Pegawai;
 use App\Models\PresensiRapat;
 use App\Models\Rapat;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class RapatController extends Controller
 {
     public function index()
     {
-        $pegawais = Pegawai::all();
+        $pegawais = User::all();
         $events = array();
         $rapats = Rapat::all();
         foreach ($rapats as $rapat) {
