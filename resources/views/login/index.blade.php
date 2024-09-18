@@ -2,12 +2,22 @@
 
 @section('container')
     <div class="container shadow rounded-3 col-lg-4 p-3 mt-5">
+        {{-- dismissable alert to display error from controller: return back()->withErrors(['ip' => 'Login not allowed from this IP address.']); --}}
+        @if ($errors->has('ip'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <small>{{ $errors->first('ip') }}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- dismissable alert to display error --}}
         @if (session()->has('loginError'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <small>{{ session('loginError') }}</small>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
         <div class="justify-content-start text-center">
             <img src={{ asset('assets/undip-logo-cropped.svg') }} width="100" class="" alt="">
             <div class="d-flex flex-column my-3 gap-1">

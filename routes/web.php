@@ -2,15 +2,14 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RapatController;
+use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome', [
+    return view('home', [
         'title' => 'Dashboard',
     ]);
-})
-    ->middleware('auth')
-    ->name('home');
+})->name('home');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');

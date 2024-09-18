@@ -21,6 +21,7 @@ class LoginController extends Controller
     {
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
+            $request->session()->regenerate();
             $ipAddress = $request->ip();
 
             if ($this->isAllowedIp($ipAddress)) {
@@ -32,12 +33,9 @@ class LoginController extends Controller
                     'waktu_kehadiran' => now(),
                 ]);
 
-                $request->session()->regenerate();
-
                 return redirect()->intended('/');
             } else {
-                Auth::logout();
-                return back()->withErrors(['ip' => 'Login not allowed from this IP address.']);
+                return redirect()->intended('/')->withErrors(['ip' => 'Alamat IP Anda tidak tercatat di sistem. Presensi tidak dapat dilakukan.']);
             }
         }
 
