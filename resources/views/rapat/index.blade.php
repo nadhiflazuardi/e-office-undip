@@ -17,6 +17,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    {{-- Select2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
         .color-sample {
@@ -32,193 +39,20 @@
 </head>
 
 <body>
-    <!-- Modal Create Start -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Buat Agenda Rapat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="judul" class="form-label">Judul Rapat</label>
-                        <input type="text" class="form-control" id="judul">
-                        <span id="judulError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="perihal" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal">
-                        <span id="perihalError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tempat" class="form-label">Tempat</label>
-                        <select class="form-control form-select" id="tempat">
-                            <option value="">Pilih Tempat Rapat</option>
-                            <option value="Tempat1">Tempat 1</option>
-                            <option value="Tempat2">Tempat 2</option>
-                            <option value="Tempat3">Tempat 3</option>
-                            <option value="Tempat4">Tempat 4</option>
-                        </select>
-                        <span id="tempatError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="pemimpin" class="form-label">Pemimpin Rapat</label>
-                        <select class="form-control form-select" id="pemimpin">
-                            <option value="">Pilih Pegawai</option>
-                            @foreach ($pegawais as $pegawai)
-                                <option value="{{ $pegawai->id }}">{{ $pegawai->nama }}</option>
-                            @endforeach
-                        </select>
-                        <span id="pemimpinError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="start-time" class="form-label">Waktu Mulai</label>
-                        <input type="time" class="form-control" id="start-time">
-                        <span id="startTimeError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="end-time" class="form-label">Waktu Selesai</label>
-                        <input type="time" class="form-control" id="end-time">
-                        <span id="endTimeError" class="text-danger"></span>
-                    </div>
-                    <label for="color-selection">Pilih Warna Label Rapat</label>
-                    <div class="mb-3" id="color-selection">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="colorOptions" id="colorRed"
-                                value="#d50000">
-                            <label class="form-check-label" for="colorRed">
-                                <span class="color-sample" style="background-color: #d50000;"></span>
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="colorOptions" id="colorBlue"
-                                value="#039ae5">
-                            <label class="form-check-label" for="colorBlue">
-                                <span class="color-sample" style="background-color: #039ae5;"></span>
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="colorOptions" id="colorGreen"
-                                value="#33b679">
-                            <label class="form-check-label" for="colorGreen">
-                                <span class="color-sample" style="background-color: #33b679;"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="saveBtn" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Create End -->
+    @include('partials.modal-create-rapat')
 
-    {{-- Modal Edit Start --}}
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Agenda Rapat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="editJudul" class="form-label">Judul Rapat</label>
-                        <input type="text" class="form-control" id="editJudul">
-                        <span id="editJudulError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPerihal" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="editPerihal">
-                        <span id="editPerihalError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editTempat" class="form-label">Tempat</label>
-                        <select class="form-control form-select" id="editTempat">
-                            <option value="">Pilih Tempat Rapat</option>
-                            <option value="Tempat1">Tempat 1</option>
-                            <option value="Tempat2">Tempat 2</option>
-                            <option value="Tempat3">Tempat 3</option>
-                            <option value="Tempat4">Tempat 4</option>
-                        </select>
-                        <span id="editTempatError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPemimpin" class="form-label">Pemimpin Rapat</label>
-                        <select class="form-control form-select" id="editPemimpin">
-                            <option value="">Pilih Pegawai</option>
-                            <option value="1">Pegawai 1</option>
-                            <option value="2">Pegawai 2</option>
-                            <option value="3">Pegawai 3</option>
-                            <option value="4">Pegawai 4</option>
-                        </select>
-                        <span id="editPemimpinError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="start-time" class="form-label">Waktu Mulai</label>
-                        <input type="time" class="form-control" id="editStartTime">
-                        <span id="startTimeError" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="end-time" class="form-label">Waktu Selesai</label>
-                        <input type="time" class="form-control" id="editEndTime">
-                        <span id="endTimeError" class="text-danger"></span>
-                    </div>
-                    <label for="color-selection">Pilih Warna Label Rapat</label>
-                    <div class="mb-3" id="color-selection">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="editColorOptions" id="editColorRed"
-                                value="#d50000">
-                            <label class="form-check-label" for="colorRed">
-                                <span class="color-sample" style="background-color: #d50000;"></span>
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="editColorOptions"
-                                id="editColorBlue" value="#039ae5">
-                            <label class="form-check-label" for="colorBlue">
-                                <span class="color-sample" style="background-color: #039ae5;"></span>
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="editColorOptions"
-                                id="editColorGreen" value="#33b679">
-                            <label class="form-check-label" for="colorGreen">
-                                <span class="color-sample" style="background-color: #33b679;"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-danger" id="eventDeleteBtn">Hapus Rapat</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="updateBtn" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Modal Edit End --}}
+    @include('partials.modal-edit-rapat')
 
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h3 class="text-center mt-5">Daftar Rapat</h3>
                 <div class="col-md-11 offset-1 mt-5 mb-5">
-
-                    <div id="calendar">
-
-                    </div>
-
+                    <div id="calendar"></div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
 
     <script>
         $(document).ready(function() {
@@ -249,7 +83,7 @@
                     }
 
                     // display modal to create event
-                    $('#bookingModal').modal('show');
+                    $('#createRapatModal').modal('show');
 
                     $('#saveBtn').click(function() {
                         const judul = $('#judul').val();
@@ -292,7 +126,7 @@
                                 warnaLabel: color,
                             },
                             success: function(response) {
-                                $('#bookingModal').modal('hide');
+                                $('#createRapatModal').modal('hide');
                                 $('#calendar').fullCalendar('renderEvent', {
                                     'id': response.id,
                                     'title': response.title,
@@ -512,7 +346,7 @@
                 }
             });
 
-            $('#bookingModal').on('hidden.bs.modal', function() {
+            $('#createRapatModal').on('hidden.bs.modal', function() {
                 $('#saveBtn').unbind();
             });
 
