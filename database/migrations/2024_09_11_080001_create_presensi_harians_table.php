@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('ip_login_id')->constrained('ip_login');
-            $table->dateTime('waktu_kehadiran');
+            $table->dateTime('waktu_kehadiran')->nullable();
+            $table->enum('status', ['hadir', 'izin', 'sakit', 'notset'])->default('notset');
             $table->timestamps();
         });
     }
