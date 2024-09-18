@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('rapat_id')->constrained('rapat');
             $table->foreignId('pegawai_id')->constrained('user');
-            $table->foreignId('status_kehadiran_id')->constrained('status_kehadiran');
-            $table->string('alasan')->nullable();
+            $table->enum('status', ['hadir', 'izin', 'sakit', 'notset'])->default('notset');
             $table->timestamps();
         });
     }

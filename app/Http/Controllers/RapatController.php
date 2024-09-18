@@ -50,6 +50,23 @@ class RapatController extends Controller
             ]
         );
 
+        foreach ($request->pesertaRapat as $peserta) {
+            PresensiRapat::create([
+                'rapat_id' => $rapat->id,
+                'peserta_id' => $peserta,
+                'status' => 'hadir',
+            ]);
+        }
+
+        // if there is no PresensiRapat instance where rapat id is $rapat->id and peserta id is $request->pemimpinRapat, then create new PresensiRapat instance
+        if (!PresensiRapat::where('rapat_id', $rapat->id)->where('peserta_id', $rapat->pemimpin_rapat_id)->first()) {
+            PresensiRapat::create([
+                'rapat_id' => $rapat->id,
+                'peserta_id' => $request->pemimpinRapat,
+                'status' => 'hadir',
+            ]);
+        }
+
         return response()->json([
             'id' => $rapat->id,
             'title' => $rapat->judul,
@@ -61,9 +78,8 @@ class RapatController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Rapat $rapat)
     {
-        $rapat = Rapat::findOrFail($id);
         // if rapat not found, return 404
         if (!$rapat) {
             return response()->json(['error' => 'rapat not found'], 404);
@@ -100,16 +116,14 @@ class RapatController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(Rapat $rapat)
     {
-        $rapat = Rapat::findOrFail($id);
-
         $rapat->delete();
 
         return response()->json($rapat);
     }
 
-    public function updatePresensiPeserta(Request $request, Rapat $rapat, Pegawai $peserta)
+    public function updatePresensiPeserta(Request $request, Rapat $rapat, User $peserta)
     {
         $request->validate([
             'status' => 'required|in:hadir,izin,sakit,notset',
@@ -119,7 +133,6 @@ class RapatController extends Controller
             ->where('peserta_id', $peserta->id)
             ->update([
                 'status' => $request->status,
-                'alasan' => $request->alasan,
             ]);
 
         return response()->json([
