@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RapatController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
+use App\Http\Controllers\VerifikasiTugasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,3 +46,8 @@ Route::get('/tugas/show/{tugas}', [TugasController::class, 'show'])->name('tugas
 Route::get('/tugas/edit/{tugas}', [TugasController::class, 'edit'])->name('tugas.edit');
 Route::patch('/tugas/update/{tugas}', [TugasController::class, 'update'])->name('tugas.update');
 Route::delete('/tugas/destroy/{tugas}', [TugasController::class, 'destroy'])->name('tugas.destroy');
+
+Route::get('/tugas/verifikasi', [VerifikasiTugasController::class, 'index'])->name('tugas.verifikasi.index');
+Route::get('/tugas/verifikasi/{tugas}', [VerifikasiTugasController::class, 'show'])->name('tugas.verifikasi.show');
+Route::post('/tugas/verifikasi/{tugas}/terima', [VerifikasiTugasController::class, 'terima'])->name('tugas.verifikasi.terima');
+Route::post('/tugas/verifikasi/{tugas}/tolak', [VerifikasiTugasController::class, 'tolak'])->name('tugas.verifikasi.tolak');
