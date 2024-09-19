@@ -35,7 +35,7 @@ class VerifikasiTugasController extends Controller
         return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id]);
     }
 
-    public function tolak(LuaranTugas $tugas)
+    public function tolak(Request $request, LuaranTugas $tugas)
     {
         $tugas->update([
             'status' => 'ditolak',
@@ -45,6 +45,7 @@ class VerifikasiTugasController extends Controller
             'luaran_tugas_id' => $tugas->id,
             'verifikatur_id' => auth()->id(),
             'status' => 'ditolak',
+            'catatan' => $request->catatan,
         ]);
 
         return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id]);
