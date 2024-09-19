@@ -69,3 +69,8 @@ Route::get('/perjalanan-dinas/laporan/show/{laporan}', [LaporanDinasController::
 Route::get('/perjalanan-dinas/laporan/edit/{laporan}', [LaporanDinasController::class, 'edit'])->name('laporan-dinas.edit');
 Route::patch('/perjalanan-dinas/laporan/update/{laporan}', [LaporanDinasController::class, 'update'])->name('laporan-dinas.update');
 Route::delete('/perjalanan-dinas/laporan/destroy/{laporan}', [LaporanDinasController::class, 'destroy'])->name('laporan-dinas.destroy');
+
+Route::get('/perjalanan-dinas/laporan/verifikasi', [VerifikasiLaporanDinasController::class, 'index'])->name('laporan-dinas.verifikasi.index');
+Route::get('/perjalanan-dinas/laporan/verifikasi/{laporan}', [VerifikasiLaporanDinasController::class, 'show'])->name('laporan-dinas.verifikasi.show');
+Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/terima', [VerifikasiLaporanDinasController::class, 'terima'])->name('laporan-dinas.verifikasi.terima');
+Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/tolak', [VerifikasiLaporanDinasController::class, 'tolak'])->name('laporan-dinas.verifikasi.tolak');
