@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RapatController;
+use App\Http\Controllers\SppdController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\VerifikasiTugasController;
@@ -51,3 +52,12 @@ Route::get('/tugas/verifikasi', [VerifikasiTugasController::class, 'index'])->na
 Route::get('/tugas/verifikasi/{tugas}', [VerifikasiTugasController::class, 'show'])->name('tugas.verifikasi.show');
 Route::post('/tugas/verifikasi/{tugas}/terima', [VerifikasiTugasController::class, 'terima'])->name('tugas.verifikasi.terima');
 Route::post('/tugas/verifikasi/{tugas}/tolak', [VerifikasiTugasController::class, 'tolak'])->name('tugas.verifikasi.tolak');
+
+Route::get('/perjalanan-dinas/sppd', [SppdController::class, 'index'])->name('sppd.index');
+Route::get('/perjalanan-dinas/sppd/create', [SppdController::class, 'create'])->name('sppd.create');
+Route::post('/perjalanan-dinas/sppd/store', [SppdController::class, 'store'])->name('sppd.store');
+Route::get('/perjalanan-dinas/sppd/show/{sppd}', [SppdController::class, 'show'])->name('sppd.show');
+Route::get('/perjalanan-dinas/sppd/edit/{sppd}', [SppdController::class, 'edit'])->name('sppd.edit');
+Route::patch('/perjalanan-dinas/sppd/update/{sppd}', [SppdController::class, 'update'])->name('sppd.update');
+Route::delete('/perjalanan-dinas/sppd/destroy/{sppd}', [SppdController::class, 'destroy'])->name('sppd.destroy');
+

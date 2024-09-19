@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('perjalanan_dinas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('tujuan');
-            $table->unsignedBigInteger('anggaran');
+            $table->foreignId('pemberi_perintah_id')->constrained('users');
+            $table->foreignId('jabatan_pemberi_perintah_id')->constrained('jabatan');
+            $table->foreignId('pelaksana_id')->constrained('users');
+            $table->foreignId('jabatan_pelaksana_id')->constrained('jabatan');
+            $table->string('nomor_surat')->unique();
+            $table->date('tanggal_surat');
+            $table->string('tujuan_perjalanan');
             $table->dateTime('tanggal_mulai');
             $table->dateTime('tanggal_selesai');
+            $table->unsignedBigInteger('anggaran');
+            $table->string('keterangan');
             $table->string('file_sppd');
             $table->timestamps();
         });
