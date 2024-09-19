@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('detail_abk_id')->constrained('detail_abk');
-            $table->string('file_luaran');
+            $table->string('judul');
             $table->string('keterangan');
+            $table->string('file_luaran');
             $table->dateTime('waktu_pengumpulan');
             $table->enum('status', ['sedang diperiksa', 'disetujui', 'ditolak']);
             $table->timestamps();

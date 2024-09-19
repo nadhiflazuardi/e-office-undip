@@ -37,3 +37,11 @@ Route::get('/surat-keluar/show/{surat}', [SuratKeluarController::class, 'show'])
 Route::get('/surat-keluar/edit/{surat}', [SuratKeluarController::class, 'edit'])->name('surat-keluar.edit');
 Route::patch('/surat-keluar/update/{surat}', [SuratKeluarController::class, 'update'])->name('surat-keluar.update');
 Route::delete('/surat-keluar/destroy/{surat}', [SuratKeluarController::class, 'destroy'])->name('surat-keluar.destroy');
+
+Route::get('/tugas', [TugasController::class, 'index'])->name('tugas.index');
+Route::get('/tugas/create', [TugasController::class, 'create'])->name('tugas.create');
+Route::post('/tugas/store', [TugasController::class, 'store'])->name('tugas.store');
+Route::get('/tugas/show/{tugas}', [TugasController::class, 'show'])->name('tugas.show');
+Route::get('/tugas/edit/{tugas}', [TugasController::class, 'edit'])->name('tugas.edit');
+Route::patch('/tugas/update/{tugas}', [TugasController::class, 'update'])->name('tugas.update');
+Route::delete('/tugas/destroy/{tugas}', [TugasController::class, 'destroy'])->name('tugas.destroy');
