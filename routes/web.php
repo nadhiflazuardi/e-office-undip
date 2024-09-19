@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanDinasController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RapatController;
 use App\Http\Controllers\SppdController;
@@ -61,3 +62,10 @@ Route::get('/perjalanan-dinas/sppd/edit/{sppd}', [SppdController::class, 'edit']
 Route::patch('/perjalanan-dinas/sppd/update/{sppd}', [SppdController::class, 'update'])->name('sppd.update');
 Route::delete('/perjalanan-dinas/sppd/destroy/{sppd}', [SppdController::class, 'destroy'])->name('sppd.destroy');
 
+Route::get('/perjalanan-dinas/laporan', [LaporanDinasController::class, 'index'])->name('laporan-dinas.index');
+Route::get('/perjalanan-dinas/laporan/create', [LaporanDinasController::class, 'create'])->name('laporan-dinas.create');
+Route::post('/perjalanan-dinas/laporan/store', [LaporanDinasController::class, 'store'])->name('laporan-dinas.store');
+Route::get('/perjalanan-dinas/laporan/show/{laporan}', [LaporanDinasController::class, 'show'])->name('laporan-dinas.show');
+Route::get('/perjalanan-dinas/laporan/edit/{laporan}', [LaporanDinasController::class, 'edit'])->name('laporan-dinas.edit');
+Route::patch('/perjalanan-dinas/laporan/update/{laporan}', [LaporanDinasController::class, 'update'])->name('laporan-dinas.update');
+Route::delete('/perjalanan-dinas/laporan/destroy/{laporan}', [LaporanDinasController::class, 'destroy'])->name('laporan-dinas.destroy');
