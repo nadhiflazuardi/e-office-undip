@@ -1,6 +1,6 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
-@section('container')
+@section('content')
     <div class="container shadow rounded-3 col-lg-4 p-3 mt-5">
         {{-- dismissable alert to display error from controller: return back()->withErrors(['ip' => 'Login not allowed from this IP address.']); --}}
         @if ($errors->has('ip'))

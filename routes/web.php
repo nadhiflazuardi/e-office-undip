@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanDinasController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PerjalananDinasController;
 use App\Http\Controllers\RapatController;
 use App\Http\Controllers\SppdController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\VerifikasiTugasController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome', [
@@ -17,15 +20,16 @@ Route::get('/', function () {
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/rapat', [RapatController::class, 'index'])->name('rapat.index');
 Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store');
 Route::get('/rapat/{rapat}', [RapatController::class, 'show'])->name('rapat.show');
 Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->middleware('auth');
-Route::patch('/rapat/{rapat}/update', [RapatController::class, 'update'])->name('rapat.update');
-Route::delete('/rapat/{rapat}/destroy', [RapatController::class, 'destroy'])->name('rapat.destroy');
+Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
+Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
 
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
 Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
@@ -53,6 +57,8 @@ Route::get('/tugas/verifikasi', [VerifikasiTugasController::class, 'index'])->na
 Route::get('/tugas/verifikasi/{tugas}', [VerifikasiTugasController::class, 'show'])->name('tugas.verifikasi.show');
 Route::post('/tugas/verifikasi/{tugas}/terima', [VerifikasiTugasController::class, 'terima'])->name('tugas.verifikasi.terima');
 Route::post('/tugas/verifikasi/{tugas}/tolak', [VerifikasiTugasController::class, 'tolak'])->name('tugas.verifikasi.tolak');
+
+Route::get('/perjalanan-dinas', [PerjalananDinasController::class, 'index'])->name('perjalanan-dinas.index');
 
 Route::get('/perjalanan-dinas/sppd', [SppdController::class, 'index'])->name('sppd.index');
 Route::get('/perjalanan-dinas/sppd/create', [SppdController::class, 'create'])->name('sppd.create');

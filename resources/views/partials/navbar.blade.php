@@ -12,9 +12,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img src="/assets/default-picture.svg" alt="Profile Picture" width="30" />
-
-                            <p class="text-white d-inline ms-2">{{ auth()->user()->name }}</p>
+                            <p class="text-white d-inline ms-2">{{ auth()->user()->nama }}</p>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li class="nav-item">

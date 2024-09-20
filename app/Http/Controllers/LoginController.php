@@ -33,9 +33,9 @@ class LoginController extends Controller
                     'waktu_kehadiran' => now(),
                 ]);
 
-                return redirect()->intended('/');
+                return redirect()->intended('/dashboard');
             } else {
-                return redirect()->intended('/')->withErrors(['ip' => 'Alamat IP Anda tidak tercatat di sistem. Presensi tidak dapat dilakukan.']);
+                return redirect()->intended('/dashboard')->withErrors(['ip' => 'Alamat IP Anda tidak tercatat di sistem. Presensi tidak dapat dilakukan.']);
             }
         }
 
