@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('perjalanan_dinas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pemberi_perintah_id')->constrained('users');
+            $table->foreignId('pemberi_perintah_id')->constrained('user');
             $table->foreignId('jabatan_pemberi_perintah_id')->constrained('jabatan');
-            $table->foreignId('pelaksana_id')->constrained('users');
+            $table->foreignId('pelaksana_id')->constrained('user');
             $table->foreignId('jabatan_pelaksana_id')->constrained('jabatan');
             $table->string('nomor_surat')->unique();
             $table->date('tanggal_surat');
