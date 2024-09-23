@@ -55,6 +55,12 @@
             border: 1px solid #ccc;
             border-radius: 50%;
         }
+
+        /* effect when accordion button is active */
+        .accordion-button:not(.collapsed) {
+            background-color: #144272;
+            color: white;
+        }
     </style>
 </head>
 

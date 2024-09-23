@@ -3,35 +3,35 @@
     {{-- top part start --}}
     <div>
         <div class="my-1 mx-1">
-            <a href="" class="w-100 text-decoration-none">
+            <a href="{{ route('dashboard') }}" class="w-100 text-decoration-none">
                 <div class="w-100 h-100 sidebar-button ps-3 py-3 d-flex align-items-center gap-2"
-                    style="{{ Route::is('dashboard') ? 'background-color: #144272; color: white;' : '' }}">
-                    <i style="width: 20px" class="fa-light fa-table-columns"></i>
+                    style="{{ Route::is('dashboard') ? 'background-color: #144272; color: white;' : 'background-color: white; color: black' }}">
+                    <i style="width: 20px" class="fa-solid fa-house me-1"></i> 
                     Dashboard
                 </div>
             </a>
             {{-- accordion start --}}
             <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item">
+                <div class="accordion-item border-top">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button {{ Route::is('rapat.index') | Route::is('rapat.create') | Route::is('rapat.presensi') ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                             <i style="width: 20px" class="fa-solid fa-user-pen me-2"></i>
                             Rapat
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
-                        <div id="flush-collapseOne" class="accordion-collapse collapse border-bottom border-black"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
+                    <a href="{{ route('rapat.index') }}" class="text-decoration-none text-black">
+                        <div id="flush-collapseOne" class="accordion-collapse collapse {{ Route::is('rapat.index') | Route::is('rapat.create') | Route::is('rapat.edit') ? 'show' : '' }}"
+                            data-bs-parent="#accordionFlushExample" style="background-color: #BBD5EF">
+                            <div class="accordion-body" style="color: #144272">
                                 Agenda Rapat
                             </div>
                         </div>
                     </a>
                     <a href="" class="text-decoration-none text-black">
-                        <div id="flush-collapseOne" class="accordion-collapse collapse"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
+                        <div id="flush-collapseOne" class="accordion-collapse collapse {{ Route::is('rapat.index') | Route::is('rapat.create') | Route::is('rapat.edit') ? 'show' : '' }}"
+                            data-bs-parent="#accordionFlushExample" style="background-color: #EEEFF0">
+                            <div class="accordion-body" style="color: #144272">
                                 Absensi Rapat
                             </div>
                         </div>
