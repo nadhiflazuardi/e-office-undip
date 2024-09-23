@@ -58,18 +58,53 @@
                         const startDateTime = `${start_date} ${startTime}`;
                         const endDateTime = `${start_date} ${endTime}`;
 
+                        let isValid = true;
+
+                        // clear error messages first before checking
+                        $('#judulError').text('');
+                        $('#perihalError').text('');
+                        $('#tempatError').text('');
+                        $('#pemimpinError').text('');
+                        $('#pesertaError').text('');
+                        $('#startTimeError').text('');
+                        $('#endTimeError').text('');
+
                         if (!judul.trim()) {
                             $('#judulError').text('judul is required');
-                            return;
+                            isValid = false;
+                        }
+
+                        if (!perihal.trim()) {
+                            $('#perihalError').text('Perihal tidak boleh kosong.');
+                            isValid = false;
+                        }
+                        
+                        if (!tempat) {
+                            $('#tempatError').text('Tempat tidak boleh kosong.');
+                            isValid = false;
+                        }
+
+                        if (!pemimpinRapat) {
+                            $('#pemimpinError').text('Pemimpin Rapat tidak boleh kosong.');
+                            isValid = false;
+                        }
+
+                        if (!pesertaRapat[0]) {
+                            $('#pesertaError').text('Peserta Rapat tidak boleh kosong.');
+                            isValid = false;
                         }
 
                         if (!startTime) {
                             $('#startTimeError').text('Start time is required');
-                            return;
+                            isValid = false;
                         }
 
                         if (!endTime) {
                             $('#endTimeError').text('End time is required');
+                            isValid = false;
+                        }
+
+                        if (!isValid) {
                             return;
                         }
 
@@ -194,18 +229,53 @@
                         const startDateTime = `${start_date} ${startTime}`;
                         const endDateTime = `${start_date} ${endTime}`;
 
+                        let isValid = true;
+
+                        // clear error messages first before checking
+                        $('#editJudulError').text('');
+                        $('#editPerihalError').text('');
+                        $('#editTempatError').text('');
+                        $('#editPemimpinError').text('');
+                        $('#editPesertaError').text('');
+                        $('#editStartTimeError').text('');
+                        $('#editEndTimeError').text('');
+
                         if (!judul.trim()) {
-                            $('#judulError').text('judul is required');
-                            return;
+                            $('#editJudulError').text('judul is required');
+                            isValid = false;
+                        }
+
+                        if (!perihal.trim()) {
+                            $('#editPerihalError').text('Perihal tidak boleh kosong.');
+                            isValid = false;
+                        }
+                        
+                        if (!tempat) {
+                            $('#editTempatError').text('Tempat tidak boleh kosong.');
+                            isValid = false;
+                        }
+
+                        if (!pemimpinRapat) {
+                            $('#editPemimpinError').text('Pemimpin Rapat tidak boleh kosong.');
+                            isValid = false;
+                        }
+
+                        if (!pesertaRapat) {
+                            $('#editPesertaError').text('Peserta Rapat tidak boleh kosong.');
+                            isValid = false;
                         }
 
                         if (!startTime) {
-                            $('#startTimeError').text('Start time is required');
-                            return;
+                            $('#editStartTimeError').text('Start time is required');
+                            isValid = false;
                         }
 
                         if (!endTime) {
-                            $('#endTimeError').text('End time is required');
+                            $('#editEndTimeError').text('End time is required');
+                            isValid = false;
+                        }
+
+                        if (!isValid) {
                             return;
                         }
 
