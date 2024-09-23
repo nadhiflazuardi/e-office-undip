@@ -7,7 +7,7 @@
         <!-- sidebar end -->
 
         <!-- main start -->
-        <div class="me-4 mb-4 px-5 py-5 ms-4 shadow mt-3" style="background-color: #F8F9FA; width: 85%; border-radius: 10px;">
+        <div class="me-4 mb-4 px-5 py-5 ms-4 shadow mt-3" style="background-color: white; width: 85%; border-radius: 10px;">
             @yield('container')
         </div>
         <!-- main end -->
