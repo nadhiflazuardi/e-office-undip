@@ -51,6 +51,7 @@
                         const perihal = $('#perihal').val();
                         const tempat = $('#tempat').val();
                         const pemimpinRapat = $('#pemimpin').val();
+                        const pesertaRapat = $('#peserta').val();
                         const startTime = $('#start-time').val();
                         const endTime = $('#end-time').val();
                         const color = $('input[name=colorOptions]:checked').val();
@@ -117,6 +118,7 @@
                                 perihal: perihal,
                                 tempat: tempat,
                                 pemimpinRapat: pemimpinRapat,
+                                pesertaRapat: pesertaRapat,
                                 waktuMulai: startDateTime,
                                 waktuSelesai: endDateTime,
                                 warnaLabel: color,
@@ -222,6 +224,7 @@
                         const perihal = $('#editPerihal').val();
                         const tempat = $('#editTempat').val();
                         const pemimpinRapat = $('#editPemimpin').val();
+                        const pesertaRapat = $('#editPeserta').val();
                         const color = $('input[name=editColorOptions]:checked').val();
                         const startTime = $('#editStartTime').val();
                         const endTime = $('#editEndTime').val();
@@ -288,6 +291,7 @@
                                 perihal: perihal,
                                 tempat: tempat,
                                 pemimpinRapat: pemimpinRapat,
+                                pesertaRapat: pesertaRapat,
                                 waktuMulai: startDateTime,
                                 waktuSelesai: endDateTime,
                                 warnaLabel: color,

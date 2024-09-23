@@ -53,16 +53,16 @@ class RapatController extends Controller
         foreach ($request->pesertaRapat as $peserta) {
             PresensiRapat::create([
                 'rapat_id' => $rapat->id,
-                'peserta_id' => $peserta,
+                'pegawai_id' => $peserta,
                 'status' => 'hadir',
             ]);
         }
 
         // if there is no PresensiRapat instance where rapat id is $rapat->id and peserta id is $request->pemimpinRapat, then create new PresensiRapat instance
-        if (!PresensiRapat::where('rapat_id', $rapat->id)->where('peserta_id', $rapat->pemimpin_rapat_id)->first()) {
+        if (!PresensiRapat::where('rapat_id', $rapat->id)->where('pegawai_id', $rapat->pemimpin_rapat_id)->first()) {
             PresensiRapat::create([
                 'rapat_id' => $rapat->id,
-                'peserta_id' => $request->pemimpinRapat,
+                'pegawai_id' => $request->pemimpinRapat,
                 'status' => 'hadir',
             ]);
         }
@@ -104,6 +104,43 @@ class RapatController extends Controller
             'waktu_selesai' => $request->waktuSelesai,
             'warna_label' => $request->warnaLabel,
         ]);
+
+        // Ambil peserta presensi yang sudah ada
+        $currentPeserta = PresensiRapat::where('rapat_id', $rapat->id)->pluck('pegawai_id')->toArray();
+
+        // Ambil peserta baru dari request
+        $newPeserta = $request->pesertaRapat;
+
+        // Peserta yang harus ditambahkan
+        $pesertaToAdd = array_diff($newPeserta, $currentPeserta);
+
+        // Peserta yang harus dihapus
+        $pesertaToRemove = array_diff($currentPeserta,
+            $newPeserta
+        );
+
+        // Tambahkan peserta baru ke presensi
+        foreach ($pesertaToAdd as $peserta) {
+            PresensiRapat::create([
+                'rapat_id' => $rapat->id,
+                'pegawai_id' => $peserta,
+                'status' => 'hadir',
+            ]);
+        }
+
+        // Hapus peserta yang sudah tidak ada di request
+        PresensiRapat::where('rapat_id', $rapat->id)
+            ->whereIn('pegawai_id', $pesertaToRemove)
+            ->delete();
+
+        // Cek apakah pemimpin rapat sudah ada di presensi, kalau belum tambahkan
+        if (!PresensiRapat::where('rapat_id', $rapat->id)->where('pegawai_id', $rapat->pemimpin_rapat_id)->exists()) {
+            PresensiRapat::create([
+                'rapat_id' => $rapat->id,
+                'pegawai_id' => $rapat->pemimpin_rapat_id,
+                'status' => 'hadir',
+            ]);
+        }
 
         return response()->json([
             'id' => $rapat->id,

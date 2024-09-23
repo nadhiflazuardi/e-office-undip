@@ -55,12 +55,12 @@
                 <div class="mb-3">
                     <label for="start-time" class="form-label">Waktu Mulai</label>
                     <input type="time" class="form-control" id="editStartTime">
-                    <span id="startTimeError" class="text-danger"></span>
+                    <span id="editStartTimeError" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="end-time" class="form-label">Waktu Selesai</label>
                     <input type="time" class="form-control" id="editEndTime">
-                    <span id="endTimeError" class="text-danger"></span>
+                    <span id="editEndTimeError" class="text-danger"></span>
                 </div>
                 <label for="color-selection">Pilih Warna Label Rapat</label>
                 <div class="mb-3" id="color-selection">
