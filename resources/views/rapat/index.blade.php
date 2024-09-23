@@ -35,6 +35,7 @@
                 events: agenda,
                 selectable: true,
                 selectHelper: true,
+
                 select: function(start, end, allDay) {
                     // prevent user to select past date
                     const todayDate = moment().format('YYYY-MM-DD');
@@ -79,7 +80,7 @@
                             $('#perihalError').text('Perihal tidak boleh kosong.');
                             isValid = false;
                         }
-                        
+
                         if (!tempat) {
                             $('#tempatError').text('Tempat tidak boleh kosong.');
                             isValid = false;
@@ -186,6 +187,12 @@
                     });
                 },
 
+                // prevent user to select past date and drop event to past date
+                eventConstraint: {
+                    start: moment().format('YYYY-MM-DD'),
+                    end: '2100-01-01' // hard coded goodness unfortunately
+                },
+
                 eventClick: function(event) {
                     const id = event.id;
 
@@ -252,7 +259,7 @@
                             $('#editPerihalError').text('Perihal tidak boleh kosong.');
                             isValid = false;
                         }
-                        
+
                         if (!tempat) {
                             $('#editTempatError').text('Tempat tidak boleh kosong.');
                             isValid = false;
@@ -326,12 +333,6 @@
                     });
                 },
 
-                selectAllow: function(event) {
-                    return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1,
-                        'second').utcOffset(false), 'day');
-                },
-
-
                 // Customize the day names and the month names
                 dayNamesShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
                 dayNames: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
@@ -387,6 +388,9 @@
 
             $('.fc-event').css('font-size', '14px');
             $('.fc-event').css('border-radius', '5px');
+
+            // Change the background color of past dates
+            $('.fc-past').css('background-color', '#f0f0f0');
         });
     </script>
 @endsection
