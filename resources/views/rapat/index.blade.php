@@ -1,56 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Full Calendar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/locales/id.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-
-    {{-- Select2 --}}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <style>
-        .color-sample {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-            vertical-align: middle;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-        }
-    </style>
-</head>
-
-<body>
+@section('container')
     @include('partials.modal-create-rapat')
 
     @include('partials.modal-edit-rapat')
 
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h3 class="text-center mt-5">Daftar Rapat</h3>
-                <div class="col-md-11 offset-1 mt-5 mb-5">
-                    <div id="calendar"></div>
-                </div>
-            </div>
+        <div class="border-bottom border-black">
+            <h1 class="ms-3">Agenda Rapat</h1>
+        </div>
+        <br>
+        <div>
+            <div id="calendar"></div>
         </div>
     </div>
 
@@ -301,7 +262,7 @@
                 dayNamesShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
                 dayNames: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
                 buttonText: {
-                    today: 'Hari ini',
+                    today: 'Hari Ini',
                     month: 'Bulan',
                     week: 'Minggu',
                     day: 'Hari'
@@ -354,6 +315,4 @@
             $('.fc-event').css('border-radius', '5px');
         });
     </script>
-</body>
-
-</html>
+@endsection
