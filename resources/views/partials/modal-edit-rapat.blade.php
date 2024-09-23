@@ -40,6 +40,19 @@
                     <span id="editPemimpinError" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
+                    <label for="editPeserta" class="form-label">Peserta Rapat</label>
+                    <div class="">
+                        <select class="form-control form-select" id="editPeserta" name="peserta_rapat[]"
+                            multiple="multiple" style="width: 100%">
+                            <option value="">Pilih Semua Peserta Rapat</option>
+                            @foreach ($pegawais as $pegawai)
+                                <option value="{{ $pegawai->id }}">{{ $pegawai->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <span id="editPesertaError" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
                     <label for="start-time" class="form-label">Waktu Mulai</label>
                     <input type="time" class="form-control" id="editStartTime">
                     <span id="startTimeError" class="text-danger"></span>
@@ -82,4 +95,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#editPeserta').select2({
+            placeholder: "Pilih Semua Peserta Rapat",
+            dropdownParent: $('#editModal')
+        });
+    });
+</script>
 {{-- Modal Edit End --}}
