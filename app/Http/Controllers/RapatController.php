@@ -15,25 +15,12 @@ class RapatController extends Controller
 {
     public function index()
     {
-        $pegawais = User::all();
-        $events = array();
-        $rapats = Rapat::all();
-        foreach ($rapats as $rapat) {
-            $events[] = [
-                'id' => $rapat->id,
-                'title' => $rapat->judul,
-                'perihal' => $rapat->perihal,
-                'tempat' => $rapat->tempat,
-                'pemimpinRapat' => $rapat->pemimpin_rapat_id,
-                'start' => $rapat->waktu_mulai,
-                'end' => $rapat->waktu_selesai,
-                'color' => $rapat->warna_label ? $rapat->warna_label : '',
-                'startTime' => Carbon::parse($rapat->waktu_mulai)->format('H:i:s'),
-                'endTime' => Carbon::parse($rapat->waktu_selesai)->format('H:i:s'),
-            ];
-        }
-
-        return view('rapat.index', compact('events', 'pegawais'));
+        // rapats is a collection of Rapat instances where user has presensi rapat of it
+        $rapats = Rapat::whereHas('presensiRapat', function ($query) {
+            $query->where('pegawai_id', auth()->user()->id);
+        })->get();
+        
+        return view('rapat.index', compact('rapats'));
     }
 
     public function create() {
