@@ -20,14 +20,21 @@ class RapatRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
+    {  
+        $validationRules = [
             'judul' => 'required|string',
             'pemimpinRapat' => 'required|string',
+            'perihal' => 'required|string',
             'waktuMulai' => 'required',
             'waktuSelesai' => 'required',
             'tempat' => 'required|string',
-            'warnaLabel' => 'nullable|string',
+            'pesertaRapat' => 'required|array',
         ];
+        // if request is from rapat.create, add 'tanggal' to the validation rules
+        if (request()->has('tanggal')){
+            $validationRules['tanggal'] = 'required';
+        }
+
+        return $validationRules;
     }
 }

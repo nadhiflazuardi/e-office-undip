@@ -13,24 +13,22 @@ use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
-    return view('welcome', [
-        'title' => 'Dashboard',
-    ]);
-})->name('home');
+    return redirect()->route('dashboard');
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 Route::get('/rapat', [RapatController::class, 'index'])->name('rapat.index');
 Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store');
-Route::get('/rapat/{rapat}', [RapatController::class, 'show'])->name('rapat.show');
+Route::get('/rapat/create', [RapatController::class, 'create'])->name('rapat.create');
+Route::get('/rapat/{rapat}/', [RapatController::class, 'show'])->name('rapat.show');
 Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->middleware('auth');
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
-
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
 Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
 Route::get('/surat-masuk/show/{surat}', [SuratMasukController::class, 'show'])->name('surat-masuk.show');
