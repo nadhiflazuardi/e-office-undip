@@ -36,46 +36,76 @@ class RapatController extends Controller
         return view('rapat.index', compact('events', 'pegawais'));
     }
 
+    public function create() {
+        $title = 'Buat Rapat';
+        $pegawais = User::all();
+        return view('rapat.create', compact('title', 'pegawais'));
+    }
+
+    public function show() {
+
+    }
+
     public function store(RapatRequest $request)
     {
-        $rapat = Rapat::create(
-            [
+        // if request has 'tanggal', then combine 'tanggal' and 'waktuMulai' and 'waktuSelesai' inputs to create 'waktu_mulai' and 'waktu_selesai' columns
+        if ($request->has('tanggal')) {
+            $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
+            $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
+        }
+        else {
+            $waktuMulai = $request->waktuMulai;
+            $waktuSelesai = $request->waktuSelesai;
+        }
+
+
+        $rapatData = [
                 'judul' => $request->judul,
                 'perihal' => $request->perihal,
                 'tempat' => $request->tempat,
                 'pemimpin_rapat_id' => $request->pemimpinRapat,
-                'waktu_mulai' => $request->waktuMulai,
-                'waktu_selesai' => $request->waktuSelesai,
-                'warna_label' => $request->warnaLabel,
-            ]
-        );
+                'waktu_mulai' => $waktuMulai,
+                'waktu_selesai' => $waktuSelesai,
+        ];
+
+        // if request has 'warnaLabel', then add 'warna_label' to $rapatData, otherwise use default color
+        if ($request->warnaLabel) {
+            $rapatData['warna_label'] = $request->warnaLabel;
+        }
+
+        $createdRapat = Rapat::create($rapatData);
 
         foreach ($request->pesertaRapat as $peserta) {
+            // dd($peserta);
             PresensiRapat::create([
-                'rapat_id' => $rapat->id,
-                'peserta_id' => $peserta,
+                'rapat_id' => $createdRapat->id,
+                'pegawai_id' => $peserta,
                 'status' => 'hadir',
             ]);
         }
 
         // if there is no PresensiRapat instance where rapat id is $rapat->id and peserta id is $request->pemimpinRapat, then create new PresensiRapat instance
-        if (!PresensiRapat::where('rapat_id', $rapat->id)->where('peserta_id', $rapat->pemimpin_rapat_id)->first()) {
+        if (!PresensiRapat::where('rapat_id', $createdRapat->id)->where('pegawai_id', $createdRapat->pemimpin_rapat_id)->first()) {
             PresensiRapat::create([
-                'rapat_id' => $rapat->id,
+                'rapat_id' => $createdRapat->id,
                 'peserta_id' => $request->pemimpinRapat,
                 'status' => 'hadir',
             ]);
         }
 
-        return response()->json([
-            'id' => $rapat->id,
-            'title' => $rapat->judul,
-            'start' => $rapat->waktu_mulai,
-            'end' => $rapat->waktu_selesai,
-            'color' => $rapat->warna_label ? $rapat->warna_label : '',
-            'startTime' => Carbon::parse($rapat->waktu_mulai)->format('H:i:s'),
-            'endTime' => Carbon::parse($rapat->waktu_selesai)->format('H:i:s'),
+        // if request comes from the rapat.index page (request doesn't have 'tanggal' input), then return json
+        if (!$request->has('tanggal')) {
+            return response()->json([
+            'id' => $createdRapat->id,
+            'title' => $createdRapat->judul,
+            'start' => $createdRapat->waktu_mulai,
+            'end' => $createdRapat->waktu_selesai,
+            'color' => $createdRapat->warna_label ? $createdRapat->warna_label : '',
+            'startTime' => Carbon::parse($createdRapat->waktu_mulai)->format('H:i:s'),
+            'endTime' => Carbon::parse($createdRapat->waktu_selesai)->format('H:i:s'),
         ]);
+        }
+        return redirect()->route('rapat.index')->with('success', 'Rapat berhasil dibuat.');
     }
 
     public function update(Request $request, Rapat $rapat)
