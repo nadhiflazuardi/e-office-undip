@@ -2,7 +2,10 @@
 
 @section('container')
     <div style="width: 85%;" class="mx-4 my-2">
-        <div class="container bg-white my-3 rounded p-3 shadow">
+        <div class="container bg-white my-3 rounded p-3 pb-0 shadow">
+            <div class="ms-3">
+                {{ Breadcrumbs::render() }}
+            </div>
             <div class="border-bottom border-black">
                 <h1 class="ms-3">Agenda Rapat</h1>
             </div>
