@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_selesai');
             $table->string('tempat');
-            $table->string('warna_label');
+            $table->string('warna_label')->default('#039ae5');
             $table->timestamps();
         });
     }
