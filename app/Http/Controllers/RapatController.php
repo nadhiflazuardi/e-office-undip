@@ -40,24 +40,16 @@ class RapatController extends Controller
 
     public function store(RapatRequest $request)
     {
-        // if request has 'tanggal', then combine 'tanggal' and 'waktuMulai' and 'waktuSelesai' inputs to create 'waktu_mulai' and 'waktu_selesai' columns
-        if ($request->has('tanggal')) {
-            $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
-            $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
-        }
-        else {
-            $waktuMulai = $request->waktuMulai;
-            $waktuSelesai = $request->waktuSelesai;
-        }
-
+        $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
+        $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
 
         $rapatData = [
-                'judul' => $request->judul,
-                'perihal' => $request->perihal,
-                'tempat' => $request->tempat,
-                'pemimpin_rapat_id' => $request->pemimpinRapat,
-                'waktu_mulai' => $waktuMulai,
-                'waktu_selesai' => $waktuSelesai,
+            'judul' => $request->judul,
+            'perihal' => $request->perihal,
+            'tempat' => $request->tempat,
+            'pemimpin_rapat_id' => $request->pemimpinRapat,
+            'waktu_mulai' => $waktuMulai,
+            'waktu_selesai' => $waktuSelesai,
         ];
 
         // if request has 'warnaLabel', then add 'warna_label' to $rapatData, otherwise use default color
@@ -72,7 +64,7 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $peserta,
-                'status' => 'hadir',
+                'status' => 'notset',
             ]);
         }
 
@@ -81,22 +73,10 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $request->pemimpinRapat,
-                'status' => 'hadir',
+                'status' => 'notset',
             ]);
         }
 
-        // if request comes from the rapat.index page (request doesn't have 'tanggal' input), then return json
-        if (!$request->has('tanggal')) {
-            return response()->json([
-            'id' => $createdRapat->id,
-            'title' => $createdRapat->judul,
-            'start' => $createdRapat->waktu_mulai,
-            'end' => $createdRapat->waktu_selesai,
-            'color' => $createdRapat->warna_label ? $createdRapat->warna_label : '',
-            'startTime' => Carbon::parse($createdRapat->waktu_mulai)->format('H:i:s'),
-            'endTime' => Carbon::parse($createdRapat->waktu_selesai)->format('H:i:s'),
-        ]);
-        }
         return redirect()->route('rapat.index')->with('success', 'Rapat berhasil dibuat.');
     }
 
@@ -137,7 +117,8 @@ class RapatController extends Controller
         $pesertaToAdd = array_diff($newPeserta, $currentPeserta);
 
         // Peserta yang harus dihapus
-        $pesertaToRemove = array_diff($currentPeserta,
+        $pesertaToRemove = array_diff(
+            $currentPeserta,
             $newPeserta
         );
 
