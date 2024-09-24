@@ -1,6 +1,9 @@
 @extends('layouts.main')
 
 @section('container')
+    <div class="">
+        {{ Breadcrumbs::render() }}
+    </div>
     @include('partials.modal-create-rapat')
 
     @include('partials.modal-edit-rapat')

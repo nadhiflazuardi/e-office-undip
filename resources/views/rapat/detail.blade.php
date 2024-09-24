@@ -12,6 +12,9 @@
             border-radius: 50%;
         }
     </style>
+    <div class="">
+        {{ Breadcrumbs::render() }}
+    </div>
     <h1>Detail Rapat</h1>
     <hr>
     <form action="{{ route('rapat.store') }}" method="POST">
