@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             JabatanSeeder::class,
             UserSeeder::class,
             IpSeeder::class,
+            RapatSeeder::class,
             // SuratKeluarSeeder::class,
             // SuratMasukSeeder::class,
             // UserSeeder::class,
