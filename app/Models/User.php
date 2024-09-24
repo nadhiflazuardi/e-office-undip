@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PresensiHarian::class);
     }
+
+    public function unitKerja() {
+        return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
+    }
 }
