@@ -88,7 +88,7 @@ class RapatController extends Controller
         if (!PresensiRapat::where('rapat_id', $createdRapat->id)->where('pegawai_id', $createdRapat->pemimpin_rapat_id)->first()) {
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
-                'peserta_id' => $request->pemimpinRapat,
+                'pegawai_id' => $request->pemimpinRapat,
                 'status' => 'hadir',
             ]);
         }
