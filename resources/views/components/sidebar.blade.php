@@ -32,7 +32,7 @@
                         <div id="flush-collapseOne" class="accordion-collapse collapse {{ Route::is('rapat.index') | Route::is('rapat.create') | Route::is('rapat.edit') ? 'show' : '' }}"
                             data-bs-parent="#accordionFlushExample" style="background-color: #EEEFF0">
                             <div class="accordion-body" style="color: #144272">
-                                Absensi Rapat
+                                Presensi Rapat
                             </div>
                         </div>
                     </a>
