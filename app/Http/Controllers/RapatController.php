@@ -23,7 +23,8 @@ class RapatController extends Controller
         return view('rapat.index', compact('rapats'));
     }
 
-    public function create() {
+    public function create()
+    {
         $title = 'Buat Rapat';
         $pegawais = User::all();
         return view('rapat.create', compact('title', 'pegawais'));
