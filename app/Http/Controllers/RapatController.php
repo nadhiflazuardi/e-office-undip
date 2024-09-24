@@ -30,8 +30,12 @@ class RapatController extends Controller
         return view('rapat.create', compact('title', 'pegawais'));
     }
 
-    public function show() {
-
+    public function show(Rapat $rapat)
+    {
+        $title = 'Detail Rapat';
+        $pesertas = PresensiRapat::where('rapat_id', $rapat->id)->get();
+        $pegawais = User::all();
+        return view('rapat.detail', compact('title', 'rapat', 'pesertas', 'pegawais'));
     }
 
     public function store(RapatRequest $request)
