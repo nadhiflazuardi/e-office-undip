@@ -2,12 +2,22 @@
 
 @section('container')
     <div style="width: 85%;" class="mx-4 my-2">
-        <div class="container bg-white my-3 rounded p-3 shadow">
+        <div class="container bg-white my-3 rounded p-3 pb-0 shadow">
+            <div class="ms-3">
+                {{ Breadcrumbs::render() }}
+            </div>
             <div class="border-bottom border-black">
                 <h1 class="ms-3">Agenda Rapat</h1>
             </div>
             <br>
         </div>
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+        @endif
         <div class="alert alert-info alert-dismissible fade show" role="alert">
             Silakan klik untuk melihat detail rapat
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

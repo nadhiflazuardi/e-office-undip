@@ -12,14 +12,27 @@
             border-radius: 50%;
         }
     </style>
+    <div class="">
+        {{ Breadcrumbs::render() }}
+    </div>
     <h1>Detail Rapat</h1>
     <hr>
-    <form action="{{ route('rapat.store') }}" method="POST">
+    <form action="{{ route('rapat.update',['rapat' => $rapat])}}" method="POST">
         @csrf
+        @method('PATCH')
+        <div class="d-flex justify-content-between gap-1 align-items-center mb-2">
+            <div class="form-check form-switch d-flex align-items-center gap-1">
+                <input class="form-check-input" type="checkbox" role="switch" id="editRapatToggle" style="height: 1.5rem; width: 3.2rem;" >
+                <label class="form-check-label" for="editRapatToggle">Edit Rapat</label>
+            </div>
+            <div class="d-flex justify-content-end gap-1" id="editButtons" style="visibility: hidden;">
+                <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
+            </div>
+        </div>
         <div class="mb-3">
             <label for="judulInput" class="form-label">Judul</label>
-            <input disabled class="form-control @error('judul') is-invalid @enderror" type="text" name="judul" id="judulInput"
-                value="{{ $rapat->judul }}">
+            <input disabled class="form-control @error('judul') is-invalid @enderror" type="text" name="judul"
+                id="judulInput" value="{{ $rapat->judul }}">
             @error('judul')
                 <label for="judulInput" class="invalid-feedback">{{ $message }}</label>
             @enderror
@@ -53,8 +66,8 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="waktuMulaiInput" class="form-label ">Waktu Mulai</label>
-                <input disabled class="form-control @error('waktuMulai') is-invalid @enderror" type="time" name="waktuMulai"
-                    id="waktuMulaiInput" value="{{ $rapat->waktuMulai() }}">
+                <input disabled class="form-control @error('waktuMulai') is-invalid @enderror" type="time"
+                    name="waktuMulai" id="waktuMulaiInput" value="{{ $rapat->waktuMulai() }}">
                 @error('waktuMulai')
                     <label for="tempatInput" class="invalid-feedback">{{ $message }}</label>
                 @enderror
@@ -76,8 +89,8 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="waktuSelesaiInput" class="form-label ">Waktu Selesai</label>
-                <input disabled class="form-control @error('waktuSelesai') is-invalid @enderror" type="time" name="waktuSelesai"
-                    id="waktuSelesaiInput" value="{{ $rapat->waktuSelesai() }}">
+                <input disabled class="form-control @error('waktuSelesai') is-invalid @enderror" type="time"
+                    name="waktuSelesai" id="waktuSelesaiInput" value="{{ $rapat->waktuSelesai() }}">
                 @error('waktuSelesai')
                     <label for="tempatInput" class="invalid-feedback">{{ $message }}</label>
                 @enderror
@@ -86,15 +99,15 @@
                 <label for="color-selection" class="mb-3">Pilih Warna Label Rapat</label>
                 <div class="mb-3" id="color-selection">
                     <div class="form-check form-check-inline">
-                        <input disabled class="form-check-input" type="radio" name="warnaLabel" id="editColorRed" value="#d50000"
-                            @checked($rapat->warna_label == '#d50000')>
+                        <input disabled class="form-check-input" type="radio" name="warnaLabel" id="editColorRed"
+                            value="#d50000" @checked($rapat->warna_label == '#d50000')>
                         <label class="form-check-label" for="editColorRed">
                             <span class="color-sample" style="background-color: #d50000;"></span>
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input disabled class="form-check-input" type="radio" name="warnaLabel" id="editColorBlue" value="#039ae5"
-                            @checked($rapat->warna_label == '#039ae5')>
+                        <input disabled class="form-check-input" type="radio" name="warnaLabel" id="editColorBlue"
+                            value="#039ae5" @checked($rapat->warna_label == '#039ae5')>
                         <label class="form-check-label" for="editColorBlue">
                             <span class="color-sample" style="background-color: #039ae5;"></span>
                         </label>
@@ -147,6 +160,14 @@
         $(document).ready(function() {
             $('#pesertaTable').DataTable();
 
+            // Toggle edit mode, enable/disable inputs and show/hide buttons
+            $('#editRapatToggle').on('click', function() {
+                $('#editButtons').css('visibility', this.checked ? 'visible' : 'hidden');
+
+                // select all inputs that are disabled, except the switch input and enable them
+                this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled', false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
+            });
+
         });
 
         $('#selectAll').on('click', function() {
@@ -162,11 +183,12 @@
                 $('.pesertaHidden').remove();
                 semuaPeserta.forEach(peserta => {
                     $('#semuaPesertaInput').after(
-                        `<input disabled type="hidden" class="pesertaHidden" name="pesertaRapat[]" value="${peserta}">`
+                        `<input type="hidden" class="pesertaHidden" name="pesertaRapat[]" value="${peserta}">`
                     );
                 });
             } else {
                 $('.pesertaHidden').remove();
+                console.log($('.pesertaHidden'));
             }
         });
 
