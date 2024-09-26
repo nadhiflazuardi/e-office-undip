@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('presensi_harian', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary(); // Set id sebagai primary key
             $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('ip_login_id')->constrained('ip_login');
             $table->dateTime('waktu_kehadiran')->nullable();

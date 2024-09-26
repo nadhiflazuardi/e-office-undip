@@ -12,4 +12,9 @@ class LaporanPerjalananDinas extends Model
     protected $table = 'laporan_perjalanan_dinas';
 
     protected $guarded = ['id'];
+
+    public function perjalananDinas()
+    {
+        return $this->belongsTo(PerjalananDinas::class);
+    }
 }

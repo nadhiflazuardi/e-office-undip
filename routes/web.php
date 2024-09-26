@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanDinasController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PerjalananDinasController;
 use App\Http\Controllers\RapatController;
@@ -78,3 +79,6 @@ Route::get('/perjalanan-dinas/laporan/verifikasi', [VerifikasiLaporanDinasContro
 Route::get('/perjalanan-dinas/laporan/verifikasi/{laporan}', [VerifikasiLaporanDinasController::class, 'show'])->name('laporan-dinas.verifikasi.show');
 Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/terima', [VerifikasiLaporanDinasController::class, 'terima'])->name('laporan-dinas.verifikasi.terima');
 Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/tolak', [VerifikasiLaporanDinasController::class, 'tolak'])->name('laporan-dinas.verifikasi.tolak');
+
+Route::get('/log', [LogController::class, 'index'])->name('log.index');
+Route::get('/log/{log}', [LogController::class, 'show'])->name('log.show');

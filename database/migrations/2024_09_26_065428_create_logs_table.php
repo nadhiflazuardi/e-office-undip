@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_kehadiran', function (Blueprint $table) {
+        Schema::create('log', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('pegawai_id')->constrained('user');
+            $table->string('kegiatan_id');
+            $table->integer('bobot');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_kehadiran');
+        Schema::dropIfExists('logs');
     }
 };
