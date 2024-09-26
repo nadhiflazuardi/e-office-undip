@@ -1,9 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
-    @include('partials.modal-create-rapat')
-
-    @include('partials.modal-edit-rapat')
+    @include('partials.modal-info-rapat')
 
     <div class="container">
         <div class="border-bottom border-black">
@@ -196,141 +194,15 @@
                 eventClick: function(event) {
                     const id = event.id;
 
-                    $('#editJudul').val(event.title);
-                    $('#editPerihal').val(event.perihal);
-                    $('#editTempat').val(event.tempat);
-                    $('#editPemimpin').val(event.pemimpinRapat);
-                    $('#editStartTime').val(moment(event.start).format('HH:mm'));
-                    $('#editEndTime').val(moment(event.end).format('HH:mm'));
-                    $(`input[name=editColorOptions][value="${event.color}"]`).prop('checked', true);
+                    $('.modal-title').text(event.title);
+                    $('#hariTanggal').text(
+                        `${event.hariTanggal} | ${event.waktuMulai} - ${event.waktuSelesai}`);
+                    $('#tempat').text(event.tempat);
+                    $('#perihal').text(event.perihal);
+                    event.pesertaRapat.map(peserta => {
+                        $('#peserta').append(`<li>${peserta.nama}</li>`);
+                    });
                     $('#editModal').modal('show');
-
-                    $('#eventDeleteBtn').click(function() {
-                        if (confirm('Are you sure you want to delete this event?')) {
-                            $.ajax({
-                                url: '{{ route('rapat.destroy', '') }}' + '/' + id,
-                                type: 'DELETE',
-                                dataType: 'json',
-                                success: function(response) {
-                                    $('#editModal').modal('hide');
-                                    $('#calendar').fullCalendar('removeEvents',
-                                        response.id);
-                                    swal("Berhasil", "Rapat berhasil dihapus",
-                                        "success");
-                                },
-                                error: function(error) {
-                                    swal("Error", "Failed to delete event",
-                                        "error");
-                                }
-                            });
-                        }
-                    });
-
-                    $('#updateBtn').click(function() {
-                        const judul = $('#editJudul').val();
-                        const perihal = $('#editPerihal').val();
-                        const tempat = $('#editTempat').val();
-                        const pemimpinRapat = $('#editPemimpin').val();
-                        const pesertaRapat = $('#editPeserta').val();
-                        const color = $('input[name=editColorOptions]:checked').val();
-                        const startTime = $('#editStartTime').val();
-                        const endTime = $('#editEndTime').val();
-                        const start_date = moment(event.start).format('YYYY-MM-DD');
-                        const startDateTime = `${start_date} ${startTime}`;
-                        const endDateTime = `${start_date} ${endTime}`;
-
-                        let isValid = true;
-
-                        // clear error messages first before checking
-                        $('#editJudulError').text('');
-                        $('#editPerihalError').text('');
-                        $('#editTempatError').text('');
-                        $('#editPemimpinError').text('');
-                        $('#editPesertaError').text('');
-                        $('#editStartTimeError').text('');
-                        $('#editEndTimeError').text('');
-
-                        if (!judul.trim()) {
-                            $('#editJudulError').text('judul is required');
-                            isValid = false;
-                        }
-
-                        if (!perihal.trim()) {
-                            $('#editPerihalError').text('Perihal tidak boleh kosong.');
-                            isValid = false;
-                        }
-
-                        if (!tempat) {
-                            $('#editTempatError').text('Tempat tidak boleh kosong.');
-                            isValid = false;
-                        }
-
-                        if (!pemimpinRapat) {
-                            $('#editPemimpinError').text('Pemimpin Rapat tidak boleh kosong.');
-                            isValid = false;
-                        }
-
-                        if (!pesertaRapat) {
-                            $('#editPesertaError').text('Peserta Rapat tidak boleh kosong.');
-                            isValid = false;
-                        }
-
-                        if (!startTime) {
-                            $('#editStartTimeError').text('Start time is required');
-                            isValid = false;
-                        }
-
-                        if (!endTime) {
-                            $('#editEndTimeError').text('End time is required');
-                            isValid = false;
-                        }
-
-                        if (!isValid) {
-                            return;
-                        }
-
-                        $.ajax({
-                            url: '{{ route('rapat.update', '') }}' + '/' + id,
-                            type: 'PATCH',
-                            dataType: 'json',
-                            data: {
-                                judul: judul,
-                                perihal: perihal,
-                                tempat: tempat,
-                                pemimpinRapat: pemimpinRapat,
-                                pesertaRapat: pesertaRapat,
-                                waktuMulai: startDateTime,
-                                waktuSelesai: endDateTime,
-                                warnaLabel: color,
-                            },
-                            success: function(response) {
-                                $('#editModal').modal('hide');
-
-                                // Update the event in the calendar
-                                let updatedEvent = $('#calendar').fullCalendar(
-                                    'clientEvents', id)[0];
-                                updatedEvent.title = response.title;
-                                updatedEvent.start = moment(response.start);
-                                updatedEvent.end = moment(response.end);
-                                updatedEvent.color = response.color;
-                                $('#calendar').fullCalendar('updateEvent',
-                                    updatedEvent);
-
-                                // Clear form fields
-                                $('#editTitle').val('');
-                                $('#editStartTime').val('');
-                                $('#editEndTime').val('');
-                                $('input[name=editColorOptions]').prop('checked',
-                                    false);
-                            },
-                            error: function(error) {
-                                if (error.responseJSON.errors) {
-                                    $('#titleError').text(error.responseJSON.errors
-                                        .title);
-                                }
-                            }
-                        });
-                    });
                 },
 
                 // prevent user to select multiple days

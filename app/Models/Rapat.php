@@ -56,4 +56,12 @@ class Rapat extends Model
         // Kalau ada presensi, return statusnya, kalau nggak ada return 'Belum hadir'
         return $presensi->status;
     }
+
+    // Method untuk mengambil semua peserta rapat
+    public function pesertaRapat()
+    {
+        return $this->presensiRapat->map(function ($presensi) {
+            return $presensi->pegawai;
+        });
+    }
 }
