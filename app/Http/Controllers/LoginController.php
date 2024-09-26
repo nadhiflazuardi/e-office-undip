@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\IpLogin;
+use App\Models\Log;
 use App\Models\PresensiHarian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,10 +28,16 @@ class LoginController extends Controller
             if ($this->isAllowedIp($ipAddress)) {
                 $ipId = IpLogin::where('alamat_ip', $ipAddress)->first()->id;
 
-                PresensiHarian::create([
+                $presensi = PresensiHarian::create([
                     'pegawai_id' => $user->id,
                     'ip_login_id' => $ipId,
                     'waktu_kehadiran' => now(),
+                ]);
+
+                Log::create([
+                    'pegawai_id' => $user->id,
+                    'kegiatan_id' => $presensi->id,
+                    'bobot' => 30,
                 ]);
 
                 return redirect()->intended('/dashboard');
