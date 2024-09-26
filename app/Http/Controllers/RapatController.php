@@ -80,7 +80,7 @@ class RapatController extends Controller
         return redirect()->route('rapat.index')->with('success', 'Rapat berhasil dibuat.');
     }
 
-    public function update(Request $request, Rapat $rapat)
+    public function update(RapatRequest $request, Rapat $rapat)
     {
         // if rapat not found, return 404
         if (!$rapat) {
@@ -97,7 +97,8 @@ class RapatController extends Controller
             return response()->json($rapat);
         }
 
-        $rapat->update([
+        // updated rapat data from request
+        $updatedRapatData = [
             'judul' => $request->judul,
             'perihal' => $request->perihal,
             'tempat' => $request->tempat,
@@ -105,7 +106,19 @@ class RapatController extends Controller
             'waktu_mulai' => $request->waktuMulai,
             'waktu_selesai' => $request->waktuSelesai,
             'warna_label' => $request->warnaLabel,
-        ]);
+        ];
+
+        // if request has tanggal, then adjust waktuMulai and waktuSelesai
+        if ($request->has('tanggal')) {
+            $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
+            $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
+            
+            $updatedRapatData['waktu_mulai'] = $waktuMulai;
+            $updatedRapatData['waktu_selesai'] = $waktuSelesai;
+        }
+
+        // update rapat data in database
+        $rapat->update($updatedRapatData);
 
         // Ambil peserta presensi yang sudah ada
         $currentPeserta = PresensiRapat::where('rapat_id', $rapat->id)->pluck('pegawai_id')->toArray();
@@ -143,6 +156,10 @@ class RapatController extends Controller
                 'pegawai_id' => $rapat->pemimpin_rapat_id,
                 'status' => 'hadir',
             ]);
+        }
+
+        if($request->has('tanggal')) {
+            return redirect()->route('rapat.index')->with('success', 'Rapat ' . $rapat->judul . ' berhasil diupdate.');
         }
 
         return response()->json([
