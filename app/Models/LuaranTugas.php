@@ -33,4 +33,9 @@ class LuaranTugas extends Model
             $model->id = "{$todayPrefix}{$lastNumber}";
         });
     }
+
+    public function detailAbk()
+    {
+        return $this->belongsTo(DetailAbk::class);
+    }
 }
