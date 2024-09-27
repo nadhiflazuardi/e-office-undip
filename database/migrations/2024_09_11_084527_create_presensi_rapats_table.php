@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('presensi_rapat', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rapat_id')->constrained('rapat');
+            $table->string('rapat_id');
             $table->foreignId('pegawai_id')->constrained('user');
             $table->enum('status', ['hadir', 'izin', 'notset'])->default('notset');
             $table->timestamps();
+
+            $table->foreign('rapat_id')->references('id')->on('rapat')->onDelete('cascade');
         });
     }
 

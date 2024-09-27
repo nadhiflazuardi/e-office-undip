@@ -13,7 +13,9 @@ class Rapat extends Model
 
     protected $table = 'rapat';
 
-    protected $guarded = ['id'];
+    public $incrementing = false;
+
+    protected $guarded = [];
 
     protected $primaryKey = 'id'; // Set primary key
 
