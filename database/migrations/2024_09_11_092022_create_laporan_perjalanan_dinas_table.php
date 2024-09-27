@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('pegawai_id')->constrained('user');
             $table->foreignId('perjalanan_dinas_id')->constrained('perjalanan_dinas');
             $table->string('file_laporan');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->dateTime('waktu_pengumpulan');
             $table->enum('status', ['Disetujui', 'Dalam Proses', 'Ditolak']);
             $table->timestamps();
