@@ -23,8 +23,7 @@ class LaporanDinasRequest extends FormRequest
     {
         return [
             'file_laporan' => ['required', 'file', 'mimes:pdf'],
-            'keterangan' => ['string'],
-            'waktu_pengumpulan' => ['required', 'date'],
+            'keterangan' => ['nullable','string'],
         ];
     }
 }

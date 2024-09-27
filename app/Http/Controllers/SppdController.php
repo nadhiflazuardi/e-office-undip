@@ -12,7 +12,7 @@ class SppdController extends Controller
     public function index()
     {
         $title = 'SPPD';
-        $sppd = PerjalananDinas::with('pemberiPerintah:id,nama', 'pelaksana:id,nama','laporanPerjalananDinas:id,status')->get();
+        $sppd = PerjalananDinas::with('laporanPerjalananDinas')->get();
     return view('sppd.index', compact('title', 'sppd'));
     }
 
