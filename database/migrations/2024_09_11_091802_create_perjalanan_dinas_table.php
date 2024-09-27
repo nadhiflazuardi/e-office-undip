@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('jabatan_pelaksana_id')->constrained('jabatan');
             $table->string('nomor_surat')->unique();
             $table->date('tanggal_surat');
-            $table->string('tujuan_perjalanan');
+            $table->string('keperluan_perjalanan');
+            $table->string('alamat_perjalanan');
             $table->dateTime('tanggal_mulai');
             $table->dateTime('tanggal_selesai');
             $table->unsignedBigInteger('anggaran');
