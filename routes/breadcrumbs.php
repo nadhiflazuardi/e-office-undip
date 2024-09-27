@@ -33,3 +33,14 @@ Breadcrumbs::for('rapat.show', function (BreadcrumbTrail $trail, Rapat $rapat) {
     $trail->push($rapat->judul, route('rapat.show', $rapat));
 });
 
+// SPPD Index
+Breadcrumbs::for('sppd.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('SPPD', route('sppd.index'));
+});
+
+// SPPD Create
+Breadcrumbs::for('sppd.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('sppd.index');
+    $trail->push('Buat SPPD', route('sppd.create'));
+});

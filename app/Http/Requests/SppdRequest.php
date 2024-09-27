@@ -22,15 +22,18 @@ class SppdRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pemberi_perintah_id' => ['required', 'exists:users,id'],
+            'pemberi_perintah_id' => ['required', 'exists:user,id','different:pelaksana_id'],
             'jabatan_pemberi_perintah_id' => ['required', 'exists:jabatan,id'],
-            'pelaksana_id' => ['required', 'exists:users,id'],
+            'jabatan_pemberi_perintah' => ['required'],
+            'pelaksana_id' => ['required', 'exists:user,id','different:pemberi_perintah_id'],
             'jabatan_pelaksana_id' => ['required', 'exists:jabatan,id'],
-            'nomor_surat' => ['required', 'unique:perjalanan_dinas,nomor_surat'],
+            'jabatan_pelaksana' => ['required'],
+            // 'nomor_surat' => ['required', 'unique:perjalanan_dinas,nomor_surat',],
             'tanggal_surat' => ['required', 'date'],
-            'tujuan_perjalanan' => ['required'],
-            'tanggal_mulai' => ['required', 'date'],
-            'tanggal_selesai' => ['required', 'date'],
+            'alamat_perjalanan' => ['required'],
+            'keperluan_perjalanan' => ['required'],
+            'tanggal_mulai' => ['required', 'date','before_or_equal:tanggal_selesai'],
+            'tanggal_selesai' => ['required', 'date','after_or_equal:tanggal_mulai'],
             'anggaran' => ['required', 'numeric'],
             'keterangan' => ['required'],
         ];

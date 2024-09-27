@@ -45,7 +45,7 @@
                             Perjalanan Dinas
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('sppd.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseTwo" class="accordion-collapse collapse border-bottom border-black"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
