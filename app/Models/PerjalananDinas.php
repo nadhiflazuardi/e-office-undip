@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 
 class PerjalananDinas extends Model
 {
@@ -49,7 +50,12 @@ class PerjalananDinas extends Model
         return Carbon::parse($this->tanggal_selesai)->translatedFormat('l, j F Y');
     }
 
+    public function anggaran() {
+        // return Number::currency($this->anggaran, 'IDR');
+        return 'Rp ' . number_format($this->anggaran, 0, ',', '.');
+    }
+
     public function laporanPerjalananDinas() {
-        return $this->hasOne(LaporanPerjalananDinas::class);
+        return $this->hasOne(LaporanPerjalananDinas::class,'perjalanan_dinas_id');
     }
 }

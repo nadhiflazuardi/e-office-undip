@@ -29,19 +29,19 @@ class LaporanDinasController extends Controller
             $namaFile = time() . '_' . $file->getClientOriginalName();
 
             // Simpan file dengan nama yang baru
-            $file->storeAs('laporan-dinas', $namaFile);
+            $file->storeAs('/public/laporan-dinas', $namaFile);
 
             // Simpan data laporan perjalanan dinas
             LaporanPerjalananDinas::create([
                 'pegawai_id' => auth()->id(),
                 'perjalanan_dinas_id' => $request->perjalanan_dinas_id,
-                'file_laporan' => $namaFile,
+                'file_laporan' => 'laporan-dinas/' . $namaFile,
                 'keterangan' => $request->keterangan,
-                'waktu_pengumpulan' => $request->waktu_pengumpulan,
+                'waktu_pengumpulan' => now(),
                 'status' => 'Dalam Proses',
             ]);
 
-            return redirect()->route('laporan-dinas.index')->with('success', 'Laporan berhasil di-upload');
+            return redirect()->route('sppd.show',['sppd' => $request->perjalanan_dinas_id])->with('success', 'Laporan berhasil di-upload');
         } catch (\Exception $e) {
             // Tangani exception dan beri feedback ke user
             return back()->withErrors(['msg' => 'Terjadi kesalahan: ' . $e->getMessage()]);
