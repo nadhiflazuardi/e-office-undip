@@ -122,42 +122,92 @@
                 </div>
             </div>
         </div>
-        <label for="pesertaTable" class="form-label fs-4">Pilih Peserta Rapat</label>
-        <div class="">
-            <label for="selectAll" class="form-label">Pilih Semua</label>
-            <input disabled type="checkbox" id="selectAll">
-            <input disabled type="hidden" id="semuaPesertaInput">
-        </div>
-        @error('pesertaRapat')
-            <label for="selectAll" class="form-label" style="color: red">{{ $message }}</label>
-        @enderror
-        <table id="pesertaTable" class="display">
-            <thead>
-                <tr>
-                    <th>Pilih Semua</th>
-                    <th>Nama Pegawai</th>
-                    <th>NIP</th>
-                    <th>Unit Kerja</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($pegawais as $pegawai)
-                    <tr>
-                        <td><input disabled type="checkbox" class="pesertaCheckbox" name="pesertaRapat[]"
-                                value="{{ $pegawai->id }}" @checked($pesertas->contains('pegawai_id', $pegawai->id))></td>
-                        <td>{{ $pegawai->nama }}</td>
-                        <td>{{ $pegawai->nip }}</td>
-                        <td>{{ $pegawai->unitKerja->nama }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
+                            <th>Aksi</th>
+                        @endif
+                            @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
+                                <td class="d-flex justify-content-center">
+                                    <select id="selectAttendanceStatus"
+                                        class="form-select badge rounded-pill py-2 px-4 fs-6 text-capitalize"
+                                        style="width: 112px" aria-label="Default select example"
+                                        data-status="{{ $peserta->status }}" data-peserta-id="{{ $peserta->pegawai->id }}"
+                                        data-rapat-id="{{ $rapat->id }}">
+                                        <option class="text-bg-danger" value="notset"
+                                            {{ $peserta->status == 'notset' ? 'selected' : '' }}>Notset
+                                        </option>
+                                        <option class="text-bg-success" value="hadir"
+                                            {{ $peserta->status == 'hadir' ? 'selected' : '' }}>Hadir
+                                        </option>
+                                        <option class="text-bg-warning" value="izin"
+                                            {{ $peserta->status == 'izin' ? 'selected' : '' }}>Izin
+                                        </option>
+                                    </select>
+                                </td>
+                            @endif
     </form>
 @endsection
 
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // rapat attendance start
+            // Function to change the background color based on the selected value
+            function updateSelectBackground(selectElement) {
+                var status = $(selectElement).val();
+                $(selectElement).removeClass(
+                    "text-bg-success text-bg-warning text-bg-danger"
+                ); // Remove all classes
+
+                if (status === "hadir") {
+                    $(selectElement).addClass("text-bg-success");
+                } else if (status === "izin") {
+                    $(selectElement).addClass("text-bg-warning text-white");
+                } else if (status === "notset") {
+                    $(selectElement).addClass("text-bg-danger");
+                }
+            }
+
+            // Apply the background color when the page loads based on initial value
+            $("select").each(function() {
+                updateSelectBackground(this);
+            });
+
+            // Change the background color when the user changes the select option
+            $("select").change(function() {
+                var status = $(this).val();
+                var pesertaId = $(this).data('peserta-id'); // Ambil peserta_id dari data attribute
+                var rapatId = $(this).data('rapat-id'); // Ambil rapat_id
+
+                // AJAX request
+                $.ajax({
+                    url: '/rapat/' + rapatId + '/presensi/peserta/' + pesertaId,
+                    type: 'PATCH',
+                    data: {
+                        status: status,
+                        _token: '{{ csrf_token() }}' // Kirim CSRF token
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        if (response.success) {
+                            alert(response.message); // Ganti dengan notifikasi yang lebih baik
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        alert('Terjadi kesalahan saat mengupdate status kehadiran.');
+                    }
+                });
+
+                updateSelectBackground(this);
+            });
+            // rapat attendance end
+
             $('#pesertaTable').DataTable();
 
             // Toggle edit mode, enable/disable inputs and show/hide buttons
@@ -165,7 +215,8 @@
                 $('#editButtons').css('visibility', this.checked ? 'visible' : 'hidden');
 
                 // select all inputs that are disabled, except the switch input and enable them
-                this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled', false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
+                this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled',
+                    false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
             });
 
         });
