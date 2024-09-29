@@ -28,17 +28,25 @@ class LoginController extends Controller
             if ($this->isAllowedIp($ipAddress)) {
                 $ipId = IpLogin::where('alamat_ip', $ipAddress)->first()->id;
 
-                $presensi = PresensiHarian::create([
-                    'pegawai_id' => $user->id,
-                    'ip_login_id' => $ipId,
-                    'waktu_kehadiran' => now(),
-                ]);
+                // Cek apakah sudah ada presensi di hari yang sama
+                $existingPresensi = PresensiHarian::where('pegawai_id', $user->id)
+                ->whereDate('waktu_kehadiran', now()->toDateString())
+                ->first();
 
-                Log::create([
-                    'pegawai_id' => $user->id,
-                    'kegiatan_id' => $presensi->id,
-                    'bobot' => 30,
-                ]);
+                if (!$existingPresensi) {
+                    // Buat presensi jika belum ada di hari ini
+                    $presensi = PresensiHarian::create([
+                        'pegawai_id' => $user->id,
+                        'ip_login_id' => $ipId,
+                        'waktu_kehadiran' => now(),
+                    ]);
+
+                    Log::create([
+                        'pegawai_id' => $user->id,
+                        'kegiatan_id' => $presensi->id,
+                        'bobot' => 30,
+                    ]);
+                }
 
                 return redirect()->intended('/dashboard');
             } else {

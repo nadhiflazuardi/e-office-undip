@@ -44,6 +44,11 @@ class Rapat extends Model
         return $this->hasMany(PresensiRapat::class);
     }
 
+    public function pemimpinRapat()
+    {
+        return User::find($this->pemimpin_rapat_id);
+    }
+
     public function tanggal()
     {
         return Carbon::parse($this->waktu_mulai)->toDateString(); // Mengembalikan format YYYY-MM-DD
