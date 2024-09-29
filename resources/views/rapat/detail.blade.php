@@ -17,18 +17,21 @@
     </div>
     <h1>Detail Rapat</h1>
     <hr>
-    <form action="{{ route('rapat.update',['rapat' => $rapat])}}" method="POST">
+    <form action="{{ route('rapat.update', ['rapat' => $rapat]) }}" method="POST">
         @csrf
         @method('PATCH')
-        <div class="d-flex justify-content-between gap-1 align-items-center mb-2">
-            <div class="form-check form-switch d-flex align-items-center gap-1">
-                <input class="form-check-input" type="checkbox" role="switch" id="editRapatToggle" style="height: 1.5rem; width: 3.2rem;" >
-                <label class="form-check-label" for="editRapatToggle">Edit Rapat</label>
+        @can('buat rapat')
+            <div class="d-flex justify-content-between gap-1 align-items-center mb-2">
+                <div class="form-check form-switch d-flex align-items-center gap-1">
+                    <input class="form-check-input" type="checkbox" role="switch" id="editRapatToggle"
+                        style="height: 1.5rem; width: 3.2rem;">
+                    <label class="form-check-label" for="editRapatToggle">Edit Rapat</label>
+                </div>
+                <div class="d-flex justify-content-end gap-1" id="editButtons" style="visibility: hidden;">
+                    <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
+                </div>
             </div>
-            <div class="d-flex justify-content-end gap-1" id="editButtons" style="visibility: hidden;">
-                <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
-            </div>
-        </div>
+        @endcan
         <div class="mb-3">
             <label for="judulInput" class="form-label">Judul</label>
             <input disabled class="form-control @error('judul') is-invalid @enderror" type="text" name="judul"
@@ -122,9 +125,56 @@
                 </div>
             </div>
         </div>
+        @can('buat rapat')
+            <label for="pesertaTable" class="form-label fs-4">Pilih Peserta Rapat</label>
+            <div class="">
+                <label for="selectAll" class="form-label">Pilih Semua</label>
+                <input disabled type="checkbox" id="selectAll">
+                <input disabled type="hidden" id="semuaPesertaInput">
+            </div>
+            @error('pesertaRapat')
+                <label for="selectAll" class="form-label" style="color: red">{{ $message }}</label>
+            @enderror
+            <table id="pesertaTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Pilih Semua</th>
+                        <th>Nama Pegawai</th>
+                        <th>NIP</th>
+                        <th>Unit Kerja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pegawais as $pegawai)
+                        <tr>
+                            <td><input disabled type="checkbox" class="pesertaCheckbox" name="pesertaRapat[]"
+                                    value="{{ $pegawai->id }}" @checked($pesertas->contains('pegawai_id', $pegawai->id))></td>
+                            <td>{{ $pegawai->nama }}</td>
+                            <td>{{ $pegawai->nip }}</td>
+                            <td>{{ $pegawai->unitKerja->nama }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <label for="pesertaTable" class="form-label fs-4">Daftar Peserta Rapat</label>
+            <table id="pesertaTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Nama Pegawai</th>
+                        <th>NIP</th>
+                        <th>Unit Kerja</th>
                         @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
                             <th>Aksi</th>
                         @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pesertas as $peserta)
+                        <tr>
+                            <td>{{ $peserta->pegawai->nama }}</td>
+                            <td>{{ $peserta->pegawai->nip }}</td>
+                            <td>{{ $peserta->pegawai->unitKerja->nama }}</td>
                             @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
                                 <td class="d-flex justify-content-center">
                                     <select id="selectAttendanceStatus"
@@ -144,6 +194,11 @@
                                     </select>
                                 </td>
                             @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </form>
 @endsection
 
@@ -218,7 +273,6 @@
                 this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled',
                     false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
             });
-
         });
 
         $('#selectAll').on('click', function() {
