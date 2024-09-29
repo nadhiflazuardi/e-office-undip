@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
         ])->assignRole($sekretaris);
 
         User::create([
-            'unit_kerja_id' => 3,
+            'unit_kerja_id' => 2,
             'jabatan_id' => 2,
             'nama' => 'Pengelola Keuangan',
             'email' => 'pengelolakeuangan@gmail.com',
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
         ])->assignRole($pengelolaKeuangan);
 
         User::create([
-            'unit_kerja_id' => 4,
+            'unit_kerja_id' => 2,
             'jabatan_id' => 3,
             'nama' => 'Pengadministrasi Persuratan',
             'email' => 'pengadministrasipersuratan@gmail.com',
