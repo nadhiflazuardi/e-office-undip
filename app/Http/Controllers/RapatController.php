@@ -184,21 +184,13 @@ class RapatController extends Controller
     public function updatePresensiPeserta(Request $request, Rapat $rapat, User $peserta)
     {
         $request->validate([
-            'status' => 'required|in:hadir,izin,sakit,notset',
+            'status' => 'required|in:hadir,izin,notset',
         ]);
 
         // Ambil status presensi yang sekarang sebelum update
         $presensi = PresensiRapat::where('rapat_id', $rapat->id)
-        ->where('peserta_id', $peserta->id)
-        ->first();
-
-        // Update presensi dengan status baru
-        $presensi->update([
-            'status' => $request->status,
-        ]);
-
-        // Ambil user ID dari auth (siapa yang mengubah status presensi)
-        $pegawaiId = auth()->id();
+            ->where('pegawai_id', $peserta->id)
+            ->first();
 
         // Jika status bukan 'notset' (berarti hadir atau izin)
         if ($request->status !== 'notset') {
@@ -208,17 +200,22 @@ class RapatController extends Controller
 
                 // Buat log baru untuk rapat ini
                 Log::create([
-                    'pegawai_id' => $pegawaiId,
+                    'pegawai_id' => $peserta->id,
                     'kegiatan_id' => $rapat->id,
                     'bobot' => $bobot,
                 ]);
             }
         } else {
             // Jika status berubah jadi 'notset', hapus Log yang sebelumnya dibuat
-            Log::where('pegawai_id', $pegawaiId)
+            Log::where('pegawai_id', $peserta->id)
                 ->where('kegiatan_id', $rapat->id)
                 ->delete();
         }
+
+        // Update presensi dengan status baru
+        $presensi->update([
+            'status' => $request->status,
+        ]);
 
         return response()->json([
             'message' => 'Presensi peserta rapat berhasil diupdate.',
