@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LaporanDinasRequest;
 use App\Models\LaporanPerjalananDinas;
+use App\Models\PerjalananDinas;
 use Illuminate\Http\Request;
 
 class LaporanDinasController extends Controller
@@ -11,7 +12,8 @@ class LaporanDinasController extends Controller
     public function index()
     {
         $title = 'Laporan Dinas';
-        return view('laporan-dinas.index', compact('title'));
+        $perjalananDinas = PerjalananDinas::with('laporanPerjalananDinas','pemberiPerintah:id,nama','pelaksana:id,nama')->whereHas('laporanPerjalananDinas')->get();
+        return view('laporan-dinas.index', compact('title','perjalananDinas'));
     }
 
     public function create()
@@ -48,10 +50,13 @@ class LaporanDinasController extends Controller
         }
     }
 
-    public function show(LaporanPerjalananDinas $laporan)
+    public function show(PerjalananDinas $perjalananDinas)
     {
         $title = 'Detail Laporan Dinas';
-        return view('laporan-dinas.show', compact('title', 'laporan'));
+        $perjalananDinas->load('laporanPerjalananDinas');
+        
+
+        return view('laporan-dinas.show', compact('title', 'perjalananDinas'));
     }
 
     public function edit(LaporanPerjalananDinas $laporan)

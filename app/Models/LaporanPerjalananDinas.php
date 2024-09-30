@@ -12,4 +12,9 @@ class LaporanPerjalananDinas extends Model
     protected $table = 'laporan_perjalanan_dinas';
 
     protected $guarded = ['id'];
+
+    public function alasanPenolakan()
+    {
+        return $this->hasOne(VerifikasiLaporanPerjalananDinas::class, 'laporan_id')->where('status','Ditolak')->pluck('catatan');
+    }
 }

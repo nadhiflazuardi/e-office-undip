@@ -53,11 +53,11 @@
                             </div>
                         </div>
                     </a>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('laporan-dinas.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseTwo" class="accordion-collapse collapse"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                Laporan
+                                Verifikasi Laporan
                             </div>
                         </div>
                     </a>

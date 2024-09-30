@@ -51,3 +51,15 @@ Breadcrumbs::for('sppd.show', function (BreadcrumbTrail $trail, PerjalananDinas 
     $trail->parent('sppd.index');
     $trail->push($sppd->nomor_surat, route('sppd.show', $sppd));
 });
+
+// Verifikasi SPPD Index
+Breadcrumbs::for('laporan-dinas.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Verifikasi SPPD', route('laporan-dinas.index'));
+});
+
+// Verifikasi SPPD Show
+Breadcrumbs::for('laporan-dinas.show', function (BreadcrumbTrail $trail, PerjalananDinas $perjalananDinas) {
+    $trail->parent('laporan-dinas.index');
+    $trail->push($perjalananDinas->nomor_surat, route('laporan-dinas.show',['perjalananDinas' => $perjalananDinas]));
+});
