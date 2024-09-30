@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pengarsip_id')->constrained('user');
             $table->string('nomor_surat');
-            $table->string('hal');
+            $table->string('perihal');
             $table->string('asal');
             $table->string('tujuan');
             $table->string('file_surat');
