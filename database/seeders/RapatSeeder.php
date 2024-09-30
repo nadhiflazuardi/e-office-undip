@@ -55,7 +55,7 @@ class RapatSeeder extends Seeder
                 PresensiRapat::create([
                     'rapat_id' => $rapat->id,
                     'pegawai_id' => $pesertaId,
-                    'status' => fake()->randomElement(['hadir', 'izin', 'notset']),
+                    'status' => 'notset',
                 ]);
             }
         }
