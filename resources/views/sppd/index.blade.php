@@ -34,7 +34,7 @@
                         {{-- {{ $s->laporanPerjalananDinas}} --}}
                         @if ($s->laporanPerjalananDinas)
                             <span
-                                class="badge rounded-pill {{ $s->laporanPerjalananDinas->status == 'Dalam Proses' ? 'text-bg-primary' : '' }} {{ $s->laporanPerjalananDinas->status == 'Disetujui' ? 'text-bg-warning' : '' }} {{ $s->laporanPerjalananDinas->status == 'Ditolak' ? 'text-bg-danger' : '' }} py-2 px-4 fs-5 text-capitalize"
+                                class="badge rounded-pill {{ $s->laporanPerjalananDinas->status == 'Dalam Proses' ? 'text-bg-primary' : '' }} {{ $s->laporanPerjalananDinas->status == 'Disetujui' ? 'text-bg-success' : '' }} {{ $s->laporanPerjalananDinas->status == 'Ditolak' ? 'text-bg-danger' : '' }} py-2 px-4 fs-5 text-capitalize"
                                 style="width: fit-content;">
                                 {{ $s->laporanPerjalananDinas->status }}
                             </span>
