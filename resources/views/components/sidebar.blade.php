@@ -97,7 +97,7 @@
                             Surat
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('surat-masuk.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">

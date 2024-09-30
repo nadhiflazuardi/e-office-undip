@@ -63,3 +63,10 @@ Breadcrumbs::for('laporan-dinas.show', function (BreadcrumbTrail $trail, Perjala
     $trail->parent('laporan-dinas.index');
     $trail->push($perjalananDinas->nomor_surat, route('laporan-dinas.show',['perjalananDinas' => $perjalananDinas]));
 });
+
+// Surat Masuk Index
+Breadcrumbs::for('surat-masuk.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Surat Masuk', route('surat-masuk.index'));
+});
+
