@@ -15,7 +15,8 @@ class SuratMasukController extends Controller
         return view('surat-masuk.index', compact('title', 'suratMasuk'));
     }
 
-    public function create()
+    public function 
+    create()
     {
         $title = 'Tambah Surat Masuk';
         return view('surat-masuk.create', compact('title'));
@@ -25,16 +26,17 @@ class SuratMasukController extends Controller
     {
         $surat = $request->file('file_surat');
         $namaSurat = time() . '_' . $surat->getClientOriginalName();
-        $surat->storeAs('surat_masuk', $namaSurat, 'local');
+        $surat->storeAs('/surat_masuk', $namaSurat, 'local');
 
         // Simpan data surat
         SuratMasuk::create([
+            'pengarsip_id' => auth()->id(),
             'nomor_surat' => $request->nomor_surat,
             'perihal' => $request->perihal,
             'asal' => $request->asal,
             'tujuan' => $request->tujuan,
             'file_surat' => $namaSurat,
-            'tanggal_surat' => $request->tanggal_surat,
+            'tanggal_diterima' => $request->tanggal_surat,
         ]);
 
         return redirect()->route('surat-masuk.index');

@@ -31,6 +31,7 @@ Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::clas
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
+Route::get('/surat-masuk/create', [SuratMasukController::class, 'create'])->name('surat-masuk.create');
 Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
 Route::get('/surat-masuk/show/{surat}', [SuratMasukController::class, 'show'])->name('surat-masuk.show');
 Route::get('/surat-masuk/edit/{surat}', [SuratMasukController::class, 'edit'])->name('surat-masuk.edit');
