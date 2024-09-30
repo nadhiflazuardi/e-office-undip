@@ -63,12 +63,14 @@
             <p
                 class="badge rounded-pill 
     {{ $sppd->laporanPerjalananDinas->status == 'Dalam Proses' ? 'text-bg-primary' : '' }}
-    {{ $sppd->laporanPerjalananDinas->status == 'Disetujui' ? 'text-bg-warning' : '' }}
+    {{ $sppd->laporanPerjalananDinas->status == 'Disetujui' ? 'text-bg-success' : '' }}
     {{ $sppd->laporanPerjalananDinas->status == 'Ditolak' ? 'text-bg-danger' : '' }} fs-6">
                 {{ $sppd->laporanPerjalananDinas->status }}</p>
             @if ($sppd->laporanPerjalananDinas->status == 'Ditolak')
-                <p>Catatan : </p>
+                <h6 class="m-0 p-0">Alasan penolakan : </h6>
+                <p>{{ $sppd->laporanPerjalananDinas->alasanPenolakan()[0] }}</p>
             @endif
+            <hr>
             <a href="{{ Storage::url($sppd->laporanPerjalananDinas->file_laporan) }}" target="blank"
                 class="d-inline-block btn btn-primary">Lihat Laporan Dinas</a>
         @endif
