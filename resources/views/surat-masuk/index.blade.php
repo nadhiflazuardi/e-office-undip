@@ -8,7 +8,8 @@
         <h1 class="ms-3">Arsip Surat Masuk</h1>
     </div>
     <br>
-    <a href="{{ route('surat-masuk.create') }}" class="btn btn-outline-primary fs-5"><i class="fa-solid fa-plus"></i> Buat Arsip Baru</a>
+    <a href="{{ route('surat-masuk.create') }}" class="btn btn-outline-primary fs-5"><i class="fa-solid fa-plus"></i> Buat
+        Arsip Baru</a>
 
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
