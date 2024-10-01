@@ -75,3 +75,9 @@ Breadcrumbs::for('surat-masuk.create', function (BreadcrumbTrail $trail) {
     $trail->parent('surat-masuk.index');
     $trail->push('Buat Surat Masuk', route('surat-masuk.create'));
 });
+
+// Surat Keluar Index
+Breadcrumbs::for('surat-keluar.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Surat Keluar', route('surat-keluar.index'));
+});

@@ -12,7 +12,8 @@ class SuratKeluarController extends Controller
     public function index()
     {
         $title = 'Surat Keluar';
-        return view('surat-keluar.index', compact('title'));
+        $suratKeluar = SuratKeluar::all();
+        return view('surat-keluar.index', compact('title', 'suratKeluar'));
     }
 
     public function create()
