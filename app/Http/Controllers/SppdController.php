@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SppdRequest;
 use App\Models\PerjalananDinas;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SppdController extends Controller
@@ -11,13 +12,15 @@ class SppdController extends Controller
     public function index()
     {
         $title = 'SPPD';
-        return view('sppd.index', compact('title'));
+        $sppd = PerjalananDinas::with('laporanPerjalananDinas')->get();
+    return view('sppd.index', compact('title', 'sppd'));
     }
 
     public function create()
     {
         $title = 'Buat SPPD';
-        return view('sppd.create', compact('title'));
+        $users = User::with('jabatan:id,nama')->get();
+        return view('sppd.create', compact('title', 'users'));
     }
 
     public function store(SppdRequest $request)

@@ -9,6 +9,7 @@ use App\Http\Controllers\RapatController;
 use App\Http\Controllers\SppdController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
+use App\Http\Controllers\VerifikasiLaporanDinasController;
 use App\Http\Controllers\VerifikasiTugasController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -31,6 +32,7 @@ Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::clas
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
+Route::get('/surat-masuk/create', [SuratMasukController::class, 'create'])->name('surat-masuk.create');
 Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
 Route::get('/surat-masuk/show/{surat}', [SuratMasukController::class, 'show'])->name('surat-masuk.show');
 Route::get('/surat-masuk/edit/{surat}', [SuratMasukController::class, 'edit'])->name('surat-masuk.edit');
@@ -70,7 +72,7 @@ Route::delete('/perjalanan-dinas/sppd/destroy/{sppd}', [SppdController::class, '
 Route::get('/perjalanan-dinas/laporan', [LaporanDinasController::class, 'index'])->name('laporan-dinas.index');
 Route::get('/perjalanan-dinas/laporan/create', [LaporanDinasController::class, 'create'])->name('laporan-dinas.create');
 Route::post('/perjalanan-dinas/laporan/store', [LaporanDinasController::class, 'store'])->name('laporan-dinas.store');
-Route::get('/perjalanan-dinas/laporan/show/{laporan}', [LaporanDinasController::class, 'show'])->name('laporan-dinas.show');
+Route::get('/perjalanan-dinas/laporan/show/{perjalananDinas}', [LaporanDinasController::class, 'show'])->name('laporan-dinas.show');
 Route::get('/perjalanan-dinas/laporan/edit/{laporan}', [LaporanDinasController::class, 'edit'])->name('laporan-dinas.edit');
 Route::patch('/perjalanan-dinas/laporan/update/{laporan}', [LaporanDinasController::class, 'update'])->name('laporan-dinas.update');
 Route::delete('/perjalanan-dinas/laporan/destroy/{laporan}', [LaporanDinasController::class, 'destroy'])->name('laporan-dinas.destroy');

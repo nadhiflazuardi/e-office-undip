@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LaporanDinasRequest;
 use App\Models\LaporanPerjalananDinas;
+use App\Models\PerjalananDinas;
 use Illuminate\Http\Request;
 
 class LaporanDinasController extends Controller
@@ -11,7 +12,8 @@ class LaporanDinasController extends Controller
     public function index()
     {
         $title = 'Laporan Dinas';
-        return view('laporan-dinas.index', compact('title'));
+        $perjalananDinas = PerjalananDinas::with('laporanPerjalananDinas','pemberiPerintah:id,nama','pelaksana:id,nama')->whereHas('laporanPerjalananDinas')->get();
+        return view('laporan-dinas.index', compact('title','perjalananDinas'));
     }
 
     public function create()
@@ -29,29 +31,32 @@ class LaporanDinasController extends Controller
             $namaFile = time() . '_' . $file->getClientOriginalName();
 
             // Simpan file dengan nama yang baru
-            $file->storeAs('laporan-dinas', $namaFile);
+            $file->storeAs('/public/laporan-dinas', $namaFile);
 
             // Simpan data laporan perjalanan dinas
             LaporanPerjalananDinas::create([
                 'pegawai_id' => auth()->id(),
                 'perjalanan_dinas_id' => $request->perjalanan_dinas_id,
-                'file_laporan' => $namaFile,
+                'file_laporan' => 'laporan-dinas/' . $namaFile,
                 'keterangan' => $request->keterangan,
-                'waktu_pengumpulan' => $request->waktu_pengumpulan,
+                'waktu_pengumpulan' => now(),
                 'status' => 'Dalam Proses',
             ]);
 
-            return redirect()->route('laporan-dinas.index')->with('success', 'Laporan berhasil di-upload');
+            return redirect()->route('sppd.show',['sppd' => $request->perjalanan_dinas_id])->with('success', 'Laporan berhasil di-upload');
         } catch (\Exception $e) {
             // Tangani exception dan beri feedback ke user
             return back()->withErrors(['msg' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
 
-    public function show(LaporanPerjalananDinas $laporan)
+    public function show(PerjalananDinas $perjalananDinas)
     {
         $title = 'Detail Laporan Dinas';
-        return view('laporan-dinas.show', compact('title', 'laporan'));
+        $perjalananDinas->load('laporanPerjalananDinas');
+        
+
+        return view('laporan-dinas.show', compact('title', 'perjalananDinas'));
     }
 
     public function edit(LaporanPerjalananDinas $laporan)

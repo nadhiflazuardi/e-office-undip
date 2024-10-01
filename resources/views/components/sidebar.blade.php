@@ -45,7 +45,7 @@
                             Perjalanan Dinas
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('sppd.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseTwo" class="accordion-collapse collapse border-bottom border-black"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
@@ -53,11 +53,11 @@
                             </div>
                         </div>
                     </a>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('laporan-dinas.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseTwo" class="accordion-collapse collapse"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                Laporan
+                                Verifikasi Laporan
                             </div>
                         </div>
                     </a>
@@ -97,7 +97,7 @@
                             Surat
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('surat-masuk.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
