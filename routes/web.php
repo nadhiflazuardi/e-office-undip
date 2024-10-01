@@ -31,6 +31,7 @@ Route::get('/rapat/{rapat}/', [RapatController::class, 'show'])->name('rapat.sho
 Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->name('rapat.attendance.update')->middleware('auth');
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
+
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
 Route::get('/surat-masuk/create', [SuratMasukController::class, 'create'])->name('surat-masuk.create');
 Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
@@ -40,6 +41,7 @@ Route::patch('/surat-masuk/update/{surat}', [SuratMasukController::class, 'updat
 Route::delete('/surat-masuk/destroy/{surat}', [SuratMasukController::class, 'destroy'])->name('surat-masuk.destroy');
 
 Route::get('/surat-keluar', [SuratKeluarController::class, 'index'])->name('surat-keluar.index');
+Route::get('/surat-keluar/create', [SuratKeluarController::class, 'create'])->name('surat-keluar.create');
 Route::post('/surat-keluar/store', [SuratKeluarController::class, 'store'])->name('surat-keluar.store');
 Route::get('/surat-keluar/show/{surat}', [SuratKeluarController::class, 'show'])->name('surat-keluar.show');
 Route::get('/surat-keluar/edit/{surat}', [SuratKeluarController::class, 'edit'])->name('surat-keluar.edit');

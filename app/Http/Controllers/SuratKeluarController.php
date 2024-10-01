@@ -26,16 +26,18 @@ class SuratKeluarController extends Controller
     {
         $surat = $request->file('file_surat');
         $namaSurat = time() . '_' . $surat->getClientOriginalName();
-        $surat->storeAs('surat_keluar', $namaSurat, 'public');
+        $surat->storeAs('/surat_keluar', $namaSurat, 'public');
 
         // Simpan data surat
         $surat = SuratKeluar::create([
-            'nomor_surat' => $request->nomor_surat,
+            'penulis_id' => auth()->id(),
+            'nomor_surat' => 'SK-' . time(),
             'perihal' => $request->perihal,
             'asal' => $request->asal,
             'tujuan' => $request->tujuan,
             'file_surat' => $namaSurat,
-            'tanggal_surat' => $request->tanggal_surat,
+            'tanggal_dikirim' => $request->tanggal_surat,
+            'status' => 'Dalam Proses',
         ]);
 
         Log::create([
