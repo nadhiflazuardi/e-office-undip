@@ -25,7 +25,7 @@ class SuratKeluarController extends Controller
     {
         $surat = $request->file('file_surat');
         $namaSurat = time() . '_' . $surat->getClientOriginalName();
-        $surat->storeAs('surat_keluar', $namaSurat, 'local');
+        $surat->storeAs('surat_keluar', $namaSurat, 'public');
 
         // Simpan data surat
         $surat = SuratKeluar::create([
@@ -71,7 +71,7 @@ class SuratKeluarController extends Controller
             // Upload file baru
             $surat = $request->file('file_surat');
             $namaSurat = time() . '_' . $surat->getClientOriginalName();
-            $surat->storeAs('surat_keluar', $namaSurat, 'local');
+            $surat->storeAs('surat_keluar', $namaSurat, 'public');
         }
 
         // Update data surat
@@ -87,7 +87,8 @@ class SuratKeluarController extends Controller
         return redirect()->route('surat-keluar.index');
     }
 
-    public function destroy(SuratKeluar $surat) {
+    public function destroy(SuratKeluar $surat)
+    {
         $fileLama = storage_path('app/surat_keluar/' . $surat->file_surat);
         if (file_exists($fileLama)) {
             unlink($fileLama);

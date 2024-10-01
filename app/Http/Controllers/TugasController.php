@@ -25,7 +25,7 @@ class TugasController extends Controller
         $file = $request->file('file');
         $namaFile = time() . '_' . $file->getClientOriginalName();
 
-        if (!$file->storeAs('luaran_tugas', $namaFile, 'local')) {
+        if (!$file->storeAs('luaran_tugas', $namaFile, 'public')) {
             return back()->withErrors(['msg' => 'File gagal diupload']);
         }
 
@@ -70,7 +70,7 @@ class TugasController extends Controller
             }
 
             // Simpan file baru
-            $file->storeAs('luaran_tugas', $namaFile, 'local');
+            $file->storeAs('luaran_tugas', $namaFile, 'public');
 
             // Update file di database
             $tugas->file = $namaFile;
@@ -109,5 +109,4 @@ class TugasController extends Controller
             return back()->withErrors(['msg' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
-
 }
