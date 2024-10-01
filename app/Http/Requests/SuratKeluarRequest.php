@@ -22,7 +22,6 @@ class SuratKeluarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nomor_surat' => 'required',
             'perihal' => 'required',
             'asal' => 'required',
             'tujuan' => 'required',
