@@ -67,15 +67,15 @@
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseThree" aria-expanded="false"
                             aria-controls="flush-collapseThree">
-                            <i style="width: 20px" class="fa-regular fa-circle-question me-2"></i>
+                            <i style="width: 20px" class="fa-solid   fa-circle-question me-2"></i>
                             Bukti Tugas
                         </button>
                     </h2>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('tugas.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseThree" class="accordion-collapse collapse border-bottom border-black"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                Unggah
+                                Riwayat
                             </div>
                         </div>
                     </a>
@@ -93,7 +93,7 @@
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseFour" aria-expanded="false"
                             aria-controls="flush-collapseFour">
-                            <i style="width: 20px" class="fa-regular fa-bell me-2"></i>
+                            <i style="width: 20px" class="fa-solid fa-bell me-2"></i>
                             Surat
                         </button>
                     </h2>

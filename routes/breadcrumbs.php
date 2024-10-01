@@ -33,3 +33,9 @@ Breadcrumbs::for('rapat.show', function (BreadcrumbTrail $trail, Rapat $rapat) {
     $trail->push($rapat->judul, route('rapat.show', $rapat));
 });
 
+// Tugas Index
+Breadcrumbs::for('tugas.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Tugas', route('tugas.index'));
+});
+

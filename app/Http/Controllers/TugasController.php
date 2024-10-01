@@ -11,7 +11,8 @@ class TugasController extends Controller
     public function index()
     {
         $title = 'Tugas';
-        return view('tugas.index', compact('title'));
+        $daftarTugas = LuaranTugas::where('pegawai_id', auth()->id())->get();
+        return view('tugas.index', compact('title', 'daftarTugas'));
     }
 
     public function create()
