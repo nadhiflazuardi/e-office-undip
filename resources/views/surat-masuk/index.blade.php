@@ -36,7 +36,7 @@
                     <td>{{ $surat->asal }}</td>
                     <td>{{ $surat->tujuan }}</td>
                     <td>{{ $surat->tanggalDiterima() }}</td>
-                    <td><a href="">Lihat</a></td>
+                    <td><a href="{{ asset('storage/surat_masuk/' . $surat->file_surat) }}" target="_blank">Lihat</a></td>
                 </tr>
             @endforeach
         </tbody>
