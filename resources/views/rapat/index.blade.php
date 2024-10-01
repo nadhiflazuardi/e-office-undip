@@ -36,6 +36,10 @@
                                 <i class="fa-solid fa-location-dot" style="color: #d9d9d9"></i>
                                 {{ $rapat->tempat }}
                             </div>
+                            <div class="d-flex align-items-center gap-3" style="color: #747474;">
+                                <i class="fa-solid fa-user-tie" style="color: #d9d9d9"></i>
+                                {{ $rapat->pemimpinRapat()->nama }}
+                            </div>
                         </div>
                         <span
                             class="badge rounded-pill 

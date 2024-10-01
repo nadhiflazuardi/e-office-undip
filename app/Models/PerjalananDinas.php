@@ -15,6 +15,8 @@ class PerjalananDinas extends Model
 
     protected $guarded = ['id'];
 
+    protected $primaryKey = 'id'; // Set primary key
+
     protected static function boot()
     {
         parent::boot();
@@ -22,7 +24,20 @@ class PerjalananDinas extends Model
         static::creating(function ($model) {
             // Buat placeholder terlebih dahulu
             $model->nomor_surat = 'SPPD';
+          
+            // Dapatkan tanggal hari ini dalam format yy-mm-dd
+            $date = now()->format('ymd');
+
+            // Buat prefix ID untuk hari ini
+            $todayPrefix = 'D' . $date;
+
+            // Hitung jumlah entri dengan prefix yang sama
+            $lastNumber = self::where('id', 'like', "{$todayPrefix}%")->count() + 1;
+
+            // Generate ID baru
+            $model->id = "{$todayPrefix}{$lastNumber}";
         });
+        
 
         static::created(function ($model) {
             // Update nomor_surat dengan ID yang sudah tersedia
@@ -30,8 +45,8 @@ class PerjalananDinas extends Model
             $model->save(); // Simpan perubahan ke database
         });
     }
-
-    public function pemberiPerintah()
+           
+        public function pemberiPerintah()
     {
         return $this->belongsTo(User::class, 'pemberi_perintah_id');
     }

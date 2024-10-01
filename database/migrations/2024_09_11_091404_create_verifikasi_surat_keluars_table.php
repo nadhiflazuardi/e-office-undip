@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('verifikasi_surat_keluar', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('surat_keluar_id')->constrained('surat_keluar');
+            $table->string('surat_keluar_id');
             $table->foreignId('verifikatur_id')->constrained('user');
             $table->enum('status', ['Disetujui', 'Ditolak']);
             $table->string('catatan')->nullable();
             $table->timestamps();
+
+            $table->foreign('surat_keluar_id')->references('id')->on('surat_keluar')->onDelete('cascade');
         });
     }
 

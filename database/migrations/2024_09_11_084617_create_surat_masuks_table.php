@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('surat_masuk', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary(); // Set id sebagai primary key
             $table->foreignId('pengarsip_id')->constrained('user');
             $table->string('nomor_surat');
             $table->string('perihal');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\RapatRequest;
+use App\Models\Log;
 use App\Models\Pegawai;
 use App\Models\PresensiRapat;
 use App\Models\Rapat;
@@ -19,7 +20,7 @@ class RapatController extends Controller
         $rapats = Rapat::whereHas('presensiRapat', function ($query) {
             $query->where('pegawai_id', auth()->user()->id);
         })->get();
-        
+
         return view('rapat.index', compact('rapats'));
     }
 
@@ -112,7 +113,7 @@ class RapatController extends Controller
         if ($request->has('tanggal')) {
             $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
             $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
-            
+
             $updatedRapatData['waktu_mulai'] = $waktuMulai;
             $updatedRapatData['waktu_selesai'] = $waktuSelesai;
         }
@@ -158,7 +159,7 @@ class RapatController extends Controller
             ]);
         }
 
-        if($request->has('tanggal')) {
+        if ($request->has('tanggal')) {
             return redirect()->route('rapat.index')->with('success', 'Rapat ' . $rapat->judul . ' berhasil diupdate.');
         }
 
@@ -183,17 +184,51 @@ class RapatController extends Controller
     public function updatePresensiPeserta(Request $request, Rapat $rapat, User $peserta)
     {
         $request->validate([
-            'status' => 'required|in:hadir,izin,sakit,notset',
+            'status' => 'required|in:hadir,izin,notset',
         ]);
 
-        PresensiRapat::where('rapat_id', $rapat->id)
-            ->where('peserta_id', $peserta->id)
-            ->update([
-                'status' => $request->status,
-            ]);
+        // Ambil status presensi yang sekarang sebelum update
+        $presensi = PresensiRapat::where('rapat_id', $rapat->id)
+            ->where('pegawai_id', $peserta->id)
+            ->first();
+
+        // Jika status bukan 'notset' (berarti hadir atau izin)
+        if ($request->status !== 'notset') {
+            // Cek apakah sebelumnya status 'notset', jika iya maka buat Log baru
+            if ($presensi->status === 'notset') {
+                $bobot = $this->hitungDurasiRapat($rapat->waktu_mulai, $rapat->waktu_selesai);
+
+                // Buat log baru untuk rapat ini
+                Log::create([
+                    'pegawai_id' => $peserta->id,
+                    'kegiatan_id' => $rapat->id,
+                    'bobot' => $bobot,
+                ]);
+            }
+        } else {
+            // Jika status berubah jadi 'notset', hapus Log yang sebelumnya dibuat
+            Log::where('pegawai_id', $peserta->id)
+                ->where('kegiatan_id', $rapat->id)
+                ->delete();
+        }
+
+        // Update presensi dengan status baru
+        $presensi->update([
+            'status' => $request->status,
+        ]);
 
         return response()->json([
             'message' => 'Presensi peserta rapat berhasil diupdate.',
         ]);
+    }
+
+    protected function hitungDurasiRapat($waktuMulai, $waktuSelesai)
+    {
+        $waktuMulai = strtotime($waktuMulai);
+        $waktuSelesai = strtotime($waktuSelesai);
+
+        $diff = $waktuSelesai - $waktuMulai;
+
+        return $diff / 60;
     }
 }

@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('laporan_perjalanan_dinas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('user');
-            $table->foreignId('perjalanan_dinas_id')->constrained('perjalanan_dinas');
+            $table->string('perjalanan_dinas_id');
             $table->string('file_laporan');
             $table->string('keterangan')->nullable();
             $table->dateTime('waktu_pengumpulan');
             $table->enum('status', ['Disetujui', 'Dalam Proses', 'Ditolak']);
             $table->timestamps();
+
+            $table->foreign('perjalanan_dinas_id')->references('id')->on('perjalanan_dinas')->onDelete('cascade');
         });
     }
 

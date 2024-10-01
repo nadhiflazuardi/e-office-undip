@@ -11,27 +11,53 @@ class RapatSeeder extends Seeder
 {
     public function run()
     {
-        // Membuat factory untuk Rapat
-        Rapat::factory()->count(5)->create()->each(function ($rapat) {
+        // Loop untuk membuat 5 rapat secara manual
+        for ($i = 1; $i <= 5; $i++) {
+            // Generate custom ID
+            $todayPrefix = 'R' . now()->format('ymd');
+            $lastNumber = Rapat::where('id', 'like', "{$todayPrefix}%")->count() + 1;
+            $customId = "{$todayPrefix}{$lastNumber}";
+
+            // Buat waktu mulai dan waktu selesai
+            $waktuMulai = now()->addDays(rand(1, 30)); // Buat rapat di masa depan
+            $waktuSelesai = (clone $waktuMulai)->addHours(rand(1, 3)); // Tambah durasi rapat
+
+            // Pilih pemimpin rapat secara acak
+            $pemimpinRapat = User::inRandomOrder()->first();
+
+            // Simpan rapat ke database
+            $rapat = Rapat::create([
+                'id' => $customId,
+                'pemimpin_rapat_id' => $pemimpinRapat->id,
+                'judul' => fake()->sentence(),
+                'perihal' => fake()->paragraph(),
+                'waktu_mulai' => $waktuMulai,
+                'waktu_selesai' => $waktuSelesai,
+                'tempat' => fake()->randomElement(['Ruang Rapat A', 'Ruang Rapat B', 'Aula Utama', 'Ruang Konferensi']),
+                'warna_label' => fake()->randomElement(['#d50000', '#039ae5', '#33b679']),
+            ]);
+
             // Memastikan pemimpin rapat juga terdaftar sebagai peserta
-            PresensiRapat::factory()->create([
+            PresensiRapat::create([
                 'rapat_id' => $rapat->id,
-                'pegawai_id' => $rapat->pemimpin_rapat_id,
+                'pegawai_id' => $pemimpinRapat->id,
+                'status' => 'hadir',
             ]);
 
             // Menambahkan 4-9 peserta tambahan
             $jumlahPesertaTambahan = rand(4, 9);
-            $pesertaIds = User::where('id', '!=', $rapat->pemimpin_rapat_id)
+            $pesertaIds = User::where('id', '!=', $pemimpinRapat->id)
                 ->inRandomOrder()
                 ->limit($jumlahPesertaTambahan)
                 ->pluck('id');
 
             foreach ($pesertaIds as $pesertaId) {
-                PresensiRapat::factory()->create([
+                PresensiRapat::create([
                     'rapat_id' => $rapat->id,
                     'pegawai_id' => $pesertaId,
+                    'status' => fake()->randomElement(['hadir', 'izin', 'notset']),
                 ]);
             }
-        });
+        }
     }
 }

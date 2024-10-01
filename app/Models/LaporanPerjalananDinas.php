@@ -17,4 +17,8 @@ class LaporanPerjalananDinas extends Model
     {
         return $this->hasOne(VerifikasiLaporanPerjalananDinas::class, 'laporan_id')->where('status','Ditolak')->pluck('catatan');
     }
+    public function perjalananDinas()
+    {
+        return $this->belongsTo(PerjalananDinas::class);
+    }
 }

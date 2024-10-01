@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SuratKeluarRequest;
+use App\Models\Log;
 use App\Models\SuratKeluar;
 use Illuminate\Http\Request;
 
@@ -27,13 +28,19 @@ class SuratKeluarController extends Controller
         $surat->storeAs('surat_keluar', $namaSurat, 'local');
 
         // Simpan data surat
-        SuratKeluar::create([
+        $surat = SuratKeluar::create([
             'nomor_surat' => $request->nomor_surat,
             'perihal' => $request->perihal,
             'asal' => $request->asal,
             'tujuan' => $request->tujuan,
             'file_surat' => $namaSurat,
             'tanggal_surat' => $request->tanggal_surat,
+        ]);
+
+        Log::create([
+            'pegawai_id' => auth()->id(),
+            'kegiatan_id' => $surat->id,
+            'bobot' => 30,
         ]);
 
         return redirect()->route('surat-keluar.index');

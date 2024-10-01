@@ -17,18 +17,21 @@
     </div>
     <h1>Detail Rapat</h1>
     <hr>
-    <form action="{{ route('rapat.update',['rapat' => $rapat])}}" method="POST">
+    <form action="{{ route('rapat.update', ['rapat' => $rapat]) }}" method="POST">
         @csrf
         @method('PATCH')
-        <div class="d-flex justify-content-between gap-1 align-items-center mb-2">
-            <div class="form-check form-switch d-flex align-items-center gap-1">
-                <input class="form-check-input" type="checkbox" role="switch" id="editRapatToggle" style="height: 1.5rem; width: 3.2rem;" >
-                <label class="form-check-label" for="editRapatToggle">Edit Rapat</label>
+        @can('buat rapat')
+            <div class="d-flex justify-content-between gap-1 align-items-center mb-2">
+                <div class="form-check form-switch d-flex align-items-center gap-1">
+                    <input class="form-check-input" type="checkbox" role="switch" id="editRapatToggle"
+                        style="height: 1.5rem; width: 3.2rem;">
+                    <label class="form-check-label" for="editRapatToggle">Edit Rapat</label>
+                </div>
+                <div class="d-flex justify-content-end gap-1" id="editButtons" style="visibility: hidden;">
+                    <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
+                </div>
             </div>
-            <div class="d-flex justify-content-end gap-1" id="editButtons" style="visibility: hidden;">
-                <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
-            </div>
-        </div>
+        @endcan
         <div class="mb-3">
             <label for="judulInput" class="form-label">Judul</label>
             <input disabled class="form-control @error('judul') is-invalid @enderror" type="text" name="judul"
@@ -122,42 +125,144 @@
                 </div>
             </div>
         </div>
-        <label for="pesertaTable" class="form-label fs-4">Pilih Peserta Rapat</label>
-        <div class="">
-            <label for="selectAll" class="form-label">Pilih Semua</label>
-            <input disabled type="checkbox" id="selectAll">
-            <input disabled type="hidden" id="semuaPesertaInput">
-        </div>
-        @error('pesertaRapat')
-            <label for="selectAll" class="form-label" style="color: red">{{ $message }}</label>
-        @enderror
-        <table id="pesertaTable" class="display">
-            <thead>
-                <tr>
-                    <th>Pilih Semua</th>
-                    <th>Nama Pegawai</th>
-                    <th>NIP</th>
-                    <th>Unit Kerja</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($pegawais as $pegawai)
+        @can('buat rapat')
+            <label for="pesertaTable" class="form-label fs-4">Pilih Peserta Rapat</label>
+            <div class="">
+                <label for="selectAll" class="form-label">Pilih Semua</label>
+                <input disabled type="checkbox" id="selectAll">
+                <input disabled type="hidden" id="semuaPesertaInput">
+            </div>
+            @error('pesertaRapat')
+                <label for="selectAll" class="form-label" style="color: red">{{ $message }}</label>
+            @enderror
+            <table id="pesertaTable" class="display">
+                <thead>
                     <tr>
-                        <td><input disabled type="checkbox" class="pesertaCheckbox" name="pesertaRapat[]"
-                                value="{{ $pegawai->id }}" @checked($pesertas->contains('pegawai_id', $pegawai->id))></td>
-                        <td>{{ $pegawai->nama }}</td>
-                        <td>{{ $pegawai->nip }}</td>
-                        <td>{{ $pegawai->unitKerja->nama }}</td>
+                        <th>Pilih Semua</th>
+                        <th>Nama Pegawai</th>
+                        <th>NIP</th>
+                        <th>Unit Kerja</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($pegawais as $pegawai)
+                        <tr>
+                            <td><input disabled type="checkbox" class="pesertaCheckbox" name="pesertaRapat[]"
+                                    value="{{ $pegawai->id }}" @checked($pesertas->contains('pegawai_id', $pegawai->id))></td>
+                            <td>{{ $pegawai->nama }}</td>
+                            <td>{{ $pegawai->nip }}</td>
+                            <td>{{ $pegawai->unitKerja->nama }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <label for="pesertaTable" class="form-label fs-4">Daftar Peserta Rapat</label>
+            <table id="pesertaTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Nama Pegawai</th>
+                        <th>NIP</th>
+                        <th>Unit Kerja</th>
+                        @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
+                            <th>Aksi</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pesertas as $peserta)
+                        <tr>
+                            <td>{{ $peserta->pegawai->nama }}</td>
+                            <td>{{ $peserta->pegawai->nip }}</td>
+                            <td>{{ $peserta->pegawai->unitKerja->nama }}</td>
+                            @if ($rapat->pemimpin_rapat_id == auth()->user()->id)
+                                <td class="d-flex justify-content-center">
+                                    <select id="selectAttendanceStatus"
+                                        class="form-select badge rounded-pill py-2 px-4 fs-6 text-capitalize"
+                                        style="width: 112px" aria-label="Default select example"
+                                        data-status="{{ $peserta->status }}" data-peserta-id="{{ $peserta->pegawai->id }}"
+                                        data-rapat-id="{{ $rapat->id }}">
+                                        <option class="text-bg-danger" value="notset"
+                                            {{ $peserta->status == 'notset' ? 'selected' : '' }}>Notset
+                                        </option>
+                                        <option class="text-bg-success" value="hadir"
+                                            {{ $peserta->status == 'hadir' ? 'selected' : '' }}>Hadir
+                                        </option>
+                                        <option class="text-bg-warning" value="izin"
+                                            {{ $peserta->status == 'izin' ? 'selected' : '' }}>Izin
+                                        </option>
+                                    </select>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </form>
 @endsection
 
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // rapat attendance start
+            // Function to change the background color based on the selected value
+            function updateSelectBackground(selectElement) {
+                var status = $(selectElement).val();
+                $(selectElement).removeClass(
+                    "text-bg-success text-bg-warning text-bg-danger"
+                ); // Remove all classes
+
+                if (status === "hadir") {
+                    $(selectElement).addClass("text-bg-success");
+                } else if (status === "izin") {
+                    $(selectElement).addClass("text-bg-warning text-white");
+                } else if (status === "notset") {
+                    $(selectElement).addClass("text-bg-danger");
+                }
+            }
+
+            // Apply the background color when the page loads based on initial value
+            $("select").each(function() {
+                updateSelectBackground(this);
+            });
+
+            // Change the background color when the user changes the select option
+            $("select").change(function() {
+                var status = $(this).val();
+                var pesertaId = $(this).data('peserta-id'); // Ambil peserta_id dari data attribute
+                var rapatId = $(this).data('rapat-id'); // Ambil rapat_id
+
+                // AJAX request
+                $.ajax({
+                    url: '/rapat/' + rapatId + '/presensi/peserta/' + pesertaId,
+                    type: 'PATCH',
+                    data: {
+                        status: status,
+                        _token: '{{ csrf_token() }}' // Kirim CSRF token
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        if (response.success) {
+                            alert(response.message); // Ganti dengan notifikasi yang lebih baik
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        alert('Terjadi kesalahan saat mengupdate status kehadiran.');
+                    }
+                });
+
+                updateSelectBackground(this);
+            });
+            // rapat attendance end
+
             $('#pesertaTable').DataTable();
 
             // Toggle edit mode, enable/disable inputs and show/hide buttons
@@ -165,9 +270,9 @@
                 $('#editButtons').css('visibility', this.checked ? 'visible' : 'hidden');
 
                 // select all inputs that are disabled, except the switch input and enable them
-                this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled', false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
+                this.checked ? $('input:disabled, select:disabled').not('#editRapatToggle').prop('disabled',
+                    false) : $('input,select').not('#editRapatToggle').prop('disabled', true);
             });
-
         });
 
         $('#selectAll').on('click', function() {

@@ -12,4 +12,16 @@ class PresensiRapat extends Model
     protected $table = 'presensi_rapat';
 
     protected $guarded = ['id'];
+
+    // Relationship ke model Rapat
+    public function rapat()
+    {
+        return $this->belongsTo(Rapat::class);
+    }
+
+    // Relationship ke model User
+    public function pegawai()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SuratMasukRequest;
+use App\Models\Log;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,12 @@ class SuratMasukController extends Controller
             'tujuan' => $request->tujuan,
             'file_surat' => $namaSurat,
             'tanggal_diterima' => $request->tanggal_surat,
+        ]);
+
+        Log::create([
+            'pegawai_id' => auth()->id(),
+            'kegiatan_id' => $surat->id,
+            'bobot' => 30,
         ]);
 
         return redirect()->route('surat-masuk.index');

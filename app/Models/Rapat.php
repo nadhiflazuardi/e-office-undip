@@ -13,12 +13,40 @@ class Rapat extends Model
 
     protected $table = 'rapat';
 
-    protected $guarded = ['id'];
+    public $incrementing = false;
+
+    protected $guarded = [];
+
+    protected $primaryKey = 'id'; // Set primary key
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            // Dapatkan tanggal hari ini dalam format yy-mm-dd
+            $date = now()->format('ymd');
+
+            // Buat prefix ID untuk hari ini
+            $todayPrefix = 'R' . $date;
+
+            // Hitung jumlah entri dengan prefix yang sama
+            $lastNumber = self::where('id', 'like', "{$todayPrefix}%")->count() + 1;
+
+            // Generate ID baru
+            $model->id = "{$todayPrefix}{$lastNumber}";
+        });
+    }
 
     // Relationship ke model PresensiRapat
     public function presensiRapat()
     {
         return $this->hasMany(PresensiRapat::class);
+    }
+
+    public function pemimpinRapat()
+    {
+        return User::find($this->pemimpin_rapat_id);
     }
 
     public function tanggal()
@@ -55,5 +83,13 @@ class Rapat extends Model
 
         // Kalau ada presensi, return statusnya, kalau nggak ada return 'Belum hadir'
         return $presensi->status;
+    }
+
+    // Method untuk mengambil semua peserta rapat
+    public function pesertaRapat()
+    {
+        return $this->presensiRapat->map(function ($presensi) {
+            return $presensi->pegawai;
+        });
     }
 }

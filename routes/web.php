@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanDinasController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PerjalananDinasController;
 use App\Http\Controllers\RapatController;
@@ -27,7 +28,7 @@ Route::get('/rapat', [RapatController::class, 'index'])->name('rapat.index');
 Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store');
 Route::get('/rapat/create', [RapatController::class, 'create'])->name('rapat.create');
 Route::get('/rapat/{rapat}/', [RapatController::class, 'show'])->name('rapat.show');
-Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->middleware('auth');
+Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->name('rapat.attendance.update')->middleware('auth');
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
@@ -80,3 +81,6 @@ Route::get('/perjalanan-dinas/laporan/verifikasi', [VerifikasiLaporanDinasContro
 Route::get('/perjalanan-dinas/laporan/verifikasi/{laporan}', [VerifikasiLaporanDinasController::class, 'show'])->name('laporan-dinas.verifikasi.show');
 Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/terima', [VerifikasiLaporanDinasController::class, 'terima'])->name('laporan-dinas.verifikasi.terima');
 Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/tolak', [VerifikasiLaporanDinasController::class, 'tolak'])->name('laporan-dinas.verifikasi.tolak');
+
+Route::get('/log', [LogController::class, 'index'])->name('log.index');
+Route::get('/log/{log}', [LogController::class, 'show'])->name('log.show');

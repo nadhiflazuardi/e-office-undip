@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\LuaranTugas;
 use App\Models\VerifikasiLuaranTugas;
 use Illuminate\Http\Request;
@@ -30,6 +31,13 @@ class VerifikasiTugasController extends Controller
             'luaran_tugas_id' => $tugas->id,
             'verifikatur_id' => auth()->id(),
             'status' => 'diterima',
+        ]);
+
+        $bobot = $tugas->detailAbk->waktu_penyelesaian;
+        Log::create([
+            'pegawai_id' => auth()->id(),
+            'kegiatan_id' => $tugas->id,
+            'bobot' => $bobot,
         ]);
 
         return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id]);
