@@ -1,107 +1,194 @@
 [
     {
-        "unit_kerja_id": 2,
+        "unit_kerja_id": 1,
         "jabatan_id": 1,
         "nama": "Ahmad",
         "email": "ahmad@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 1,
+        "nama": "Bambang",
+        "email": "bambang@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 2,
+        "nama": "Rini",
+        "email": "rini@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 2,
+        "nama": "Sari",
+        "email": "sari@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 3,
+        "nama": "Indah",
+        "email": "indah@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 3,
+        "nama": "Irfan",
+        "email": "irfan@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 4,
+        "nama": "Doni",
+        "email": "doni@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 4,
+        "nama": "Dewi",
+        "email": "dewi@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 5,
         "nama": "Siti",
         "email": "siti@gmail.com",
-        "password": "password"
-    },
-    {
-        "unit_kerja_id": 2,
-        "jabatan_id": 12,
-        "nama": "Budi",
-        "email": "budi@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
-        "jabatan_id": 20,
-        "nama": "Dewi",
-        "email": "dewi@gmail.com",
-        "password": "password"
+        "jabatan_id": 5,
+        "nama": "Surya",
+        "email": "surya@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
     },
     {
-        "unit_kerja_id": 2,
-        "jabatan_id": 31,
+        "unit_kerja_id": 1,
+        "jabatan_id": 6,
         "nama": "Eko",
         "email": "eko@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 6,
+        "nama": "Eva",
+        "email": "eva@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 7,
         "nama": "Fani",
         "email": "fani@gmail.com",
-        "password": "password"
-    },
-    {
-        "unit_kerja_id": 2,
-        "jabatan_id": 15,
-        "nama": "Gita",
-        "email": "gita@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
-        "jabatan_id": 25,
+        "jabatan_id": 7,
+        "nama": "Farid",
+        "email": "farid@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 8,
         "nama": "Hadi",
         "email": "hadi@gmail.com",
-        "password": "password"
-    },
-    {
-        "unit_kerja_id": 2,
-        "jabatan_id": 3,
-        "nama": "Indah",
-        "email": "indah@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
-        "jabatan_id": 18,
+        "jabatan_id": 8,
+        "nama": "Hana",
+        "email": "hana@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 9,
+        "nama": "Gita",
+        "email": "gita@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 9,
+        "nama": "Guntur",
+        "email": "guntur@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 10,
         "nama": "Joko",
         "email": "joko@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
     },
     {
-        "unit_kerja_id": 2,
-        "jabatan_id": 30,
+        "unit_kerja_id": 1,
+        "jabatan_id": 10,
+        "nama": "Jasmine",
+        "email": "jasmine@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 1,
+        "jabatan_id": 11,
         "nama": "Kartika",
         "email": "kartika@gmail.com",
-        "password": "password"
+        "password": "password",
+        "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
-        "jabatan_id": 1,
-        "nama": "Lina",
-        "email": "lina@gmail.com",
-        "password": "password"
-    },
-    {
-        "unit_kerja_id": 2,
-        "jabatan_id": 22,
-        "nama": "Muhammad",
-        "email": "muhammad@gmail.com",
-        "password": "password"
+        "jabatan_id": 11,
+        "nama": "Krisna",
+        "email": "krisna@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
-        "jabatan_id": 14,
-        "nama": "Nina",
-        "email": "nina@gmail.com",
-        "password": "password"
+        "jabatan_id": 12,
+        "nama": "Budi",
+        "email": "budi@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
     },
     {
-        "unit_kerja_id": 2,
-        "jabatan_id": 28,
-        "nama": "Oscar",
-        "email": "oscar@gmail.com",
-        "password": "password"
+        "unit_kerja_id": 1,
+        "jabatan_id": 12,
+        "nama": "Bella",
+        "email": "bella@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
     }
 ]

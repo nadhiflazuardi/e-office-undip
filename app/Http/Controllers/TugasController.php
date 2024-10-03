@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LuaranTugasRequest;
 use App\Models\LuaranTugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TugasController extends Controller
 {
@@ -17,8 +18,18 @@ class TugasController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+        $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', 
+        [
+            'jabatan_id' => auth()->user()->jabatan_id,
+            'supervisor_id' => $user->supervisor->userTutam->tutam_id,
+        ]);
+
+        $uraianTugas = $response->json()['data'];
+
         $title = 'Tambah Tugas';
-        return view('tugas.create', compact('title'));
+        return view('tugas.create', compact('title', 'uraianTugas'));
     }
 
     public function store(LuaranTugasRequest $request)

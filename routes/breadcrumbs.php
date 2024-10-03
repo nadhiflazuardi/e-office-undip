@@ -39,3 +39,9 @@ Breadcrumbs::for('tugas.index', function (BreadcrumbTrail $trail) {
     $trail->push('Tugas', route('tugas.index'));
 });
 
+// Tugas Create
+Breadcrumbs::for('tugas.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('tugas.index');
+    $trail->push('Buat Tugas', route('tugas.create'));
+});
+
