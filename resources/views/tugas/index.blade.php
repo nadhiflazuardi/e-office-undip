@@ -30,6 +30,9 @@
                         <div>
                             <h4>{{ $tugas->judul }}</h4>
                             <div class="d-flex align-items-center gap-3" style="color: #747474;">
+                                {{ $tugas->keterangan }}
+                            </div>
+                            <div class="d-flex align-items-center gap-3" style="color: #747474;">
                                 <i class="fa-regular fa-calendar-days" style="color: #d9d9d9"></i>
                                 {{ $tugas->waktu_pengumpulan }}
                             </div>
@@ -39,7 +42,7 @@
     {{ $tugas->status == 'disetujui' ? 'text-bg-success' : '' }}
     {{ $tugas->status == 'sedang diperiksa' ? 'text-bg-warning' : '' }}
     {{ $tugas->status == 'ditolak' ? 'text-bg-danger' : '' }} 
-    py-2 px-4 fs-5 text-capitalize"
+    py-2 text-capitalize"
                             style="width: 112px">
                             {{ $tugas->status }}
                         </span>
