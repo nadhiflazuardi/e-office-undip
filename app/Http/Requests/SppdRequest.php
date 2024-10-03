@@ -28,7 +28,6 @@ class SppdRequest extends FormRequest
             'pelaksana_id' => ['required', 'exists:user,id','different:pemberi_perintah_id'],
             'jabatan_pelaksana_id' => ['required', 'exists:jabatan,id'],
             'jabatan_pelaksana' => ['required'],
-            // 'nomor_surat' => ['required', 'unique:perjalanan_dinas,nomor_surat',],
             'tanggal_surat' => ['required', 'date'],
             'alamat_perjalanan' => ['required'],
             'keperluan_perjalanan' => ['required'],
