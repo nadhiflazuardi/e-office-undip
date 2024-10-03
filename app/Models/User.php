@@ -65,4 +65,8 @@ class User extends Authenticatable
     public function userTutam() {
         return $this->hasOne(UserTutam::class);
     }
+
+    public function jabatan() {
+        return $this->belongsTo(Jabatan::class, 'jabatan_id');
+    }
 }

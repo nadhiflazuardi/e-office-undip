@@ -26,13 +26,13 @@ class VerifikasiLaporanDinasController extends Controller
     public function terima(LaporanPerjalananDinas $laporan)
     {
         $laporan->update([
-            'status' => 'diterima',
+            'status' => 'Disetujui',
         ]);
 
         VerifikasiLaporanPerjalananDinas::create([
-            'laporan_perjalanan_dinas_id' => $laporan->id,
+            'laporan_id' => $laporan->id,
             'verifikatur_id' => auth()->id(),
-            'status' => 'diterima',
+            'status' => 'Disetujui',
         ]);
 
         $bobot = $this->hitungBobotPerjalananDinas($laporan->perjalananDinas->waktu_mulai, $laporan->perjalananDinas->waktu_selesai);
@@ -43,22 +43,27 @@ class VerifikasiLaporanDinasController extends Controller
         ]);
 
         return redirect()->route('laporan-dinas.verifikasi.show', ['laporan' => $laporan->id]);
+
     }
 
     public function tolak(Request $request, LaporanPerjalananDinas $laporan)
     {
+        $request->validate([
+            'catatan' => 'required',
+        ]);
+
         $laporan->update([
-            'status' => 'ditolak',
+            'status' => 'Ditolak',
         ]);
 
         VerifikasiLaporanPerjalananDinas::create([
-            'laporan_perjalanan_dinas_id' => $laporan->id,
+            'laporan_id' => $laporan->id,
             'verifikatur_id' => auth()->id(),
-            'status' => 'ditolak',
+            'status' => 'Ditolak',
             'catatan' => $request->catatan,
         ]);
 
-        return redirect()->route('laporan-dinas.verifikasi.show', ['laporan' => $laporan->id]);
+        return redirect()->route('laporan-dinas.index')->with('success', 'Laporan perjalanan dinas berhasil diverifikasi');
     }
 
     // used to calculate the weight of the trip, return the weight in minute

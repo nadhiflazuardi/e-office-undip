@@ -26,16 +26,17 @@ class SuratMasukController extends Controller
     {
         $surat = $request->file('file_surat');
         $namaSurat = time() . '_' . $surat->getClientOriginalName();
-        $surat->storeAs('surat_masuk', $namaSurat, 'local');
+        $surat->storeAs('/surat_masuk', $namaSurat, 'public');
 
         // Simpan data surat
         $surat = SuratMasuk::create([
+            'pengarsip_id' => auth()->id(),
             'nomor_surat' => $request->nomor_surat,
             'perihal' => $request->perihal,
             'asal' => $request->asal,
             'tujuan' => $request->tujuan,
             'file_surat' => $namaSurat,
-            'tanggal_surat' => $request->tanggal_surat,
+            'tanggal_diterima' => $request->tanggal_surat,
         ]);
 
         Log::create([
@@ -72,7 +73,7 @@ class SuratMasukController extends Controller
             // Simpan file baru
             $suratBaru = $request->file('file_surat');
             $namaSuratBaru = time() . '_' . $suratBaru->getClientOriginalName();
-            $suratBaru->storeAs('surat_masuk', $namaSuratBaru, 'local');
+            $suratBaru->storeAs('surat_masuk', $namaSuratBaru, 'public');
 
             // Update file_surat di database
             $surat->file_surat = $namaSuratBaru;

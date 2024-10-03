@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 
 class PerjalananDinas extends Model
 {
@@ -20,6 +22,9 @@ class PerjalananDinas extends Model
         parent::boot();
 
         static::creating(function ($model) {
+            // Buat placeholder terlebih dahulu
+            $model->nomor_surat = 'SPPD';
+          
             // Dapatkan tanggal hari ini dalam format yy-mm-dd
             $date = now()->format('ymd');
 
@@ -32,5 +37,40 @@ class PerjalananDinas extends Model
             // Generate ID baru
             $model->id = "{$todayPrefix}{$lastNumber}";
         });
+        
+
+        static::created(function ($model) {
+            // Update nomor_surat dengan ID yang sudah tersedia
+            $model->nomor_surat = 'SPPD/' . now()->format('Ymd') . "/" . $model->id;
+            $model->save(); // Simpan perubahan ke database
+        });
+    }
+           
+        public function pemberiPerintah()
+    {
+        return $this->belongsTo(User::class, 'pemberi_perintah_id');
+    }
+
+    public function pelaksana()
+    {
+        return $this->belongsTo(User::class, 'pelaksana_id');
+    }
+
+    public function tanggalMulai()
+    {
+        return Carbon::parse($this->tanggal_mulai)->translatedFormat('l, j F Y');
+    }
+    public function tanggalSelesai()
+    {
+        return Carbon::parse($this->tanggal_selesai)->translatedFormat('l, j F Y');
+    }
+
+    public function anggaran() {
+        // return Number::currency($this->anggaran, 'IDR');
+        return 'Rp ' . number_format($this->anggaran, 0, ',', '.');
+    }
+
+    public function laporanPerjalananDinas() {
+        return $this->hasOne(LaporanPerjalananDinas::class,'perjalanan_dinas_id');
     }
 }

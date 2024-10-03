@@ -26,8 +26,8 @@ class SuratMasukRequest extends FormRequest
             'perihal' => 'required',
             'asal' => 'required',
             'tujuan' => 'required',
-            'file_surat' => 'required',
-            'tanggal_surat' => 'required',
+            'file_surat' => ['required','file', 'mimes:pdf',],
+            'tanggal_surat' => ['required','date',]
         ];
     }
 }
