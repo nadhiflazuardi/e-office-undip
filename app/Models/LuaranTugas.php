@@ -15,6 +15,8 @@ class LuaranTugas extends Model
 
     protected $primaryKey = 'id'; // Set primary key
 
+    public $incrementing = false; 
+
     protected static function boot()
     {
         parent::boot();
@@ -34,8 +36,18 @@ class LuaranTugas extends Model
         });
     }
 
+    public function pegawai()
+    {
+        return $this->belongsTo(User::class, 'pegawai_id');
+    }
+
     public function detailAbk()
     {
         return $this->belongsTo(DetailAbk::class);
+    }
+
+    public function alasanPenolakan()
+    {
+        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_id')->where('status', 'ditolak')->pluck('catatan');
     }
 }

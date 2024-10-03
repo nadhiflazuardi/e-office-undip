@@ -3,6 +3,7 @@
 // Note: Laravel will automatically resolve `Breadcrumbs::` without
 // this import. This is nice for IDE syntax and refactoring.
 
+use App\Models\LuaranTugas;
 use App\Models\PerjalananDinas;
 use App\Models\Rapat;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -44,6 +45,12 @@ Breadcrumbs::for('tugas.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('tugas.create', function (BreadcrumbTrail $trail) {
     $trail->parent('tugas.index');
     $trail->push('Buat Tugas', route('tugas.create'));
+});
+
+// Tugas Show
+Breadcrumbs::for('tugas.show', function (BreadcrumbTrail $trail, LuaranTugas $tugas) {
+    $trail->parent('tugas.index');
+    $trail->push($tugas->judul, route('tugas.show', $tugas));
 });
 
 // SPPD Index
