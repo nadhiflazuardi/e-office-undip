@@ -23,6 +23,7 @@ class LuaranTugasRequest extends FormRequest
     {
         return [
             'judul' => ['required', 'string'],
+            'uraian' => ['required', 'integer'],
             'keterangan' => ['required', 'string'],
             'file' => ['required', 'file', 'mimes:pdf,doc,docx'],
         ];

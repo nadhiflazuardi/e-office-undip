@@ -43,14 +43,17 @@ class TugasController extends Controller
 
         // Simpan data tugas
         $luaran = LuaranTugas::create([
+            'pegawai_id' => auth()->id(),
+            'uraian_tugas' => $request->uraian,
+            'bobot' => $request->bobot,
             'judul' => $request->judul,
             'keterangan' => $request->keterangan,
-            'file' => $namaFile,
+            'file_luaran' => $namaFile,
             'waktu_pengumpulan' => now(),
             'status' => 'sedang diperiksa',
         ]);
 
-        return redirect()->route('tugas.show', ['tugas' => $luaran->id]);
+        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil ditambahkan');
     }
 
     public function show(LuaranTugas $tugas)

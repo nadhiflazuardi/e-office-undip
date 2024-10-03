@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('luaran_tugas', function (Blueprint $table) {
             $table->string('id')->primary(); // Set id sebagai primary key
             $table->foreignId('pegawai_id')->constrained('user');
-            $table->foreignId('detail_abk_id')->constrained('detail_abk');
+            $table->string('uraian_tugas');
+            $table->integer('bobot');
             $table->string('judul');
             $table->string('keterangan');
             $table->string('file_luaran');
