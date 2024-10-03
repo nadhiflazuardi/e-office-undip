@@ -18,6 +18,7 @@ class TugasController extends Controller
 
     public function create()
     {
+        $title = 'Tambah Tugas';
         $user = auth()->user();
 
         $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', 
@@ -26,10 +27,9 @@ class TugasController extends Controller
             'supervisor_id' => $user->supervisor->userTutam->tutam_id,
         ]);
 
-        $uraianTugas = $response->json()['data'];
+        $detailAbk = $response->json()['data'];
 
-        $title = 'Tambah Tugas';
-        return view('tugas.create', compact('title', 'uraianTugas'));
+        return view('tugas.create', compact('title', 'detailAbk'));
     }
 
     public function store(LuaranTugasRequest $request)

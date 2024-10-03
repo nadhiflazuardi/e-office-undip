@@ -28,10 +28,11 @@
             @enderror
         </div>
         <div class="mb-3">
+            {{-- uraian is actually detailAbk --}}
             <label for="perihalInput" class="form-label" value="{{ old('perihal') }}">Uraian Tugas</label>
             <select class="form-select @error('uraian') is-invalid @enderror" name="uraian" id="uraianInput">
                 <option value="">Pilih uraian</option>
-                @foreach ($uraianTugas as $uraian)
+                @foreach ($detailAbk as $uraian)
                     <option value={{ $uraian['id'] }} @selected(old('uraian') == $uraian['id'])>{{ $uraian['nama_tugas'] }}</option>
                 @endforeach
             </select>
