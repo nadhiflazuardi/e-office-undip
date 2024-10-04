@@ -48,6 +48,6 @@ class LuaranTugas extends Model
 
     public function alasanPenolakan()
     {
-        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_id')->where('status', 'ditolak')->pluck('catatan');
+        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_tugas_id')->where('status', 'ditolak')->pluck('catatan');
     }
 }
