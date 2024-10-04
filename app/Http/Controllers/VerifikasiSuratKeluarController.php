@@ -64,6 +64,6 @@ class VerifikasiSuratKeluarController extends Controller
             'catatan' => $request->catatan,
         ]);
 
-        return redirect()->route('laporan-dinas.index')->with('success', 'Laporan perjalanan dinas berhasil diverifikasi');
+        return redirect()->route('surat-keluar.verifikasi.show',['surat' => $surat])->with('success', 'Laporan perjalanan dinas berhasil diverifikasi');
     }
 }
