@@ -33,4 +33,18 @@ class SuratKeluar extends Model
             $model->id = "{$todayPrefix}{$lastNumber}";
         });
     }
+
+    public function tanggalDibuat()
+    {
+        return $this->created_at->translatedFormat('l, j F Y');
+    }
+
+    public function penulis()
+    {
+        return $this->belongsTo(User::class, 'penulis_id');
+    }
+
+    public function alasanPenolakan() {
+        return $this->hasOne(VerifikasiSuratKeluar::class, 'surat_keluar_id')->where('status', 'Ditolak')->latest()->first()->catatan;
+    }
 }

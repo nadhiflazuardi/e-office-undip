@@ -87,3 +87,15 @@ Breadcrumbs::for('surat-keluar.create', function (BreadcrumbTrail $trail) {
     $trail->parent('surat-keluar.index');
     $trail->push('Buat Surat Keluar', route('surat-keluar.create'));
 });
+
+// Verifikasi Surat Keluar Index
+Breadcrumbs::for('surat-keluar.verifikasi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Verifikasi Surat Keluar', route('surat-keluar.verifikasi.index'));
+});
+
+// Verifikasi Surat Show
+Breadcrumbs::for('surat-keluar.verifikasi.show', function (BreadcrumbTrail $trail, $surat) {
+    $trail->parent('surat-keluar.verifikasi.index');
+    $trail->push($surat->nomor_surat, route('surat-keluar.verifikasi.show', $surat));
+});
