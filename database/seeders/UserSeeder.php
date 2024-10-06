@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,14 +32,34 @@ class UserSeeder extends Seeder
         $pengadministrasiPersuratan->givePermissionTo($permissionBuatSurat);
 
         $data = json_decode(file_get_contents(database_path('seeders/data/user.json')), true);
+
+        $userCount = 1;
         foreach ($data as $user) {
-            User::create([
+            $user = User::create([
                 'unit_kerja_id' => $user['unit_kerja_id'],
                 'jabatan_id' => $user['jabatan_id'],
                 'nama' => $user['nama'],
                 'email' => $user['email'],
                 'password' => bcrypt($user['password']),
             ]);
+
+            for ($i = 1; $i <= 6; $i++) {
+                Log::create([
+                    'pegawai_id' => $user->id,
+                    'kegiatan_id' => 'P'.'24100'.$i.$userCount,
+                    'bobot' => 450,
+                ]);
+            }
+
+            for ($i = 1; $i <= 2; $i++) {
+                Log::create([
+                    'pegawai_id' => $user->id,
+                    'kegiatan_id' => 'R'.'24100'.$i.$userCount,
+                    'bobot' => 100,
+                ]);
+            }
+
+            $userCount += 1;
         }
 
         User::create([
