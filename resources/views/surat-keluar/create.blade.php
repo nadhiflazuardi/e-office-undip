@@ -5,7 +5,7 @@
         {{ Breadcrumbs::render() }}
     </div>
     <div class="border-bottom border-black">
-        <h1 class="ms-3">Arsip Surat Keluar Baru</h1>
+        <h1 class="ms-3">Buat Surat Keluar Baru</h1>
     </div>
     <br>
     <form action="{{ route('surat-keluar.store') }}" enctype="multipart/form-data" method="POST" class="input-container ">
@@ -52,18 +52,74 @@
                     <label for="tujuanSuratInput" class="invalid-feedback">{{ $message }}</label>
                 @enderror
             </div>
-            <div class="">
-                <label for="formFile" class="form-label">Silahkan unggah file hasil pindaian surat dalam format .pdf dengan
-                    ukuran maksimal 5MB</label>
-                <input
-                    class="form-control @error('file_surat')
-                        is-invalid
-                    @enderror"
-                    name="file_surat" type="file" id="formFile" value="{{ old('file_surat') }}">
-                @error('file_surat')
-                    <label for="formFile" class="invalid-feedback">{{ $message }}</label>
+        </div>
+        <div class="row gy-3 mb-3">
+            <div class="col-6">
+                <label for="alamatSuratInput" class="form-label ">Alamat Surat</label>
+                <input type="text" name="alamat" id="alamatSuratInput"
+                    class="form-control @error('alamat') is-invalid @enderror" placeholder="Masukkan alamat tujuan surat "
+                    value="{{ old('alamat') }}">
+                @error('alamat')
+                    <label for="alamatSuratInput" class="invalid-feedback">{{ $message }}</label>
+                @enderror
+            </div>
+            <div class="col-6">
+                <label for="penandatanganInput" class="form-label d-block">Penandatangan Surat</label>
+                <select name="penandatangan_id" id="penandatanganInput" class="select2 w-100 m-0 p-0 @error('penandatangan_id') is-invalid @enderror" style="width: 100%; height: 100%;">
+                    <option value="">Pilih Penandatangan Surat</option>
+                    @foreach ($penandatangan as $penandatangan)
+                        @if ($penandatangan->id == auth()->id())
+                            @continue
+                        @endif
+                        <option value="{{ $penandatangan->id }}" @selected(old('penandatangan_id') == $penandatangan->id)>{{ $penandatangan->nama }}</option>
+                    @endforeach
+                </select>
+                @error('penandatangan_id')
+                    <label for="penandatanganInput" class="invalid-feedback">{{ $message }}</label>
                 @enderror
             </div>
         </div>
+        <div class="row gy-3 mb-3">
+        </div>
+        <textarea class="my-3" name="body" id="isiSurat" cols="30" rows="10">
+            {{ old('body') ?? '' }}
+        </textarea>
+        @error('body')
+            <label for="isiSurat" class="invalid-feedback">{{ $message }}</label>            
+        @enderror
+        <div class="my-3">
+            <label for="formFile" class="form-label">atau unggah file hasil pindaian surat dalam format .pdf dengan
+                ukuran maksimal 5MB</label>
+            <input
+                class="form-control @error('file_surat')
+                            is-invalid
+                        @enderror"
+                name="file_surat" type="file" id="formFile" value="{{ old('file_surat') }}">
+            @error('file_surat')
+                <label for="formFile" class="invalid-feedback">{{ $message }}</label>
+            @enderror
+        </div>
     </form>
+@endsection
+
+@section('scripts')
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        $('#document').ready(function() {
+            $('#penandatanganInput').select2({
+                placeholder: "Pilih Penandatangan Surat",
+            });
+            // Initialize CKEditor
+            ClassicEditor
+                .create(document.querySelector('#isiSurat'), {
+                    placeholder: 'Silahkan Ketik isi surat di sini'
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        })
+    </script>
 @endsection

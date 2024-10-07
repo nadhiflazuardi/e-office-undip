@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('perihal');
             $table->string('asal');
             $table->string('tujuan');
+            $table->string('alamat_surat');
+            $table->foreignId('penandatangan_id')->constrained('user');
             $table->string('file_surat');
             $table->date('tanggal_dikirim');
             $table->enum('status', ['Disetujui', 'Dalam Proses', 'Ditolak']);

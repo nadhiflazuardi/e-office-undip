@@ -23,9 +23,11 @@
         <h6>Tujuan Surat</h6>
         <p>{{ $surat->tujuan }}</p>
         <h6>Alamat Tujuan Surat</h6>
-        <p>{{ $surat->alamat }}</p>
+        <p>{{ $surat->alamat_surat }}</p>
         <h6>Tanggal Surat</h6>
         <p>{{ $surat->tanggalDibuat() }}</p>
+        <h6>Penandatangan Surat</h6>
+        <p>{{ $surat->penandatangan->nama }} | {{ $surat->penandatangan->jabatan->nama }}</p>
         <hr>
 
         <h5>Verifikasi Surat Keluar</h5>

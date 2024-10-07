@@ -25,7 +25,10 @@ class SuratKeluarRequest extends FormRequest
             'perihal' => 'required',
             'asal' => 'required',
             'tujuan' => 'required',
-            'file_surat' => 'required',
+            'alamat' => 'required',
+            'penandatangan_id' => 'required',
+            'file_surat' => ['file', 'mimes:pdf',],
+            'body' => 'required_if:file_surat,null',
             'tanggal_surat' => 'required',
         ];
     }
