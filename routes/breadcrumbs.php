@@ -105,3 +105,16 @@ Breadcrumbs::for('surat-keluar.verifikasi.show', function (BreadcrumbTrail $trai
     $trail->parent('surat-keluar.verifikasi.index');
     $trail->push($surat->nomor_surat, route('surat-keluar.verifikasi.show', $surat));
 });
+
+
+// Arsip Surat Keluar Index
+Breadcrumbs::for('surat-keluar.arsip.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Arsip Surat Keluar', route('surat-keluar.arsip.index'));
+});
+
+// Arsip Surat Keluar Show
+Breadcrumbs::for('surat-keluar.arsip.show', function (BreadcrumbTrail $trail, $surat) {
+    $trail->parent('surat-keluar.arsip.index');
+    $trail->push($surat->nomor_surat, route('surat-keluar.arsip.show', $surat));
+});

@@ -120,7 +120,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ route('surat-keluar.index') }}" class="text-decoration-none text-black">
+                    <a href="{{ route('surat-keluar.arsip.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseFour" class="accordion-collapse collapse"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
