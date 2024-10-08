@@ -13,7 +13,7 @@ class SppdController extends Controller
     {
         $title = 'SPPD';
         $sppd = PerjalananDinas::with('laporanPerjalananDinas')->get();
-    return view('sppd.index', compact('title', 'sppd'));
+        return view('sppd.index', compact('title', 'sppd'));
     }
 
     public function create()
@@ -26,7 +26,6 @@ class SppdController extends Controller
     public function store(SppdRequest $request)
     {
         $validated = $request->validated();
-
         try {
             // Generate PDF
             // $pdf = Pdf::loadView('pdf.sppd', $validated);
@@ -35,6 +34,10 @@ class SppdController extends Controller
 
             // Save the path to the validated data
             $validated['file_sppd'] = $pdfPath;
+
+            // Generate nomor surat
+            $sppdCount = PerjalananDinas::all()->count();
+            $validated['nomor_surat'] = 'SPPD' . now()->format('ymd') . $sppdCount + 1;
 
             // Save to database
             PerjalananDinas::create($validated);

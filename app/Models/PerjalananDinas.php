@@ -17,14 +17,14 @@ class PerjalananDinas extends Model
 
     protected $primaryKey = 'id'; // Set primary key
 
+    public $incrementing = false;
+
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            // Buat placeholder terlebih dahulu
-            $model->nomor_surat = 'SPPD';
-          
+
             // Dapatkan tanggal hari ini dalam format yy-mm-dd
             $date = now()->format('ymd');
 
@@ -37,16 +37,9 @@ class PerjalananDinas extends Model
             // Generate ID baru
             $model->id = "{$todayPrefix}{$lastNumber}";
         });
-        
-
-        static::created(function ($model) {
-            // Update nomor_surat dengan ID yang sudah tersedia
-            $model->nomor_surat = 'SPPD/' . now()->format('Ymd') . "/" . $model->id;
-            $model->save(); // Simpan perubahan ke database
-        });
     }
-           
-        public function pemberiPerintah()
+
+    public function pemberiPerintah()
     {
         return $this->belongsTo(User::class, 'pemberi_perintah_id');
     }
@@ -65,12 +58,14 @@ class PerjalananDinas extends Model
         return Carbon::parse($this->tanggal_selesai)->translatedFormat('l, j F Y');
     }
 
-    public function anggaran() {
+    public function anggaran()
+    {
         // return Number::currency($this->anggaran, 'IDR');
         return 'Rp ' . number_format($this->anggaran, 0, ',', '.');
     }
 
-    public function laporanPerjalananDinas() {
-        return $this->hasOne(LaporanPerjalananDinas::class,'perjalanan_dinas_id');
+    public function laporanPerjalananDinas()
+    {
+        return $this->hasOne(LaporanPerjalananDinas::class, 'perjalanan_dinas_id');
     }
 }

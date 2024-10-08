@@ -24,13 +24,13 @@ class VerifikasiTugasController extends Controller
     public function terima(LuaranTugas $tugas)
     {
         $tugas->update([
-            'status' => 'diterima',
+            'status' => 'disetujui',
         ]);
 
         VerifikasiLuaranTugas::create([
             'luaran_tugas_id' => $tugas->id,
             'verifikatur_id' => auth()->id(),
-            'status' => 'diterima',
+            'status' => 'disetujui',
         ]);
 
         $bobot = $tugas->detailAbk->waktu_penyelesaian;

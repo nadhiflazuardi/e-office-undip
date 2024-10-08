@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('luaran_tugas_id');
             $table->foreignId('verifikatur_id')->constrained('user');
             $table->enum('status', ['disetujui', 'ditolak']);
-            $table->string('catatan');
+            $table->string('catatan')->nullable();
             $table->timestamps();
 
             $table->foreign('luaran_tugas_id')->references('id')->on('luaran_tugas')->onDelete('cascade');

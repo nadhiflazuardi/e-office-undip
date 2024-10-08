@@ -5,19 +5,31 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LuaranTugasRequest;
 use App\Models\LuaranTugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TugasController extends Controller
 {
     public function index()
     {
         $title = 'Tugas';
-        return view('tugas.index', compact('title'));
+        $daftarTugas = LuaranTugas::where('pegawai_id', auth()->id())->get();
+        return view('tugas.index', compact('title', 'daftarTugas'));
     }
 
     public function create()
     {
         $title = 'Tambah Tugas';
-        return view('tugas.create', compact('title'));
+        $user = auth()->user();
+
+        $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', 
+        [
+            'jabatan_id' => auth()->user()->jabatan_id,
+            'supervisor_id' => $user->supervisor->userTutam->tutam_id,
+        ]);
+
+        $detailAbk = $response->json()['data'];
+
+        return view('tugas.create', compact('title', 'detailAbk'));
     }
 
     public function store(LuaranTugasRequest $request)
@@ -31,14 +43,17 @@ class TugasController extends Controller
 
         // Simpan data tugas
         $luaran = LuaranTugas::create([
+            'pegawai_id' => auth()->id(),
+            'uraian_tugas' => $request->uraian,
+            'bobot' => $request->bobot,
             'judul' => $request->judul,
             'keterangan' => $request->keterangan,
-            'file' => $namaFile,
+            'file_luaran' => $namaFile,
             'waktu_pengumpulan' => now(),
             'status' => 'sedang diperiksa',
         ]);
 
-        return redirect()->route('tugas.show', ['tugas' => $luaran->id]);
+        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil ditambahkan');
     }
 
     public function show(LuaranTugas $tugas)

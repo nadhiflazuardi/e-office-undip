@@ -9,6 +9,7 @@ use App\Http\Controllers\RapatController;
 use App\Http\Controllers\SppdController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\VerifikasiLaporanDinasController;
 use App\Http\Controllers\VerifikasiTugasController;
 use Illuminate\Support\Facades\Route;
