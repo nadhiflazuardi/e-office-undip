@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             IpSeeder::class,
             RapatSeeder::class,
-            // SuratKeluarSeeder::class,
+            SuratKeluarSeeder::class,
             // SuratMasukSeeder::class,
             // UserSeeder::class,
         ]);

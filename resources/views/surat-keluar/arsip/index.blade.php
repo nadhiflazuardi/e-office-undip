@@ -5,11 +5,9 @@
         {{ Breadcrumbs::render() }}
     </div>
     <div class="border-bottom border-black">
-        <h1 class="ms-3">Surat Keluar</h1>
+        <h1 class="ms-3">{{ $title }}</h1>
     </div>
     <br>
-    <a href="{{ route('surat-keluar.create') }}" class="btn btn-outline-primary fs-5 ms-3 mb-3"><i class="fa-solid fa-plus"></i> Buat Baru</a>
-
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -18,10 +16,10 @@
     @endif
     <ul class="nav nav-tabs pt-0">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id="dalamProses">Menunggu Verifikasi</a>
+            <a class="nav-link active" aria-current="page" href="#" id="sudahDiarsip">Sudah Diarsip</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" id="selesai">Selesai Diverifikasi</a>
+            <a class="nav-link" href="#" id="belumDiarsip">Belum Diarsip</a>
         </li>
     </ul>
     <table class="" id="suratKeluarTable">
@@ -50,8 +48,8 @@
             var suratKeluar = @json($suratKeluar);
 
             console.log(suratKeluar);
-            var suratKeluarBaseRoute = "{{ route('surat-keluar.show', ['surat' => '__ID__']) }}"; 
-            var initialStatus = 'dalamProses';
+            var suratKeluarBaseRoute = "{{ route('surat-keluar.arsip.show', ['surat' => '__ID__']) }}"; 
+            var initialStatus = 'sudahDiarsip';
             loadData(initialStatus);
             
             
@@ -67,16 +65,17 @@
                 loadData(status);
             });
 
+            // Fungsi untuk load data surat berdasarkan status
             function loadData(status) {
                 // Destroy existing DataTable sebelum update data
                 table.destroy();
 
                 // Filter data berdasarkan status yang dipilih
                 var filteredData = suratKeluar.filter(function(surat) {
-                    if (status === 'dalamProses') {
-                        return surat.status === 'Dalam Proses';
+                    if (status === 'sudahDiarsip') {
+                        return surat.file_arsip !== null;
                     } else {
-                        return surat.status === 'Disetujui' || surat.status === 'Ditolak';
+                        return surat.file_arsip == null;
                     }
                 });
                 console.log(filteredData);
@@ -86,16 +85,16 @@
 
                 // Populate tbody dengan data yang sudah difilter
                 filteredData.forEach(function(surat, index) {
-                    var suratKeluarRoute = suratKeluarBaseRoute.replace('__ID__', surat.id);
+                    var laporanDinasRoute = suratKeluarBaseRoute.replace('__ID__', surat.id);
                     $('#suratKeluarTable tbody').append(`
                         <tr>
                             <td>${index + 1}</td>
                             <td>${surat.perihal}</td>
                             <td>${surat.asal}</td>
                             <td>${surat.tujuan}</td>
-                            <td>${formatDate(new Date(surat.tanggal_dikirim))}</td>
+                            <td>${formatDate(new Date(surat.tanggal_dikirim)) }</td>
                             <td>${surat.status}</td>
-                            <td><a href="${suratKeluarRoute}">Lihat</a></td>
+                            <td><a href="${laporanDinasRoute}">Lihat</a></td>
                         </tr>
                     `);
                 });

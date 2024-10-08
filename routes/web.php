@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArsipSuratKeluarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanDinasController;
 use App\Http\Controllers\LogController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\VerifikasiLaporanDinasController;
+use App\Http\Controllers\VerifikasiSuratKeluarController;
 use App\Http\Controllers\VerifikasiTugasController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -48,6 +50,15 @@ Route::get('/surat-keluar/show/{surat}', [SuratKeluarController::class, 'show'])
 Route::get('/surat-keluar/edit/{surat}', [SuratKeluarController::class, 'edit'])->name('surat-keluar.edit');
 Route::patch('/surat-keluar/update/{surat}', [SuratKeluarController::class, 'update'])->name('surat-keluar.update');
 Route::delete('/surat-keluar/destroy/{surat}', [SuratKeluarController::class, 'destroy'])->name('surat-keluar.destroy');
+
+Route::get('/surat-keluar/verifikasi', [VerifikasiSuratKeluarController::class, 'index'])->name('surat-keluar.verifikasi.index');
+Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/terima', [VerifikasiSuratKeluarController::class, 'terima'])->name('surat-keluar.verifikasi.terima');
+Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/tolak', [VerifikasiSuratKeluarController::class, 'tolak'])->name('surat-keluar.verifikasi.tolak');
+Route::get('/surat-keluar/verifikasi/show/{surat:nomor_surat}', [VerifikasiSuratKeluarController::class, 'show'])->name('surat-keluar.verifikasi.show');
+
+Route::get('/surat-keluar/arsip', [ArsipSuratKeluarController::class, 'index'])->name('surat-keluar.arsip.index');
+Route::get('/surat-keluar/arsip/show/{surat}', [ArsipSuratKeluarController::class, 'show'])->name('surat-keluar.arsip.show');
+Route::patch('/surat-keluar/arsip/update/{surat}', [ArsipSuratKeluarController::class, 'update'])->name('surat-keluar.arsip.update');
 
 Route::get('/tugas', [TugasController::class, 'index'])->name('tugas.index');
 Route::get('/tugas/create', [TugasController::class, 'create'])->name('tugas.create');

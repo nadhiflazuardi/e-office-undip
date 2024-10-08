@@ -106,6 +106,9 @@
     {{-- select2 script --}}
     {{-- replaces all inputs with "select2" class into a select2 input --}}
 
+    {{-- CKEditor CDN --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+
     {{-- custom script --}}
     @yield('scripts')
 </body>
