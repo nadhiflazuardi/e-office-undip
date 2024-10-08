@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="" class="text-decoration-none text-black">
+                    <a href="{{ route('tugas.verifikasi.index') }}" class="text-decoration-none text-black">
                         <div id="flush-collapseThree" class="accordion-collapse collapse"
                             data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
