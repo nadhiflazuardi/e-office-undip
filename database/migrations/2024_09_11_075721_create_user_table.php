@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->foreignId('unit_kerja_id')->constrained('unit_kerja');
             $table->foreignId('jabatan_id')->constrained('jabatan');
-            // $table->unsignedBigInteger('nip')->unique();
+            $table->foreignId('supervisor_id')->nullable()->constrained('user');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
