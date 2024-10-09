@@ -46,6 +46,7 @@ class TugasController extends Controller
             'pegawai_id' => auth()->id(),
             'uraian_tugas' => $request->uraian,
             'bobot' => $request->bobot,
+            'target' => $request->target,
             'judul' => $request->judul,
             'keterangan' => $request->keterangan,
             'file_luaran' => $namaFile,

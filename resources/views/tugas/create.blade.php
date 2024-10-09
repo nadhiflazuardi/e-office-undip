@@ -33,11 +33,12 @@
             <select class="form-select @error('uraian') is-invalid @enderror" name="uraian" id="uraianInput">
                 <option value="">Pilih uraian</option>
                 @foreach ($detailAbk as $uraian)
-                    <option value="{{ $uraian['nama_tugas'] }}" data-bobot="{{ $uraian['bobot'] }}">
+                    <option value="{{ $uraian['nama_tugas'] }}" data-bobot="{{ $uraian['bobot'] }}" data-target="{{ $uraian['target'] }}">
                         {{ $uraian['nama_tugas'] }}</option>
                 @endforeach
             </select>
             <input type="hidden" name="bobot" id="bobotInput">
+            <input type="hidden" name="target" id="targetInput">
             @error('uraian')
                 <label for="uraianInput" class="invalid-feedback">{{ $message }}</label>
             @enderror
@@ -70,11 +71,20 @@
                 // Ambil option yang dipilih
                 var selectedOption = $(this).find('option:selected');
                 console.log(selectedOption);
+
                 // Ambil value dari data-bobot
                 var bobot = selectedOption.data('bobot');
                 console.log(bobot);
+
                 // Update hidden input
                 $('#bobotInput').val(bobot);
+
+                // Ambil value dari data-target
+                var target = selectedOption.data('target');
+                console.log(target);
+
+                // Update hidden input
+                $('#targetInput').val(target);
             });
         });
     </script>

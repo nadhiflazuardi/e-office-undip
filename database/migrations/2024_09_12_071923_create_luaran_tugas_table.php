@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pegawai_id')->constrained('user');
             $table->string('uraian_tugas');
             $table->integer('bobot');
+            $table->integer('target');
             $table->string('judul');
             $table->string('keterangan');
             $table->string('file_luaran');
