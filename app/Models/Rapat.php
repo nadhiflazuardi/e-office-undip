@@ -92,4 +92,18 @@ class Rapat extends Model
             return $presensi->pegawai;
         });
     }
+
+    public static function hitungTotalDurasi($rapats)
+    {
+        // Hitung total durasi dalam menit
+        $totalDurasi = $rapats->sum(function ($rapat) {
+            $waktuMulai = Carbon::parse($rapat->waktu_mulai);
+            $waktuSelesai = Carbon::parse($rapat->waktu_selesai);
+
+            // Hitung selisih dalam satuan menit
+            return $waktuSelesai->diffInMinutes($waktuMulai);
+        });
+
+        return $totalDurasi*-1;
+    }
 }
