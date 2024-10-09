@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Log;
 use Illuminate\Database\Seeder;
 use App\Models\Rapat;
 use App\Models\PresensiRapat;
@@ -20,7 +21,10 @@ class RapatSeeder extends Seeder
 
             // Buat waktu mulai dan waktu selesai
             $waktuMulai = now()->addDays(rand(1, 30)); // Buat rapat di masa depan
-            $waktuSelesai = (clone $waktuMulai)->addHours(rand(1, 3)); // Tambah durasi rapat
+            $durasiRapat = rand(1, 3); // Durasi rapat antara 1-3 jam
+            $waktuSelesai = (clone $waktuMulai)->addHours($durasiRapat); // Tambah durasi rapat
+
+
 
             // Pilih pemimpin rapat secara acak
             $pemimpinRapat = User::inRandomOrder()->first();
@@ -52,11 +56,19 @@ class RapatSeeder extends Seeder
                 ->pluck('id');
 
             foreach ($pesertaIds as $pesertaId) {
-                PresensiRapat::create([
+                $presensi = PresensiRapat::create([
                     'rapat_id' => $rapat->id,
                     'pegawai_id' => $pesertaId,
-                    'status' => 'notset',
+                    'status' => fake()->randomElement(['hadir', 'izin', 'notset']),
                 ]);
+
+                if ($presensi->status === 'hadir') {
+                    Log::create([
+                        'pegawai_id' => $pesertaId,
+                        'kegiatan_id' => $rapat->id,
+                        'bobot' => $durasiRapat * 60, // 1 jam = 60 menit
+                    ]);
+                }
             }
         }
     }

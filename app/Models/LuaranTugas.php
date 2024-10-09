@@ -50,4 +50,9 @@ class LuaranTugas extends Model
     {
         return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_tugas_id')->where('status', 'ditolak')->pluck('catatan');
     }
+
+    public function verifikasi()
+    {
+        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_tugas_id');
+    }
 }

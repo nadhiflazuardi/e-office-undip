@@ -82,13 +82,13 @@ class UserSeeder extends Seeder
                 ]);
             }
 
-            for ($i = 1; $i <= 2; $i++) {
-                Log::create([
-                    'pegawai_id' => $user->id,
-                    'kegiatan_id' => 'R'.'24100'.$i.$userCount,
-                    'bobot' => 100,
-                ]);
-            }
+            // for ($i = 1; $i <= 2; $i++) {
+            //     Log::create([
+            //         'pegawai_id' => $user->id,
+            //         'kegiatan_id' => 'R'.'24100'.$i.$userCount,
+            //         'bobot' => 100,
+            //     ]);
+            // }
 
             $userCount += 1;
         }

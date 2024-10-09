@@ -54,4 +54,8 @@ class SuratKeluar extends Model
     public function alasanPenolakan() {
         return $this->hasOne(VerifikasiSuratKeluar::class, 'surat_keluar_id')->where('status', 'Ditolak')->latest()->first()->catatan;
     }
+
+    public function verifikasi() {
+        return $this->hasOne(VerifikasiSuratKeluar::class, 'surat_keluar_id');
+    }
 }

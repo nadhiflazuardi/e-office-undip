@@ -21,4 +21,9 @@ class LaporanPerjalananDinas extends Model
     {
         return $this->belongsTo(PerjalananDinas::class);
     }
+
+    public function verifikasi()
+    {
+        return $this->hasOne(VerifikasiLaporanPerjalananDinas::class, 'laporan_id');
+    }
 }

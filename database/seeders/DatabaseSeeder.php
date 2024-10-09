@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             IpSeeder::class,
             RapatSeeder::class,
             SuratKeluarSeeder::class,
-            // SuratMasukSeeder::class,
+            SuratMasukSeeder::class,
+            LuaranTugasSeeder::class,
+            PerjalananDinasSeeder::class,
             // UserSeeder::class,
         ]);
     }

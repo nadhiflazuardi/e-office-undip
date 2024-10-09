@@ -16,6 +16,8 @@ class SuratMasuk extends Model
 
     protected $primaryKey = 'id'; // Set primary key
 
+    public $incrementing = false;
+    
     protected static function boot()
     {
         parent::boot();
