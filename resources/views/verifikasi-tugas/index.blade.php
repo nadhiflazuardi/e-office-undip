@@ -47,7 +47,7 @@
         $(document).ready(function() {
             // Data yang sudah dipassing dari Laravel ke Blade
             var luaranTugas = @json($luaranTugas);
-            var luaranTugasBaseRoute = "{{ route('tugas.verifikasi.show', ['luaranTugas' => '__ID__']) }}";
+            var luaranTugasBaseRoute = "{{ route('tugas.verifikasi.show', ['tugas' => '__ID__']) }}";
             var initialStatus = 'dalamProses';
 
             // Inisialisasi DataTable
@@ -74,12 +74,12 @@
                 table.destroy();
 
                 // Filter data berdasarkan status yang dipilih
-                var filteredData = luaranTugas.filter(function(laporan) {
+                var filteredData = luaranTugas.filter(function(tugas) {
                     if (status === 'dalamProses') {
-                        return laporan.laporan_perjalanan_dinas.status === 'sedang diperiksa';
+                        return tugas.status === 'sedang diperiksa';
                     } else {
-                        return laporan.laporan_perjalanan_dinas.status === 'disetujui' || laporan
-                            .laporan_perjalanan_dinas.status === 'ditolak';
+                        return tugas.status === 'disetujui' || tugas
+                            .status === 'ditolak';
                     }
                 });
 
@@ -87,23 +87,36 @@
                 $('#luaranTugasTable tbody').empty();
 
                 // Populate tbody dengan data yang sudah difilter
-                filteredData.forEach(function(laporan, index) {
-                    var luaranTugasRoute = luaranTugasBaseRoute.replace('__ID__', laporan.id);
+                filteredData.forEach(function(tugas, index) {
+                    var luaranTugasRoute = luaranTugasBaseRoute.replace('__ID__', tugas.id);
                     $('#luaranTugasTable tbody').append(`
                         <tr>
                             <td>${index + 1}</td>
-                            <td>${laporan.pemberi_perintah.nama}</td>
-                            <td>${laporan.pelaksana.nama}</td>
-                            <td>${laporan.keperluan_perjalanan}</td>
-                            <td>${laporan.alamat_perjalanan}</td>
-                            <td>${laporan.laporan_perjalanan_dinas.status}</td>
-                            <td><a href="${luaranTugasRoute}">Lihat Laporan Dinas</a></td>
+                            <td>${tugas.pegawai.nama}</td>
+                            <td>${tugas.uraian_tugas}</td>
+                            <td>${tugas.judul}</td>
+                            <td>${tugas.keterangan}</td>
+                            <td>${formatDate(new Date(tugas.created_at))}</td>
+                            <td class="text-capitalize">${tugas.status}</td>
+                            <td><a href="${luaranTugasRoute}">Lihat</a></td>
                         </tr>
                     `);
                 });
 
                 // Re-initialize DataTable
                 table = $('#luaranTugasTable').DataTable();
+            }
+
+            // Fungsi untuk format tanggal ke format "Kamis, 3 Oktober 2024"
+            function formatDate(date) {
+                const options = {
+                    weekday : 'long',
+                    day : 'numeric',
+                    month : 'long',
+                    year : 'numeric'
+                };
+
+                return new Intl.DateTimeFormat('id-ID', options).format(date);
             }
         });
     </script>

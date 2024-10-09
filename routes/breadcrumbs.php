@@ -53,6 +53,18 @@ Breadcrumbs::for('tugas.show', function (BreadcrumbTrail $trail, LuaranTugas $tu
     $trail->push($tugas->judul, route('tugas.show', $tugas));
 });
 
+// Verifikasi Tugas Index
+Breadcrumbs::for('tugas.verifikasi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Verifikasi Tugas', route('tugas.verifikasi.index'));
+});
+
+// Verifikasi Tugas Show
+Breadcrumbs::for('tugas.verifikasi.show', function (BreadcrumbTrail $trail, LuaranTugas $tugas) {
+    $trail->parent('tugas.verifikasi.index');
+    $trail->push($tugas->judul, route('tugas.verifikasi.show', $tugas));
+});
+
 // SPPD Index
 Breadcrumbs::for('sppd.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');

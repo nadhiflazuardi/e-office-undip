@@ -70,4 +70,16 @@ class User extends Authenticatable
     public function jabatan() {
         return $this->belongsTo(Jabatan::class, 'jabatan_id');
     }
+
+    public function luaranTugas() {
+        return $this->hasMany(LuaranTugas::class, 'pegawai_id');
+    }
+
+    public function bawahan() {
+        return $this->hasMany(User::class, 'supervisor_id');
+    }
+
+    public function luaranTugasBawahan() {
+        return $this->hasManyThrough(LuaranTugas::class, User::class, 'supervisor_id', 'pegawai_id');
+    }
 }

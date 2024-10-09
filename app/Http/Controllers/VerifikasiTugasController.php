@@ -12,13 +12,16 @@ class VerifikasiTugasController extends Controller
     public function index()
     {
         $title = 'Verifikasi Tugas';
-        return view('tugas.verifikasi.index', compact('title'));
+        $luaranTugas = auth()->user()->luaranTugasBawahan()->with('pegawai:id,nama')->get();
+
+        return view('verifikasi-tugas.index', compact('title','luaranTugas'));
     }
 
-    public function show()
+    public function show(LuaranTugas $tugas)
     {
         $title = 'Verifikasi Tugas';
-        return view('tugas.verifikasi.show', compact('title'));
+
+        return view('verifikasi-tugas.show', compact('title','tugas'));
     }
 
     public function terima(LuaranTugas $tugas)
@@ -33,14 +36,13 @@ class VerifikasiTugasController extends Controller
             'status' => 'disetujui',
         ]);
 
-        $bobot = $tugas->detailAbk->waktu_penyelesaian;
         Log::create([
-            'pegawai_id' => auth()->id(),
+            'pegawai_id' => $tugas->pegawai_id,
             'kegiatan_id' => $tugas->id,
-            'bobot' => $bobot,
+            'bobot' => $tugas->bobot,
         ]);
 
-        return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id]);
+        return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id])->with('success', 'Tugas berhasil diverifikasi');
     }
 
     public function tolak(Request $request, LuaranTugas $tugas)

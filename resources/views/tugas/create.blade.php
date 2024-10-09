@@ -33,7 +33,7 @@
             <select class="form-select @error('uraian') is-invalid @enderror" name="uraian" id="uraianInput">
                 <option value="">Pilih uraian</option>
                 @foreach ($detailAbk as $uraian)
-                    <option value={{ $uraian['id'] }} data-bobot="{{ $uraian['bobot'] }}">
+                    <option value="{{ $uraian['nama_tugas'] }}" data-bobot="{{ $uraian['bobot'] }}">
                         {{ $uraian['nama_tugas'] }}</option>
                 @endforeach
             </select>
