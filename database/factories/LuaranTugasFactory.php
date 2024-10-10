@@ -24,6 +24,7 @@ class LuaranTugasFactory extends Factory
             'judul' => $uraianTugas,
         'uraian_tugas' => $uraianTugas,
             'bobot' => $this->faker->randomNumber('3'),
+            'target' => $this->faker->randomNumber('3'),
             'keterangan' => $this->faker->sentence,
             'file_luaran' => $this->faker->word,
             'waktu_pengumpulan' => $this->faker->date(),
