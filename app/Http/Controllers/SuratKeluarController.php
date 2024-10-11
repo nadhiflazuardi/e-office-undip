@@ -138,7 +138,7 @@ class SuratKeluarController extends Controller
         $objWriter->save($outputPath);
 
         // Return the document for download
-        return $outputPath;
+        return $fileName;
     }
 
     public function store(SuratKeluarRequest $request)
