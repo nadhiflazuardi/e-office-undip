@@ -27,7 +27,7 @@ class LuaranTugasFactory extends Factory
             'target' => $this->faker->randomNumber('3'),
             'keterangan' => $this->faker->sentence,
             'file_luaran' => $this->faker->word,
-            'waktu_pengumpulan' => $this->faker->date(),
+            'waktu_pengumpulan' => $this->faker->dateTimeThisYear(),
             'status' => $this->faker->randomElement(['disetujui', 'sedang diperiksa', 'ditolak']),
         ];
     }
