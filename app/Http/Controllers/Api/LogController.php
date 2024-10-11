@@ -90,7 +90,7 @@ class LogController extends Controller
 
         return response()->json([
             'message' => 'Berhasil menampilkan data',
-            'data' => [
+            'data' => array_merge($arrayUraianTugas, [
                 [
                     'nama' => 'Presensi',
                     'target' => $targetPresensi,
@@ -106,7 +106,7 @@ class LogController extends Controller
                     'target' => $targetPerjalananDinas,
                     'total' => $totalBobotPerjalananDinas
                 ],
-            ] + $arrayUraianTugas
+            ])
         ]);
     }
 }
