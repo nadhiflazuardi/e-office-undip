@@ -48,7 +48,7 @@ class LogController extends Controller
 
         $jumlahHariLibur = HariLibur::whereBetween('tanggal', [$startOfYear, $today])->count();
 
-        $targetPresensi = $totalWorkDays - $jumlahHariLibur;
+        $targetPresensi = ($totalWorkDays - $jumlahHariLibur) * 60;
         // presensi end
 
         // rapat start
@@ -69,7 +69,7 @@ class LogController extends Controller
             ->sum('bobot');
 
         $perjalananDinas = PerjalananDinas::where('pelaksana_id', $id)->get();
-        $targetPerjalananDinas = $perjalananDinas->count() * 7.5 * 60;
+        $targetPerjalananDinas = 0;
         // perjalanan dinas end
 
         $dataUraianTugas = LuaranTugas::where('pegawai_id', $id)
@@ -88,25 +88,27 @@ class LogController extends Controller
             ];
         }
 
+        $mergedLog = array_merge($arrayUraianTugas, [
+            [
+                'nama' => 'Presensi',
+                'target' => $targetPresensi,
+                'total' => $totalBobotPresensi
+            ],
+            [
+                'nama' => 'Rapat',
+                'target' => null,
+                'total' => $totalBobotRapat
+            ],
+            [
+                'nama' => 'Perjalanan Dinas',
+                'target' => $targetPerjalananDinas,
+                'total' => $totalBobotPerjalananDinas
+            ]
+        ]);
+
         return response()->json([
             'message' => 'Berhasil menampilkan data',
-            'data' => [
-                [
-                    'nama' => 'Presensi',
-                    'target' => $targetPresensi,
-                    'total' => $totalBobotPresensi
-                ],
-                [
-                    'nama' => 'Rapat',
-                    'target' => null,
-                    'total' => $totalBobotRapat
-                ],
-                [
-                    'nama' => 'Perjalanan Dinas',
-                    'target' => $targetPerjalananDinas,
-                    'total' => $totalBobotPerjalananDinas
-                ],
-            ] + $arrayUraianTugas
+            'data' => $mergedLog
         ]);
     }
 }

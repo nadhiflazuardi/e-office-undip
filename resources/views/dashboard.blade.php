@@ -35,7 +35,7 @@
                     right: 'today'
                 },
                 events: agenda,
-                selectable: true,
+                selectable: false,
                 selectHelper: true,
 
                 select: function(start, end, allDay) {
@@ -154,7 +154,7 @@
                 },
 
                 // enable drag and drop agenda
-                editable: true,
+                editable: false,
 
                 // Callback function for when an event is dragged and dropped
                 eventDrop: function(event) {
