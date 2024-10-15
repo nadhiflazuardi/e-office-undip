@@ -44,6 +44,7 @@ class LuaranTugasSeeder extends Seeder
                     'uraian_tugas' => $uraianTugas['nama_tugas'],
                     'judul' => $uraianTugas['nama_tugas'],
                     'bobot' => $uraianTugas['bobot'],
+                    'target' => $uraianTugas['target']
                 ])->each(function ($luaranTugas) {
                     if ($luaranTugas->status != 'sedang diperiksa') {
                         $luaranTugas->verifikasi()->save(VerifikasiLuaranTugas::factory([
