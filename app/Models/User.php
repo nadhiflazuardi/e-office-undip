@@ -82,4 +82,8 @@ class User extends Authenticatable
     public function luaranTugasBawahan() {
         return $this->hasManyThrough(LuaranTugas::class, User::class, 'supervisor_id', 'pegawai_id');
     }
+
+    public function perjalananDinas() {
+        return $this->hasMany(PerjalananDinas::class, 'pelaksana_id');
+    }
 }
