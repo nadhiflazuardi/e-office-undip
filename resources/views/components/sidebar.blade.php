@@ -59,14 +59,16 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ route('laporan-dinas.index') }}" class="text-decoration-none text-black">
-                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Verifikasi Laporan
+                    @can('revisi')
+                        <a href="{{ route('laporan-dinas.index') }}" class="text-decoration-none text-black">
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    Verifikasi Laporan
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    @endcan
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">

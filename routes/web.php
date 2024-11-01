@@ -83,8 +83,8 @@ Route::middleware('can:revisi')->prefix('/tugas/verifikasi')->group(function () 
 Route::get('/perjalanan-dinas', [PerjalananDinasController::class, 'index'])->name('perjalanan-dinas.index');
 
 Route::get('/perjalanan-dinas/sppd', [SppdController::class, 'index'])->name('sppd.index');
-Route::get('/perjalanan-dinas/sppd/create', [SppdController::class, 'create'])->name('sppd.create');
-Route::post('/perjalanan-dinas/sppd/store', [SppdController::class, 'store'])->name('sppd.store');
+Route::get('/perjalanan-dinas/sppd/create', [SppdController::class, 'create'])->name('sppd.create')->can('buat sppd');
+Route::post('/perjalanan-dinas/sppd/store', [SppdController::class, 'store'])->name('sppd.store')->can('buat sppd');
 Route::get('/perjalanan-dinas/sppd/show/{sppd}', [SppdController::class, 'show'])->name('sppd.show');
 Route::get('/perjalanan-dinas/sppd/edit/{sppd}', [SppdController::class, 'edit'])->name('sppd.edit');
 Route::patch('/perjalanan-dinas/sppd/update/{sppd}', [SppdController::class, 'update'])->name('sppd.update');
@@ -98,10 +98,12 @@ Route::get('/perjalanan-dinas/laporan/edit/{laporan}', [LaporanDinasController::
 Route::patch('/perjalanan-dinas/laporan/update/{laporan}', [LaporanDinasController::class, 'update'])->name('laporan-dinas.update');
 Route::delete('/perjalanan-dinas/laporan/destroy/{laporan}', [LaporanDinasController::class, 'destroy'])->name('laporan-dinas.destroy');
 
-Route::get('/perjalanan-dinas/laporan/verifikasi', [VerifikasiLaporanDinasController::class, 'index'])->name('laporan-dinas.verifikasi.index');
-Route::get('/perjalanan-dinas/laporan/verifikasi/{laporan}', [VerifikasiLaporanDinasController::class, 'show'])->name('laporan-dinas.verifikasi.show');
-Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/terima', [VerifikasiLaporanDinasController::class, 'terima'])->name('laporan-dinas.verifikasi.terima');
-Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/tolak', [VerifikasiLaporanDinasController::class, 'tolak'])->name('laporan-dinas.verifikasi.tolak');
+Route::middleware('can:revisi')->group(function() {
+    Route::get('/perjalanan-dinas/laporan/verifikasi', [VerifikasiLaporanDinasController::class, 'index'])->name('laporan-dinas.verifikasi.index');
+    Route::get('/perjalanan-dinas/laporan/verifikasi/{laporan}', [VerifikasiLaporanDinasController::class, 'show'])->name('laporan-dinas.verifikasi.show');
+    Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/terima', [VerifikasiLaporanDinasController::class, 'terima'])->name('laporan-dinas.verifikasi.terima');
+    Route::post('/perjalanan-dinas/laporan/verifikasi/{laporan}/tolak', [VerifikasiLaporanDinasController::class, 'tolak'])->name('laporan-dinas.verifikasi.tolak');
+});
 
 Route::get('/log', [LogController::class, 'index'])->name('log.index');
 Route::get('/log/{log}', [LogController::class, 'show'])->name('log.show');

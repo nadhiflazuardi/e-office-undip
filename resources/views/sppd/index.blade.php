@@ -10,11 +10,12 @@
                 <h1 class="ms-3">Surat Perintah Perjalanan Dinas</h1>
             </div>
             <br>
-            <div class="d-flex justify-content-end pb-3">
-                <a href="{{ route('sppd.create') }}" class="btn btn-outline-primary fs-5"><i class="fa-solid fa-plus"></i> Buat
-                    SPPD Baru</a>
-            </div>
-
+            @can('buat sppd')
+                <div class="d-flex justify-content-end pb-3">
+                    <a href="{{ route('sppd.create') }}" class="btn btn-outline-primary fs-5"><i class="fa-solid fa-plus"></i> Buat
+                        SPPD Baru</a>
+                </div>
+            @endcan
         </div>
         @foreach ($sppd as $s)
             <a href="{{ route('sppd.show', ['sppd' => $s]) }}" class="text-decoration-none text-black">
