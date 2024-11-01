@@ -19,9 +19,21 @@ class RapatController extends Controller
         // rapats is a collection of Rapat instances where user has presensi rapat of it
         $rapats = Rapat::whereHas('presensiRapat', function ($query) {
             $query->where('pegawai_id', auth()->user()->id);
-        })->get();
+        })->latest()->get();
 
-        return view('rapat.index', compact('rapats'));
+        $pastRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_selesai)->isPast();
+        });
+        
+        $onGoingRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_mulai)->isPast() && Carbon::parse($rapat->waktu_selesai)->isFuture();
+        });
+
+        $upcomingRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_mulai)->isFuture();
+        });
+
+        return view('rapat.index', compact( 'onGoingRapats' ,'pastRapats', 'upcomingRapats'));
     }
 
     public function create()
