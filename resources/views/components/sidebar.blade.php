@@ -85,14 +85,16 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ route('tugas.verifikasi.index') }}" class="text-decoration-none text-black">
-                        <div id="flush-collapseThree" class="accordion-collapse collapse"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Verifikasi
+                    @can('revisi')
+                        <a href="{{ route('tugas.verifikasi.index') }}" class="text-decoration-none text-black">
+                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    Verifikasi
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    @endcan
                 </div>
                 <a href="{{ route('surat-masuk.index') }}" class="w-100 text-decoration-none">
                     <div class="w-100 h-100 sidebar-button ps-3 py-3 d-flex align-items-center gap-2"
