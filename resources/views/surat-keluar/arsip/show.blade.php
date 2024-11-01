@@ -38,46 +38,52 @@
 
             <h6>Arsip Surat</h6>
             @if ($surat->file_arsip)
-                <p><a href="{{ Storage::url('arsip-surat-keluar'. '/' .$surat->file_arsip) }}" target="blank"
-                    class="d-inline-block btn btn-success">Lihat File Arsip</a></p>
+                <p><a href="{{ Storage::url('arsip-surat-keluar' . '/' . $surat->file_arsip) }}" target="blank"
+                        class="d-inline-block btn btn-success">Lihat File Arsip</a></p>
             @else
                 <p>Arsip Tidak Ditemukan</p>
             @endif
 
-            <form action="{{ route('surat-keluar.arsip.update',['surat' => $surat]) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PATCH')
-                <div class="mb-3">
-                    <h6>Buat/Perbarui arsip surat</h6>
-                    <label for="formFile" class="form-label">Upload Ffle surat yang sudah ditandatangani dan diberi cap (dalam format .pdf, Maks. 5MB)</label>
-                    <input class="form-control @error('file_arsip') is-invalid @enderror mb-3" name="file_arsip" type="file"
-                        id="formFile">
-                    @error('file_arsip')
-                        <p class="invalid-feedback">
-                            {{ $message }}
-                        </p>
-                    @enderror
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">Buat / Perbarui</button>
-                    <div class="modal fade" tabindex="-1" id="confirmModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Buat / Perbarui Arsip Surat?</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Anda yakin ingin membuat / memperbarui arsip surat? Arsip surat yang sudah ada akan terhapus jika anda membuat arsip surat yang baru.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
-                                    <button type="submit" class="btn btn-primary">Ya</button>
+            @can('buat arsip surat')
+                <form action="{{ route('surat-keluar.arsip.update', ['surat' => $surat]) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <div class="mb-3">
+                        <h6>Buat/Perbarui arsip surat</h6>
+                        <label for="formFile" class="form-label">Upload File surat yang sudah ditandatangani dan diberi cap
+                            (dalam format .pdf, Maks. 5MB)</label>
+                        <input class="form-control @error('file_arsip') is-invalid @enderror mb-3" name="file_arsip"
+                            type="file" id="formFile">
+                        @error('file_arsip')
+                            <p class="invalid-feedback">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#confirmModal">Buat / Perbarui</button>
+                        <div class="modal fade" tabindex="-1" id="confirmModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Buat / Perbarui Arsip Surat?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Anda yakin ingin membuat / memperbarui arsip surat? Arsip surat yang sudah ada akan
+                                            terhapus jika anda membuat arsip surat yang baru.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
+                                        <button type="submit" class="btn btn-primary">Ya</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            @endcan
 
         </div>
     </div>

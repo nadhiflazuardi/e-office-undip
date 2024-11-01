@@ -61,9 +61,9 @@ Route::middleware('can:revisi')->group(function () {
     Route::get('/surat-keluar/verifikasi/show/{surat:nomor_surat}', [VerifikasiSuratKeluarController::class, 'show'])->name('surat-keluar.verifikasi.show');
 });
 
-Route::get('/surat-keluar/arsip', [ArsipSuratKeluarController::class, 'index'])->name('surat-keluar.arsip.index');
-Route::get('/surat-keluar/arsip/show/{surat}', [ArsipSuratKeluarController::class, 'show'])->name('surat-keluar.arsip.show');
-Route::patch('/surat-keluar/arsip/update/{surat}', [ArsipSuratKeluarController::class, 'update'])->name('surat-keluar.arsip.update');
+Route::get('/surat-keluar/arsip', [ArsipSuratKeluarController::class, 'index'])->name('surat-keluar.arsip.index')->can('lihat surat');
+Route::get('/surat-keluar/arsip/show/{surat}', [ArsipSuratKeluarController::class, 'show'])->name('surat-keluar.arsip.show')->can('lihat surat');
+Route::patch('/surat-keluar/arsip/update/{surat}', [ArsipSuratKeluarController::class, 'update'])->name('surat-keluar.arsip.update')->can('buat arsip surat');
 
 Route::get('/tugas', [TugasController::class, 'index'])->name('tugas.index');
 Route::get('/tugas/create', [TugasController::class, 'create'])->name('tugas.create');
