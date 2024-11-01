@@ -28,8 +28,8 @@ Route::post('/login', [LoginController::class, 'authenticate'])->name('login.aut
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/rapat', [RapatController::class, 'index'])->name('rapat.index');
-Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store');
-Route::get('/rapat/create', [RapatController::class, 'create'])->name('rapat.create');
+Route::post('/rapat/store', [RapatController::class, 'store'])->name('rapat.store')->can('buat rapat');
+Route::get('/rapat/create', [RapatController::class, 'create'])->name('rapat.create')->can('buat rapat');
 Route::get('/rapat/{rapat}/', [RapatController::class, 'show'])->name('rapat.show');
 Route::patch('/rapat/{rapat}/presensi/peserta/{peserta}', [RapatController::class, 'updatePresensiPeserta'])->name('rapat.attendance.update')->middleware('auth');
 Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name('rapat.update');
