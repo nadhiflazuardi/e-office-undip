@@ -36,25 +36,30 @@ Route::patch('/rapat/update/{rapat}', [RapatController::class, 'update'])->name(
 Route::delete('/rapat/destroy/{rapat}', [RapatController::class, 'destroy'])->name('rapat.destroy');
 
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
-Route::get('/surat-masuk/create', [SuratMasukController::class, 'create'])->name('surat-masuk.create');
-Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store');
+Route::get('/surat-masuk/create', [SuratMasukController::class, 'create'])->name('surat-masuk.create')->can('buat surat');
+Route::post('/surat-masuk/store', [SuratMasukController::class, 'store'])->name('surat-masuk.store')->can('buat surat');;
 Route::get('/surat-masuk/show/{surat}', [SuratMasukController::class, 'show'])->name('surat-masuk.show');
 Route::get('/surat-masuk/edit/{surat}', [SuratMasukController::class, 'edit'])->name('surat-masuk.edit');
 Route::patch('/surat-masuk/update/{surat}', [SuratMasukController::class, 'update'])->name('surat-masuk.update');
 Route::delete('/surat-masuk/destroy/{surat}', [SuratMasukController::class, 'destroy'])->name('surat-masuk.destroy');
 
-Route::get('/surat-keluar', [SuratKeluarController::class, 'index'])->name('surat-keluar.index');
-Route::get('/surat-keluar/create', [SuratKeluarController::class, 'create'])->name('surat-keluar.create');
-Route::post('/surat-keluar/store', [SuratKeluarController::class, 'store'])->name('surat-keluar.store');
-Route::get('/surat-keluar/show/{surat}', [SuratKeluarController::class, 'show'])->name('surat-keluar.show');
+Route::middleware(['can:lihat surat'])->group(function () {
+    Route::get('/surat-keluar', [SuratKeluarController::class, 'index'])->name('surat-keluar.index');
+    Route::get('/surat-keluar/show/{surat}', [SuratKeluarController::class, 'show'])->name('surat-keluar.show');
+});
+
+Route::get('/surat-keluar/create', [SuratKeluarController::class, 'create'])->name('surat-keluar.create')->can('buat surat');;
+Route::post('/surat-keluar/store', [SuratKeluarController::class, 'store'])->name('surat-keluar.store')->can('buat surat');;
 Route::get('/surat-keluar/edit/{surat}', [SuratKeluarController::class, 'edit'])->name('surat-keluar.edit');
 Route::patch('/surat-keluar/update/{surat}', [SuratKeluarController::class, 'update'])->name('surat-keluar.update');
 Route::delete('/surat-keluar/destroy/{surat}', [SuratKeluarController::class, 'destroy'])->name('surat-keluar.destroy');
 
-Route::get('/surat-keluar/verifikasi', [VerifikasiSuratKeluarController::class, 'index'])->name('surat-keluar.verifikasi.index');
-Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/terima', [VerifikasiSuratKeluarController::class, 'terima'])->name('surat-keluar.verifikasi.terima');
-Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/tolak', [VerifikasiSuratKeluarController::class, 'tolak'])->name('surat-keluar.verifikasi.tolak');
-Route::get('/surat-keluar/verifikasi/show/{surat:nomor_surat}', [VerifikasiSuratKeluarController::class, 'show'])->name('surat-keluar.verifikasi.show');
+Route::middleware('can:revisi')->group(function () {
+    Route::get('/surat-keluar/verifikasi', [VerifikasiSuratKeluarController::class, 'index'])->name('surat-keluar.verifikasi.index');
+    Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/terima', [VerifikasiSuratKeluarController::class, 'terima'])->name('surat-keluar.verifikasi.terima');
+    Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/tolak', [VerifikasiSuratKeluarController::class, 'tolak'])->name('surat-keluar.verifikasi.tolak');
+    Route::get('/surat-keluar/verifikasi/show/{surat:nomor_surat}', [VerifikasiSuratKeluarController::class, 'show'])->name('surat-keluar.verifikasi.show');
+});
 
 Route::get('/surat-keluar/arsip', [ArsipSuratKeluarController::class, 'index'])->name('surat-keluar.arsip.index');
 Route::get('/surat-keluar/arsip/show/{surat}', [ArsipSuratKeluarController::class, 'show'])->name('surat-keluar.arsip.show');

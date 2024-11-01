@@ -96,47 +96,53 @@
                         </a>
                     @endcan
                 </div>
-                <a href="{{ route('surat-masuk.index') }}" class="w-100 text-decoration-none">
-                    <div class="w-100 h-100 sidebar-button ps-3 py-3 d-flex align-items-center gap-2"
-                        style="{{ Route::is('surat-masuk.index') ? 'background-color: #144272; color: white;' : 'background-color: white; color: black' }}">
-                        <i style="width: 20px" class="fa-solid fa-inbox me-1"></i>
-                        Surat Masuk
+                @can('buat surat')
+                    <a href="{{ route('surat-masuk.index') }}" class="w-100 text-decoration-none">
+                        <div class="w-100 h-100 sidebar-button ps-3 py-3 d-flex align-items-center gap-2"
+                            style="{{ Route::is('surat-masuk.index') ? 'background-color: #144272; color: white;' : 'background-color: white; color: black' }}">
+                            <i style="width: 20px" class="fa-solid fa-inbox me-1"></i>
+                            Surat Masuk
+                        </div>
+                    </a>
+                @endcan
+                @can('lihat surat')
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseFour" aria-expanded="false"
+                                aria-controls="flush-collapseFour">
+                                <i style="width: 20px" class="fa-solid fa-envelope me-2"></i>
+                                Surat Keluar
+                            </button>
+                        </h2>
+                        <a href="{{ route('surat-keluar.index') }}" class="text-decoration-none text-black">
+                            <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    Daftar Surat
+                                </div>
+                            </div>
+                        </a>
+                        @can('revisi')
+                            <a href="{{ route('surat-keluar.verifikasi.index') }}" class="text-decoration-none text-black">
+                                <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Verifikasi Surat
+                                    </div>
+                                </div>
+                            </a>
+                        @endcan
+                        <a href="{{ route('surat-keluar.arsip.index') }}" class="text-decoration-none text-black">
+                            <div id="flush-collapseFour" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    Arsip Surat
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseFour" aria-expanded="false"
-                            aria-controls="flush-collapseFour">
-                            <i style="width: 20px" class="fa-solid fa-envelope me-2"></i>
-                            Surat Keluar
-                        </button>
-                    </h2>
-                    <a href="{{ route('surat-keluar.index') }}" class="text-decoration-none text-black">
-                        <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Daftar Surat
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{ route('surat-keluar.verifikasi.index') }}" class="text-decoration-none text-black">
-                        <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Verifikasi Surat
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{ route('surat-keluar.arsip.index') }}" class="text-decoration-none text-black">
-                        <div id="flush-collapseFour" class="accordion-collapse collapse"
-                            data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Arsip Surat
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @endcan
 
             </div>
             {{-- accordion end --}}

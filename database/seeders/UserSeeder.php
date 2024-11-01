@@ -28,12 +28,13 @@ class UserSeeder extends Seeder
         $permissionBuatRapat = Permission::firstOrCreate(['name' => 'buat rapat']);
         $permissionBuatSppd = Permission::firstOrCreate(['name' => 'buat sppd']);
         $permissionBuatSurat = Permission::firstOrCreate(['name' => 'buat surat']);
+        $permissionLihatSurat = Permission::firstOrCreate(['name' => 'lihat surat']);
 
         // assign permissions to roles
-        $supervisor->givePermissionTo($permissionRevisi);
+        $supervisor->givePermissionTo([$permissionRevisi, $permissionLihatSurat]);
         $sekretaris->givePermissionTo($permissionBuatRapat);
         $pengelolaKeuangan->givePermissionTo($permissionBuatSppd);
-        $pengadministrasiPersuratan->givePermissionTo($permissionBuatSurat);
+        $pengadministrasiPersuratan->givePermissionTo([$permissionBuatSurat, $permissionLihatSurat]);
 
         User::create([
             'unit_kerja_id' => 1,
