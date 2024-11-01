@@ -24,7 +24,7 @@
                 <label for="pemberiPerintahInput" class="form-label d-block">Pemberi Perintah</label>
                 <select name="pemberi_perintah_id" id="pemberiPerintahInput" class="select2 w-100 @error('pemberi_perintah_id') is-invalid @enderror" style="width: 100%">
                     <option value="">Pilih Pemberi Perintah</option>
-                    @foreach ($users as $user)
+                    @foreach ($supervisors as $user)
                         <option value="{{ $user->id }}" @selected(old('pemberi_perintah_id') == $user->id)>{{ $user->nama }}</option>
                     @endforeach
                 </select>
@@ -136,9 +136,10 @@
         });
         // get jabatan pemberi perintah
         var users = @json($users);
+        var supervisors = @json($supervisors);
         console.log(users);
         $('#pemberiPerintahInput').on('change', function() {
-            let selectedPemberiPerintah = users.find(user => user.id == $(this).val());
+            let selectedPemberiPerintah = supervisors.find(supervisor => supervisor.id == $(this).val());
             console.log(selectedPemberiPerintah);
             $('#jabatanPemberiPerintahInput').val(selectedPemberiPerintah.jabatan.nama);
             $('#jabatanPemberiPerintahID').val(selectedPemberiPerintah.jabatan.id);

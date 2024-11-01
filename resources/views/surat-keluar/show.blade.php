@@ -32,7 +32,7 @@
 
         <h5>Verifikasi Surat Keluar</h5>
         <div class="mb-3">
-            <a href="{{ Storage::url($surat->file_surat) }}" target="blank" class="d-inline-block btn btn-primary">Lihat
+            <a href="{{ asset('storage/surat_keluar/' . $surat->file_surat) }}" target="blank" class="d-inline-block btn btn-primary">Lihat
                 File Surat</a>
 
             <h6 class="mt-3">Status Verifikasi Surat Keluar</h6>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SppdRequest;
 use App\Models\PerjalananDinas;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SppdController extends Controller
@@ -12,15 +13,29 @@ class SppdController extends Controller
     public function index()
     {
         $title = 'SPPD';
-        $sppd = PerjalananDinas::with('laporanPerjalananDinas')->get();
-        return view('sppd.index', compact('title', 'sppd'));
+        // $sppd = PerjalananDinas::with('laporanPerjalananDinas')->get();
+        $sppd = auth()->user()->perjalananDinas()->with('laporanPerjalananDinas')->get();
+
+        $pastSppd = $sppd->filter(function ($item) {
+            return Carbon::parse($item->tanggal_selesai) < now() && Carbon::parse($item->tanggal_mulai) < now();
+        });
+        $upcomingSppd = $sppd->filter(function ($item) {
+            return Carbon::parse($item->tanggal_mulai) > now() && Carbon::parse($item->tanggal_selesai) > now();
+        });
+        $onGoingSppd = $sppd->filter(function ($item) {
+            return Carbon::parse($item->tanggal_mulai) <= now() && Carbon::parse($item->tanggal_selesai) >= now();
+        });
+        return view('sppd.index', compact('title', 'sppd', 'pastSppd', 'upcomingSppd','onGoingSppd'));
     }
 
     public function create()
     {
         $title = 'Buat SPPD';
-        $users = User::with('jabatan:id,nama')->get();
-        return view('sppd.create', compact('title', 'users'));
+        $supervisorQuery = User::role('supervisor');
+        $supervisors = $supervisorQuery->with('jabatan')->get();
+        $superVisorIds = $supervisors->pluck('id');
+        $users = User::whereNotIn('id', $superVisorIds)->with('jabatan')->get();
+        return view('sppd.create', compact('title', 'users','supervisors'));
     }
 
     public function store(SppdRequest $request)

@@ -8,7 +8,10 @@
         <h1 class="ms-3">Surat Keluar</h1>
     </div>
     <br>
-    <a href="{{ route('surat-keluar.create') }}" class="btn btn-outline-primary fs-5 ms-3 mb-3"><i class="fa-solid fa-plus"></i> Buat Baru</a>
+    @can('buat surat')
+        <a href="{{ route('surat-keluar.create') }}" class="btn btn-outline-primary fs-5 ms-3 mb-3"><i
+                class="fa-solid fa-plus"></i> Buat Baru</a>
+    @endcan
 
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -50,11 +53,11 @@
             var suratKeluar = @json($suratKeluar);
 
             console.log(suratKeluar);
-            var suratKeluarBaseRoute = "{{ route('surat-keluar.show', ['surat' => '__ID__']) }}"; 
+            var suratKeluarBaseRoute = "{{ route('surat-keluar.show', ['surat' => '__ID__']) }}";
             var initialStatus = 'dalamProses';
             loadData(initialStatus);
-            
-            
+
+
             // Event handler untuk tab klik
             $('.nav-link').on('click', function(e) {
                 e.preventDefault();
@@ -107,10 +110,10 @@
             // Fungsi untuk format tanggal ke format "Kamis, 3 Oktober 2024"
             function formatDate(date) {
                 const options = {
-                    weekday : 'long',
-                    day : 'numeric',
-                    month : 'long',
-                    year : 'numeric'
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
                 };
 
                 return new Intl.DateTimeFormat('id-ID', options).format(date);

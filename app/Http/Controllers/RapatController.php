@@ -19,9 +19,21 @@ class RapatController extends Controller
         // rapats is a collection of Rapat instances where user has presensi rapat of it
         $rapats = Rapat::whereHas('presensiRapat', function ($query) {
             $query->where('pegawai_id', auth()->user()->id);
-        })->get();
+        })->latest()->get();
 
-        return view('rapat.index', compact('rapats'));
+        $pastRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_selesai)->isPast();
+        });
+        
+        $onGoingRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_mulai)->isPast() && Carbon::parse($rapat->waktu_selesai)->isFuture();
+        });
+
+        $upcomingRapats = $rapats->filter(function ($rapat) {
+            return Carbon::parse($rapat->waktu_mulai)->isFuture();
+        });
+
+        return view('rapat.index', compact( 'onGoingRapats' ,'pastRapats', 'upcomingRapats'));
     }
 
     public function create()
@@ -41,8 +53,9 @@ class RapatController extends Controller
 
     public function store(RapatRequest $request)
     {
-        $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
-        $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
+        $waktuMulai = Carbon::parse($request->tanggal . ' ' . $request->waktuMulai);
+        $waktuSelesai = Carbon::parse($request->tanggal . ' ' . $request->waktuSelesai);
+        // dd($waktuMulai, $waktuSelesai);
 
         $rapatData = [
             'judul' => $request->judul,
@@ -65,7 +78,7 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $peserta,
-                'status' => 'notset',
+                'status' => $peserta == $createdRapat->pemimpin_rapat_id ? 'hadir' : 'notset',
             ]);
         }
 
@@ -74,7 +87,7 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $request->pemimpinRapat,
-                'status' => 'notset',
+                'status' => 'hadir',
             ]);
         }
 

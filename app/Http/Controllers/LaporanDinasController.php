@@ -12,7 +12,7 @@ class LaporanDinasController extends Controller
     public function index()
     {
         $title = 'Laporan Dinas';
-        $perjalananDinas = PerjalananDinas::with('laporanPerjalananDinas','pemberiPerintah:id,nama','pelaksana:id,nama')->whereHas('laporanPerjalananDinas')->get();
+        $perjalananDinas = PerjalananDinas::where('pemberi_perintah_id', auth()->user()->id)->with('laporanPerjalananDinas','pemberiPerintah:id,nama','pelaksana:id,nama')->whereHas('laporanPerjalananDinas')->get();
         return view('laporan-dinas.index', compact('title','perjalananDinas'));
     }
 

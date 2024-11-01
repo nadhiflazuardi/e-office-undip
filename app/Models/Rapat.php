@@ -63,13 +63,13 @@ class Rapat extends Model
     // Method untuk format waktu mulai
     public function waktuMulai()
     {
-        return Carbon::parse($this->start_time)->format('H:i');
+        return Carbon::parse($this->waktu_mulai)->format('H:i');
     }
 
     // Method untuk format waktu selesai
     public function waktuSelesai()
     {
-        return Carbon::parse($this->end_time)->format('H:i');
+        return Carbon::parse($this->waktu_selesai)->format('H:i');
     }
 
     // Method untuk mengambil status kehadiran user yang sedang login
