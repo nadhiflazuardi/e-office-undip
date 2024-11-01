@@ -41,8 +41,9 @@ class RapatController extends Controller
 
     public function store(RapatRequest $request)
     {
-        $waktuMulai = $request->tanggal . ' ' . $request->waktuMulai;
-        $waktuSelesai = $request->tanggal . ' ' . $request->waktuSelesai;
+        $waktuMulai = Carbon::parse($request->tanggal . ' ' . $request->waktuMulai);
+        $waktuSelesai = Carbon::parse($request->tanggal . ' ' . $request->waktuSelesai);
+        // dd($waktuMulai, $waktuSelesai);
 
         $rapatData = [
             'judul' => $request->judul,
@@ -65,7 +66,7 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $peserta,
-                'status' => 'notset',
+                'status' => $peserta == $createdRapat->pemimpin_rapat_id ? 'hadir' : 'notset',
             ]);
         }
 
@@ -74,7 +75,7 @@ class RapatController extends Controller
             PresensiRapat::create([
                 'rapat_id' => $createdRapat->id,
                 'pegawai_id' => $request->pemimpinRapat,
-                'status' => 'notset',
+                'status' => 'hadir',
             ]);
         }
 
