@@ -31,8 +31,11 @@ class SppdController extends Controller
     public function create()
     {
         $title = 'Buat SPPD';
-        $users = User::with('jabatan:id,nama')->get();
-        return view('sppd.create', compact('title', 'users'));
+        $supervisorQuery = User::role('supervisor');
+        $supervisors = $supervisorQuery->with('jabatan')->get();
+        $superVisorIds = $supervisors->pluck('id');
+        $users = User::whereNotIn('id', $superVisorIds)->with('jabatan')->get();
+        return view('sppd.create', compact('title', 'users','supervisors'));
     }
 
     public function store(SppdRequest $request)
