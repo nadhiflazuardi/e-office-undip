@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 class LogController extends Controller
 {
-    public function getById($id)
+    public function getById($id, Request $request)
     {
         $user = User::find($id);
 
@@ -32,6 +32,12 @@ class LogController extends Controller
         // presensi start
         $totalBobotPresensi = Log::where('pegawai_id', $id)
             ->where('kegiatan_id', 'like', 'P%')
+            ->when($request->startDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '>=', $request->startDate);
+            })
+            ->when($request->endDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '<=', $request->endDate);
+            })
             ->sum('bobot');
 
         $startOfYear = Carbon::now()->startOfYear();
@@ -54,6 +60,12 @@ class LogController extends Controller
         // rapat start
         $totalBobotRapat = Log::where('pegawai_id', $id)
             ->where('kegiatan_id', 'like', 'R%')
+            ->when($request->startDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '>=', $request->startDate);
+            })
+            ->when($request->endDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '<=', $request->endDate);
+            })
             ->sum('bobot');
 
         // $presensis = PresensiRapat::where('pegawai_id', $id)->get();
@@ -66,6 +78,12 @@ class LogController extends Controller
         // perjalanan dinas start
         $totalBobotPerjalananDinas = Log::where('pegawai_id', $id)
             ->where('kegiatan_id', 'like', 'D%')
+            ->when($request->startDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '>=', $request->startDate);
+            })
+            ->when($request->endDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '<=', $request->endDate);
+            })
             ->sum('bobot');
 
         $perjalananDinas = PerjalananDinas::where('pelaksana_id', $id)->get();
@@ -74,6 +92,12 @@ class LogController extends Controller
 
         $dataUraianTugas = LuaranTugas::where('pegawai_id', $id)
             ->where('status', 'disetujui')
+            ->when($request->startDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '>=', $request->startDate);
+            })
+            ->when($request->endDate, function ($query) use ($request) {
+                $query->whereDate('created_at', '<=', $request->endDate);
+            })
             ->select('uraian_tugas', 'target')
             ->selectRaw('SUM(bobot) as total_bobot')
             ->groupBy('uraian_tugas', 'target')
