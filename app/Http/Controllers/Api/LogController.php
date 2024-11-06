@@ -66,6 +66,10 @@ class LogController extends Controller
             ->when($request->endDate, function ($query) use ($request) {
                 $query->whereDate('created_at', '<=', $request->endDate);
             })
+            ->when($request->bulan && $request->tahun, function($query) use ($request) {
+                $query->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun);
+            })
             ->sum('bobot');
 
         // $presensis = PresensiRapat::where('pegawai_id', $id)->get();
@@ -84,6 +88,10 @@ class LogController extends Controller
             ->when($request->endDate, function ($query) use ($request) {
                 $query->whereDate('created_at', '<=', $request->endDate);
             })
+            ->when($request->bulan && $request->tahun, function($query) use ($request) {
+                $query->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun);
+            })
             ->sum('bobot');
 
         $perjalananDinas = PerjalananDinas::where('pelaksana_id', $id)->get();
@@ -97,6 +105,10 @@ class LogController extends Controller
             })
             ->when($request->endDate, function ($query) use ($request) {
                 $query->whereDate('created_at', '<=', $request->endDate);
+            })
+            ->when($request->bulan && $request->tahun, function($query) use ($request) {
+                $query->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun);
             })
             ->select('uraian_tugas', 'target')
             ->selectRaw('SUM(bobot) as total_bobot')
