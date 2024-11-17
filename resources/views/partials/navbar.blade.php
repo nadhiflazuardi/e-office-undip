@@ -12,7 +12,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <p class="text-white d-inline ms-2">{{ auth()->user()->nama }}</p>
+                            <p class="text-white d-inline ms-2">{{ auth()->user()->nama . " (" . auth()->user()->jabatan->nama .")" . " | " . auth()->user()->unitKerja->nama }}</p>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li class="nav-item">
