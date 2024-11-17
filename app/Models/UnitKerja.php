@@ -12,4 +12,9 @@ class UnitKerja extends Model
     protected $table = 'unit_kerja';
 
     protected $guarded = ['id'];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }

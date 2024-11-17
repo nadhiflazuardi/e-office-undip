@@ -2,192 +2,386 @@
     {
         "unit_kerja_id": 1,
         "jabatan_id": 1,
-        "nama": "Ahmad",
-        "email": "ahmad@gmail.com",
+        "nama": "Ahmad Fakultas Teknik",
+        "email": "ahmadfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 1,
-        "nama": "Bambang",
-        "email": "bambang@gmail.com",
+        "nama": "Bambang Fakultas Teknik",
+        "email": "bambangfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 2,
-        "nama": "Rini",
-        "email": "rini@gmail.com",
+        "nama": "Rini Fakultas Teknik",
+        "email": "rinifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 2,
-        "nama": "Sari",
-        "email": "sari@gmail.com",
+        "nama": "Sari Fakultas Teknik",
+        "email": "sarifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 3,
-        "nama": "Indah",
-        "email": "indah@gmail.com",
+        "nama": "Indah Fakultas Teknik",
+        "email": "indahfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 3,
-        "nama": "Irfan",
-        "email": "irfan@gmail.com",
+        "nama": "Irfan Fakultas Teknik",
+        "email": "irfanfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 4,
-        "nama": "Doni",
-        "email": "doni@gmail.com",
+        "nama": "Doni Fakultas Teknik",
+        "email": "donifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 4,
-        "nama": "Dewi",
-        "email": "dewi@gmail.com",
+        "nama": "Dewi Fakultas Teknik",
+        "email": "dewifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 5,
-        "nama": "Siti",
-        "email": "siti@gmail.com",
+        "nama": "Siti Fakultas Teknik",
+        "email": "sitifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 5,
-        "nama": "Surya",
-        "email": "surya@gmail.com",
+        "nama": "Surya Fakultas Teknik",
+        "email": "suryafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 6,
-        "nama": "Eko",
-        "email": "eko@gmail.com",
+        "nama": "Eko Fakultas Teknik",
+        "email": "ekofakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 6,
-        "nama": "Eva",
-        "email": "eva@gmail.com",
+        "nama": "Eva Fakultas Teknik",
+        "email": "evafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 7,
-        "nama": "Fani",
-        "email": "fani@gmail.com",
+        "nama": "Fani Fakultas Teknik",
+        "email": "fanifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 7,
-        "nama": "Farid",
-        "email": "farid@gmail.com",
+        "nama": "Farid Fakultas Teknik",
+        "email": "faridfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 8,
-        "nama": "Hadi",
-        "email": "hadi@gmail.com",
+        "nama": "Hadi Fakultas Teknik",
+        "email": "hadifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 8,
-        "nama": "Hana",
-        "email": "hana@gmail.com",
+        "nama": "Hana Fakultas Teknik",
+        "email": "hanafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 9,
-        "nama": "Gita",
-        "email": "gita@gmail.com",
+        "nama": "Gita Fakultas Teknik",
+        "email": "gitafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 9,
-        "nama": "Guntur",
-        "email": "guntur@gmail.com",
+        "nama": "Guntur Fakultas Teknik",
+        "email": "gunturfakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 10,
-        "nama": "Joko",
-        "email": "joko@gmail.com",
+        "nama": "Joko Fakultas Teknik",
+        "email": "jokofakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 10,
-        "nama": "Jasmine",
-        "email": "jasmine@gmail.com",
+        "nama": "Jasmine Fakultas Teknik",
+        "email": "jasminefakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 11,
-        "nama": "Kartika",
-        "email": "kartika@gmail.com",
+        "nama": "Kartika Fakultas Teknik",
+        "email": "kartikafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 11,
-        "nama": "Krisna",
-        "email": "krisna@gmail.com",
+        "nama": "Krisna Fakultas Teknik",
+        "email": "krisnafakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 2
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 12,
-        "nama": "Budi",
-        "email": "budi@gmail.com",
+        "nama": "Budi Fakultas Teknik",
+        "email": "budifakultasteknik@gmail.com",
         "password": "password",
         "supervisor_id": 1
     },
     {
         "unit_kerja_id": 1,
         "jabatan_id": 12,
-        "nama": "Bella",
-        "email": "bella@gmail.com",
+        "nama": "Bella Fakultas Teknik",
+        "email": "bellafakultasteknik@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+
+    
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 1,
+        "nama": "Ahmad FEB",
+        "email": "ahmadfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 1,
+        "nama": "Bambang FEB",
+        "email": "bambangfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 2,
+        "nama": "Rini FEB",
+        "email": "rinifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 2,
+        "nama": "Sari FEB",
+        "email": "sarifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 3,
+        "nama": "Indah FEB",
+        "email": "indahfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 3,
+        "nama": "Irfan FEB",
+        "email": "irfanfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 4,
+        "nama": "Doni FEB",
+        "email": "donifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 4,
+        "nama": "Dewi FEB",
+        "email": "dewifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 5,
+        "nama": "Siti FEB",
+        "email": "sitifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 5,
+        "nama": "Surya FEB",
+        "email": "suryafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 6,
+        "nama": "Eko FEB",
+        "email": "ekofeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 6,
+        "nama": "Eva FEB",
+        "email": "evafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 7,
+        "nama": "Fani FEB",
+        "email": "fanifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 7,
+        "nama": "Farid FEB",
+        "email": "faridfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 8,
+        "nama": "Hadi FEB",
+        "email": "hadifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 8,
+        "nama": "Hana FEB",
+        "email": "hanafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 9,
+        "nama": "Gita FEB",
+        "email": "gitafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 9,
+        "nama": "Guntur FEB",
+        "email": "gunturfeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 10,
+        "nama": "Joko FEB",
+        "email": "jokofeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 10,
+        "nama": "Jasmine FEB",
+        "email": "jasminefeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 11,
+        "nama": "Kartika FEB",
+        "email": "kartikafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 11,
+        "nama": "Krisna FEB",
+        "email": "krisnafeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 2
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 12,
+        "nama": "Budi FEB",
+        "email": "budifeb@gmail.com",
+        "password": "password",
+        "supervisor_id": 1
+    },
+    {
+        "unit_kerja_id": 2,
+        "jabatan_id": 12,
+        "nama": "Bella FEB",
+        "email": "bellafeb@gmail.com",
         "password": "password",
         "supervisor_id": 2
     }

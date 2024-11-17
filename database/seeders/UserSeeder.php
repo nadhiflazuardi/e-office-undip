@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Jabatan;
 use App\Models\Log;
+use App\Models\UnitKerja;
 use App\Models\User;
 use App\Models\UserTutam;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -32,36 +34,99 @@ class UserSeeder extends Seeder
         $permissionBuatArsipSurat = Permission::firstOrCreate(['name' => 'buat arsip surat']);
 
         // assign permissions to roles
-        $supervisor->givePermissionTo([$permissionRevisi, $permissionLihatSurat]);
+        $supervisor->givePermissionTo([$permissionRevisi, $permissionLihatSurat, $permissionBuatSppd]);
         $sekretaris->givePermissionTo($permissionBuatRapat);
         $pengelolaKeuangan->givePermissionTo($permissionBuatSppd);
         $pengadministrasiPersuratan->givePermissionTo([$permissionBuatSurat, $permissionLihatSurat, $permissionBuatArsipSurat]);
 
-        User::create([
-            'unit_kerja_id' => 1,
-            'jabatan_id' => 13,
-            'nama' => 'Supervisor Akademik dan Kemahasiswaan',
-            'email' => 'supervisorak@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole($supervisor);
+        $units = UnitKerja::all();
+        $jabatanSekretaris = Jabatan::where('nama', 'Sekretaris')->first();
+        $jabatanPengelolaKeuangan = Jabatan::where('nama', 'Pengelola Keuangan')->first();
+        $jabatanPengadministrasiPersuratan = Jabatan::where('nama', 'Pengadministrasi Persuratan')->first();
 
-        UserTutam::create([
-            'user_id' => 1,
-            'tutam_id' => 6,
-        ]);
+        foreach ($units as $unit) {
+            $unitName = strtolower(str_replace(' ', '', $unit->nama));
 
-        User::create([
-            'unit_kerja_id' => 1,
-            'jabatan_id' => 14,
-            'nama' => 'Supervisor Sumberdaya',
-            'email' => 'supervisorsdm@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole($supervisor);
+            $supervisorAkademik = $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => 13,
+                    'nama' => 'Supervisor Akademik dan Kemahasiswaan',
+                    'email' => 'supervisorak' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                ])
+                ->assignRole($supervisor);
 
-        UserTutam::create([
-            'user_id' => 2,
-            'tutam_id' => 7,
-        ]);
+            $supervisorAkademik->userTutam()->create([
+                'tutam_id' => 6,
+            ]);
+
+            $supervisorSumberdaya = $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => 14,
+                    'nama' => 'Supervisor Sumberdaya',
+                    'email' => 'supervisorsdm' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                ])
+                ->assignRole($supervisor);
+            $supervisorSumberdaya->userTutam()->create([
+                'tutam_id' => 7,
+            ]);
+
+            $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => $jabatanSekretaris->id,
+                    'nama' => 'Sekretaris',
+                    'email' => 'sekretaris' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                    'supervisor_id' => $supervisorAkademik->id,
+                ])
+                ->assignRole($sekretaris);
+
+            $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => $jabatanPengelolaKeuangan->id,
+                    'nama' => 'Pengelola Keuangan',
+                    'email' => 'pengelolakeuangan' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                    'supervisor_id' => $supervisorAkademik->id,
+                ])
+                ->assignRole($pengelolaKeuangan);
+
+            $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => $jabatanPengadministrasiPersuratan->id,
+                    'nama' => 'Pengadministrasi Persuratan',
+                    'email' => 'pengadministrasipersuratan' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                    'supervisor_id' => $supervisorAkademik->id,
+                ])
+                ->assignRole($pengadministrasiPersuratan);
+        }
+
+        // User::
+
+        // UserTutam::create([
+        //     'user_id' => 1,
+        //     'tutam_id' => 6,
+        // ]);
+
+        // User::create([
+        //     'unit_kerja_id' => 1,
+        //     'jabatan_id' => 14,
+        //     'nama' => 'Supervisor Sumberdaya',
+        //     'email' => 'supervisorsdm@gmail.com',
+        //     'password' => bcrypt('password'),
+        // ])->assignRole($supervisor);
+
+        // UserTutam::create([
+        //     'user_id' => 2,
+        //     'tutam_id' => 7,
+        // ]);
 
         $data = json_decode(file_get_contents(database_path('seeders/data/user.json')), true);
 
@@ -79,7 +144,7 @@ class UserSeeder extends Seeder
             for ($i = 1; $i <= 6; $i++) {
                 Log::create([
                     'pegawai_id' => $user->id,
-                    'kegiatan_id' => 'P'.'24100'.$i.$userCount,
+                    'kegiatan_id' => 'P' . '24100' . $i . $userCount,
                     'bobot' => 450,
                 ]);
             }
@@ -94,29 +159,5 @@ class UserSeeder extends Seeder
 
             $userCount += 1;
         }
-
-        User::create([
-            'unit_kerja_id' => 2,
-            'jabatan_id' => 1,
-            'nama' => 'Sekretaris',
-            'email' => 'sekretaris@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole($sekretaris);
-
-        User::create([
-            'unit_kerja_id' => 2,
-            'jabatan_id' => 2,
-            'nama' => 'Pengelola Keuangan',
-            'email' => 'pengelolakeuangan@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole($pengelolaKeuangan);
-
-        User::create([
-            'unit_kerja_id' => 2,
-            'jabatan_id' => 3,
-            'nama' => 'Pengadministrasi Persuratan',
-            'email' => 'pengadministrasipersuratan@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole($pengadministrasiPersuratan);
     }
 }
