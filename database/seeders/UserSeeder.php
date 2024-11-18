@@ -137,7 +137,7 @@ class UserSeeder extends Seeder
                 'jabatan_id' => $user['jabatan_id'],
                 'nama' => $user['nama'],
                 'email' => $user['email'],
-                'supervisor_id' => $user['supervisor_id'],
+                'supervisor_id' => User::role('Supervisor')->inRandomOrder()->where('unit_kerja_id', $user['unit_kerja_id'])->first()->id,
                 'password' => bcrypt($user['password']),
             ]);
 
