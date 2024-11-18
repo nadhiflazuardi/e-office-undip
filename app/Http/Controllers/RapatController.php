@@ -30,10 +30,15 @@ class RapatController extends Controller
         });
 
         $upcomingRapats = $rapats->filter(function ($rapat) {
-            return Carbon::parse($rapat->waktu_mulai)->isFuture();
+            return Carbon::parse($rapat->waktu_mulai)->isFuture() && Carbon::parse($rapat->waktu_selesai)->isFuture();
         });
 
-        return view('rapat.index', compact( 'onGoingRapats' ,'pastRapats', 'upcomingRapats'));
+        $myRapats = null;
+        if (auth()->user()->hasRole('Sekretaris')) {
+            $myRapats = Rapat::where('creator_id', auth()->user()->id)->latest()->get();
+        }
+
+        return view('rapat.index', compact( 'onGoingRapats' ,'pastRapats', 'upcomingRapats','myRapats'));
     }
 
     public function create()
@@ -64,6 +69,7 @@ class RapatController extends Controller
             'pemimpin_rapat_id' => $request->pemimpinRapat,
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
+            'creator_id' => auth()->user()->id,
         ];
 
         // if request has 'warnaLabel', then add 'warna_label' to $rapatData, otherwise use default color
