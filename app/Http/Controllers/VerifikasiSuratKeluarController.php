@@ -10,7 +10,9 @@ class VerifikasiSuratKeluarController extends Controller
 {
     public function index() {
         $title = 'Verifikasi Surat Keluar';
-        $suratKeluar = SuratKeluar::all();
+        $suratKeluar = SuratKeluar::whereHas('penulis', function($query) {
+            $query->where('unit_kerja_id', auth()->user()->unit_kerja_id);
+        })->get();
 
         return view('surat-keluar.verifikasi.index',compact('title','suratKeluar'));
     }
