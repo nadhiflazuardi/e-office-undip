@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('rapat', function (Blueprint $table) {
             $table->string('id')->primary(); // Set id sebagai primary key
             $table->foreignId('pemimpin_rapat_id')->constrained('user');
+            $table->foreignId('creator_id')->constrained('user');
             $table->string('judul');
             $table->text('perihal');
             $table->dateTime('waktu_mulai');
