@@ -28,11 +28,13 @@ class RapatSeeder extends Seeder
 
             // Pilih pemimpin rapat secara acak
             $pemimpinRapat = User::inRandomOrder()->first();
+            $sekretaris = User::where('nama','Sekretaris')->inRandomOrder()->first();
 
             // Simpan rapat ke database
             $rapat = Rapat::create([
                 'id' => $customId,
                 'pemimpin_rapat_id' => $pemimpinRapat->id,
+                'creator_id' => $sekretaris->id,
                 'judul' => fake()->sentence(),
                 'perihal' => fake()->paragraph(),
                 'waktu_mulai' => $waktuMulai,
