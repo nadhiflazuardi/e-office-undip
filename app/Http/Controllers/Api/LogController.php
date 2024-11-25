@@ -66,9 +66,11 @@ class LogController extends Controller
             ->when($request->endDate, function ($query) use ($request) {
                 $query->whereDate('created_at', '<=', $request->endDate);
             })
-            ->when($request->bulan && $request->tahun, function($query) use ($request) {
-                $query->whereMonth('created_at', $request->bulan)
-                ->whereYear('created_at', $request->tahun);
+            ->when($request->bulan, function($query) use ($request) {
+                $query->whereMonth('created_at', $request->bulan);
+            })
+            ->when($request->tahun, function($query) use ($request) {
+                $query->whereYear('created_at', $request->tahun);
             })
             ->sum('bobot');
 
