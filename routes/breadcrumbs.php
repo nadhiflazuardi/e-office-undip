@@ -53,6 +53,12 @@ Breadcrumbs::for('tugas.show', function (BreadcrumbTrail $trail, LuaranTugas $tu
     $trail->push($tugas->judul, route('tugas.show', $tugas));
 });
 
+// Tugas Edit
+Breadcrumbs::for('tugas.edit', function (BreadcrumbTrail $trail, LuaranTugas $tugas) {
+    $trail->parent('tugas.index');
+    $trail->push('Edit Tugas', route('tugas.edit', $tugas));
+});
+
 // Verifikasi Tugas Index
 Breadcrumbs::for('tugas.verifikasi.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');

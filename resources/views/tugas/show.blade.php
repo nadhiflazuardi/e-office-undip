@@ -24,7 +24,7 @@
         <hr>
         <h5>Status Verifikasi Tugas</h5>
         <p
-            class="badge rounded-pill 
+            class="badge rounded-pill text-capitalize
     {{ $tugas->status == 'sedang diperiksa' ? 'text-bg-primary' : '' }}
     {{ $tugas->status == 'disetujui' ? 'text-bg-success' : '' }}
     {{ $tugas->status == 'ditolak' ? 'text-bg-danger' : '' }} fs-6">
@@ -32,6 +32,7 @@
         @if ($tugas->status == 'ditolak')
             <h6 class="m-0 p-0">Alasan penolakan : </h6>
             <p>{{ $tugas->alasanPenolakan()[0] }}</p>
+            <a class="btn btn-primary" href="{{ route('tugas.edit',['tugas' => $tugas]) }}" >Perbaiki</a>
         @endif
         <hr>
         <a href="{{ asset('storage/luaran_tugas/' . $tugas->file_luaran) }}" target="blank"

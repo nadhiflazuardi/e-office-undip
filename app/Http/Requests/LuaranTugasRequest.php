@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class LuaranTugasRequest extends FormRequest
 {
@@ -21,11 +22,15 @@ class LuaranTugasRequest extends FormRequest
      */
     public function rules(): array
     {
+        $baseFileRule = ['file', 'mimes:pdf,doc,docx'];
+        if (Route::currentRouteName() === 'tugas.store') {
+            $baseFileRule[] = 'required';
+        }
         return [
             'judul' => ['required', 'string'],
             'uraian' => ['required', 'string'],
             'keterangan' => ['required', 'string'],
-            'file' => ['required', 'file', 'mimes:pdf,doc,docx'],
+            'file' => $baseFileRule,
         ];
     }
 }

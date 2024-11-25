@@ -21,8 +21,7 @@ class TugasController extends Controller
         $title = 'Tambah Tugas';
         $user = auth()->user();
 
-        $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', 
-        [
+        $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', [
             'jabatan_id' => auth()->user()->jabatan_id,
             'supervisor_id' => $user->supervisor->userTutam->tutam_id,
         ]);
@@ -66,7 +65,17 @@ class TugasController extends Controller
     public function edit(LuaranTugas $tugas)
     {
         $title = 'Edit Tugas';
-        return view('tugas.edit', compact('title', 'tugas'));
+
+        $user = auth()->user();
+
+        $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', [
+            'jabatan_id' => auth()->user()->jabatan_id,
+            'supervisor_id' => $user->supervisor->userTutam->tutam_id,
+        ]);
+
+        $detailAbk = $response->json()['data'];
+
+        return view('tugas.edit', compact('title', 'tugas', 'detailAbk'));
     }
 
     public function update(LuaranTugasRequest $request, LuaranTugas $tugas)
@@ -78,8 +87,8 @@ class TugasController extends Controller
             $namaFile = time() . '_' . $file->getClientOriginalName();
 
             // Hapus file lama dari storage
-            if ($tugas->file) {
-                $filePath = storage_path('app/luaran_tugas/' . $tugas->file);
+            if ($tugas->file_luaran) {
+                $filePath = storage_path('app/luaran_tugas/' . $tugas->file_luaran);
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }
@@ -89,19 +98,23 @@ class TugasController extends Controller
             $file->storeAs('luaran_tugas', $namaFile, 'public');
 
             // Update file di database
-            $tugas->file = $namaFile;
+            $tugas->file_luaran = $namaFile;
         }
 
         // Update data lainnya
         $tugas->update([
             'judul' => $request->judul,
             'keterangan' => $request->keterangan,
-            'waktu_pengumpulan' => now(),
+            'uraian_tugas' => $request->uraian,
+            'bobot' => $request->bobot,
+            'target' => $request->target,
             'status' => 'sedang diperiksa',
             // file udah diupdate di atas kalau ada file baru
         ]);
 
-        return redirect()->route('tugas.show', ['tugas' => $tugas->id]);
+        return redirect()
+            ->route('tugas.show', ['tugas' => $tugas->id])
+            ->with('success', 'Tugas berhasil diperbaiki');
     }
 
     public function destroy(LuaranTugas $tugas)

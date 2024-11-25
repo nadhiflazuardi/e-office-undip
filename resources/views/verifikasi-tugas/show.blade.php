@@ -41,7 +41,7 @@
                 Terima tugas
             </button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTolak">
-                Tolak tugas
+                Revisi tugas
             </button>
 
             {{-- Modal Terima --}}
@@ -74,7 +74,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Tugas</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Revisi Tugas</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form
@@ -83,9 +83,9 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="catatan" class="form-label">Alasan Penolakan</label>
+                                    <label for="catatan" class="form-label">Catatan Perbaikan</label>
                                     <textarea class="form-control @error('catatan') is-invalid @enderror" name="catatan" id="catatan" rows="3"
-                                        placeholder="Mohon jelaskan alasan penolakan tugas" required></textarea>
+                                        placeholder="Mohon berikan catatan perbaikan" required></textarea>
                                     @error('catatan')
                                         <label for="catatan" class="invalid-feedback">{{ $message }}</label>
                                     @enderror
@@ -93,7 +93,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Tolak Tugas</button>
+                                <button type="submit" class="btn btn-danger">Revisi Tugas</button>
                             </div>
                         </form>
                     </div>
