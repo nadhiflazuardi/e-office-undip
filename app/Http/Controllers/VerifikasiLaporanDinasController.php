@@ -42,7 +42,7 @@ class VerifikasiLaporanDinasController extends Controller
             'bobot' => $bobot,
         ]);
 
-        return redirect()->route('laporan-dinas.verifikasi.show', ['laporan' => $laporan->id]);
+        return redirect()->route('laporan-dinas.show', ['laporan' => $laporan->id]);
 
     }
 
