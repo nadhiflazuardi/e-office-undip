@@ -76,7 +76,7 @@
                 @enderror
             </div>
             <div class="col">
-                <label for="pimpinanInput" class="form-label">Pimpinan Rapat</label>
+                <label for="pimpinanInput" class="form-label">Penanggungjawab Rapat</label>
                 <select disabled class="form-select @error('pemimpinRapat') is-invalid @enderror" name="pemimpinRapat"
                     id="pimpinanInput">
                     <option value="">Pilih Pimpinan</option>
