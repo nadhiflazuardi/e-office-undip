@@ -24,6 +24,8 @@ class UserSeeder extends Seeder
         $sekretaris = Role::firstOrCreate(['name' => 'Sekretaris']);
         $pengelolaKeuangan = Role::firstOrCreate(['name' => 'Pengelola Keuangan']);
         $pengadministrasiPersuratan = Role::firstOrCreate(['name' => 'Pengadministrasi Persuratan']);
+        $wakilDekanRole = Role::firstOrCreate(['name' => 'Wakil Dekan']);
+        $dekanRole = Role::firstOrCreate(['name' => 'Dekan']);
 
         // create permissions
         $permissionRevisi = Permission::firstOrCreate(['name' => 'revisi']);
@@ -43,9 +45,41 @@ class UserSeeder extends Seeder
         $jabatanSekretaris = Jabatan::where('nama', 'Sekretaris')->first();
         $jabatanPengelolaKeuangan = Jabatan::where('nama', 'Pengelola Keuangan')->first();
         $jabatanPengadministrasiPersuratan = Jabatan::where('nama', 'Pengadministrasi Persuratan')->first();
+        $jabatanWakilDekanSumberdaya = Jabatan::where('nama', 'Wakil Dekan Sumberdaya')->first();
+        $jabatanDekan = Jabatan::where('nama', 'Dekan')->first();
 
         foreach ($units as $unit) {
             $unitName = strtolower(str_replace(' ', '', $unit->nama));
+
+            $dekan = $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => $jabatanDekan->id,
+                    'nama' => 'Dekan' . $unit->nama,
+                    'email' => 'dekan' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                ])
+                ->assignRole($dekanRole);
+            
+            $dekan->userTutam()->create([
+                'tutam_id' => 2
+            ]);
+
+            
+            $wakilDekan = $unit
+                ->user()
+                ->create([
+                    'jabatan_id' => $jabatanWakilDekanSumberdaya->id,
+                    'nama' => 'Wakil Dekan Sumberdaya' . $unit->nama,
+                    'email' => 'wakildekan' . $unitName . '@gmail.com',
+                    'password' => bcrypt('password'),
+                    'supervisor_id' => $dekan->id,
+                ])
+                ->assignRole($wakilDekanRole);
+
+            $wakilDekan->userTutam()->create([
+                'tutam_id' => 4
+            ]);
 
             $supervisorAkademik = $unit
                 ->user()
@@ -54,6 +88,7 @@ class UserSeeder extends Seeder
                     'nama' => 'Supervisor Akademik dan Kemahasiswaan',
                     'email' => 'supervisorak' . $unitName . '@gmail.com',
                     'password' => bcrypt('password'),
+                    'supervisor_id' => $wakilDekan->id,
                 ])
                 ->assignRole($supervisor);
 
@@ -73,6 +108,7 @@ class UserSeeder extends Seeder
             $supervisorSumberdaya->userTutam()->create([
                 'tutam_id' => 7,
             ]);
+
 
             $unit
                 ->user()
