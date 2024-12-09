@@ -125,7 +125,17 @@
                                 </div>
                             </div>
                         </a>
-                        @can('revisi')
+                        @can('buat surat')
+                            <a href="{{ route('surat-keluar.create') }}" class="text-decoration-none text-black">
+                                <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Buat Surat
+                                    </div>
+                                </div>
+                            </a>
+                        @endcan
+                        @can('revisi surat')
                             <a href="{{ route('surat-keluar.verifikasi.index') }}" class="text-decoration-none text-black">
                                 <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
                                     data-bs-parent="#accordionFlushExample">

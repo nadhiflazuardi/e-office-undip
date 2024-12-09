@@ -10,11 +10,25 @@ class VerifikasiSuratKeluarController extends Controller
 {
     public function index() {
         $title = 'Verifikasi Surat Keluar';
-        $suratKeluar = SuratKeluar::whereHas('penulis', function($query) {
-            $query->where('unit_kerja_id', auth()->user()->unit_kerja_id);
-        })->get();
 
-        return view('surat-keluar.verifikasi.index',compact('title','suratKeluar'));
+        $user = auth()->user();
+        $suratKeluar = SuratKeluar::whereHas('penulis', function($query) use ($user) {
+            $query->where('unit_kerja_id', $user->unit_kerja_id);
+        });
+        
+        if ($user->hasRole('Supervisor')) {
+            $suratMenungguVerifikasi = $suratKeluar->clone()->where('status', 'Menunggu Persetujuan Supervisor')->latest()->get();
+        }
+        if ($user->hasRole('Wakil Dekan')) {
+            $suratMenungguVerifikasi = $suratKeluar->clone()->where('status', 'Menunggu Persetujuan Wakil Dekan')->latest()->get();
+        }
+        if ($user->hasRole('Dekan')) {
+            $suratMenungguVerifikasi = $suratKeluar->clone()->where('status', 'Menunggu Persetujuan Dekan')->latest()->get();
+        }
+        $suratPerluPerbaikan = $suratKeluar->clone()->where('status', 'like', 'Revisi%')->latest()->get();
+        $suratDisetujui = $suratKeluar->clone()->where('status', 'Disetujui')->latest()->get();
+
+        return view('surat-keluar.verifikasi.index',compact('title','suratMenungguVerifikasi','suratPerluPerbaikan','suratDisetujui'));
     }
 
     public function show(SuratKeluar $surat) {
@@ -25,8 +39,25 @@ class VerifikasiSuratKeluarController extends Controller
     public function terima(SuratKeluar $surat)
     {
         // dd('sampe sini');
+
+        $user = auth()->user();
+
+        if ($user->hasRole('Supervisor')) {
+            $statusSurat =  'Menunggu Persetujuan Wakil Dekan';
+            $nextVerifikatorId = $user->supervisor_id;
+        }
+        if ($user->hasRole('Wakil Dekan')) {
+            $statusSurat =  'Menunggu Persetujuan Dekan';
+            $nextVerifikatorId = $user->supervisor_id;
+        }
+        if ($user->hasRole('Dekan')) {
+            $statusSurat =  'Disetujui';
+            $nextVerifikatorId = null;
+        }
+
         $surat->update([
-            'status' => 'Disetujui',
+            'status' => $statusSurat,
+            'next_verifikator_id' => $nextVerifikatorId,
         ]);
 
         VerifikasiSuratKeluar::create([
@@ -55,8 +86,21 @@ class VerifikasiSuratKeluarController extends Controller
             'catatan' => 'required',
         ]);
 
+        $user = auth()->user();
+
+        if ($user->hasRole('Supervisor')) {
+            $statusSurat =  'Revisi Oleh Supervisor';
+        }
+        if ($user->hasRole('Wakil Dekan')) {
+            $statusSurat =  'Revisi Oleh Wakil Dekan';
+        }
+        if ($user->hasRole('Dekan')) {
+            $statusSurat =  'Revisi Oleh Dekan';
+        }
+
         $surat->update([
-            'status' => 'Ditolak',
+            'status' => $statusSurat,
+            'next_verifikator_id' => $surat->penulis_id,
         ]);
 
         VerifikasiSuratKeluar::create([
@@ -66,6 +110,6 @@ class VerifikasiSuratKeluarController extends Controller
             'catatan' => $request->catatan,
         ]);
 
-        return redirect()->route('surat-keluar.verifikasi.show',['surat' => $surat])->with('success', 'Laporan perjalanan dinas berhasil diverifikasi');
+        return redirect()->route('surat-keluar.verifikasi.show',['surat' => $surat])->with('success', 'Surat Keluar berhasil diverifikasi');
     }
 }

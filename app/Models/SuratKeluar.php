@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,7 +39,7 @@ class SuratKeluar extends Model
 
     public function tanggalDibuat()
     {
-        return $this->created_at->translatedFormat('l, j F Y');
+        return Carbon::parse($this->tanggal_dikirim)->translatedFormat('l, j F Y');
     }
 
     public function penulis()
@@ -56,6 +57,12 @@ class SuratKeluar extends Model
     }
 
     public function verifikasi() {
-        return $this->hasOne(VerifikasiSuratKeluar::class, 'surat_keluar_id');
+        return $this->hasOne(VerifikasiSuratKeluar::class, 'surat_keluar_id')->latestOfMany();
     }
+
+    public function riwayatVerifikasi() {
+        return $this->hasMany(VerifikasiSuratKeluar::class, 'surat_keluar_id')->oldest();
+    }
+
+
 }

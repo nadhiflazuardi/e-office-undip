@@ -19,14 +19,24 @@ class SuratKeluarController extends Controller
     public function index()
     {
         $title = 'Surat Keluar';
-        $suratKeluar = SuratKeluar::all();
-        return view('surat-keluar.index', compact('title', 'suratKeluar'));
+
+        $suratKeluar = SuratKeluar::whereHas('penulis', function ($query) {
+            $query->where('unit_kerja_id', auth()->user()->unit_kerja_id);
+        });
+        $suratMenungguVerifikasi = $suratKeluar->clone()->where('status', 'like', 'Menunggu%')->latest()->get();
+        $suratPerluPerbaikan = $suratKeluar->clone()->where('status', 'like', 'Revisi%')->latest()->get();
+        $suratDisetujui = $suratKeluar->clone()->where('status', 'Disetujui')->latest()->get();
+
+        return view('surat-keluar.index', compact('title', 'suratMenungguVerifikasi', 'suratPerluPerbaikan', 'suratDisetujui'));
     }
 
     public function create()
     {
         $title = 'Tambah Surat Keluar';
-        $penandatangan = User::all();
+        $penandatangan = User::where('unit_kerja_id', auth()->user()->unitKerja->id)->whereHas('roles', function ($query) {
+            $query->where('name', 'Wakil Dekan')
+                ->orWhere('name', 'Dekan');
+        })->get();
         return view('surat-keluar.create', compact('title', 'penandatangan'));
     }
 
@@ -169,7 +179,8 @@ class SuratKeluarController extends Controller
             'penandatangan_id' => $request->penandatangan_id,
             'file_surat' => $namaSurat,
             'tanggal_dikirim' => $request->tanggal_surat,
-            'status' => 'Dalam Proses',
+            'status' => 'Menunggu Persetujuan Supervisor',
+            'next_verifikator_id' => auth()->user()->supervisor_id
         ]);
 
         Log::create([
@@ -184,17 +195,32 @@ class SuratKeluarController extends Controller
     public function show(SuratKeluar $surat)
     {
         $title = 'Detail Surat Keluar';
+        $surat->load('penulis', 'penandatangan','riwayatVerifikasi');
         return view('surat-keluar.show', compact('title', 'surat'));
     }
 
     public function edit(SuratKeluar $surat)
     {
         $title = 'Edit Surat Keluar';
-        return view('surat-keluar.edit', compact('title', 'surat'));
+        $penandatangan = User::where('unit_kerja_id', auth()->user()->unitKerja->id)->whereHas('roles', function ($query) {
+            $query->where('name', 'Wakil Dekan')
+                ->orWhere('name', 'Dekan');
+        })->get();
+        return view('surat-keluar.edit', compact('title', 'surat', 
+        'penandatangan'));
     }
 
     public function update(SuratKeluarRequest $request, SuratKeluar $surat)
     {
+        $dataSurat = [
+            'perihal' => $request->perihal,
+            'asal' => $request->asal,
+            'tujuan' => $request->tujuan,
+            'penandatangan_id' => $request->penandatangan_id,
+            'tanggal_dikirim' => $request->tanggal_surat,
+            'status' => 'Menunggu Persetujuan Supervisor',
+            'next_verifikator_id' => auth()->user()->supervisor_id
+        ];
         // Cek kalo ada file baru di request
         if ($request->hasFile('file_surat')) {
             // Hapus file lama
@@ -202,22 +228,17 @@ class SuratKeluarController extends Controller
             if (file_exists($fileLama)) {
                 unlink($fileLama);
             }
-
             // Upload file baru
-            $surat = $request->file('file_surat');
-            $namaSurat = time() . '_' . $surat->getClientOriginalName();
-            $surat->storeAs('surat_keluar', $namaSurat, 'public');
+            $suratFile = $request->file('file_surat');
+            $namaSurat = time() . '_' . $suratFile->getClientOriginalName();
+            // dd($namaSurat);
+            $suratFile->storeAs('/surat_keluar', $namaSurat, 'public');
+            $dataSurat['file_surat'] = $namaSurat;
         }
-
+        
         // Update data surat
-        $surat->update([
-            'nomor_surat' => $request->nomor_surat,
-            'perihal' => $request->perihal,
-            'asal' => $request->asal,
-            'tujuan' => $request->tujuan,
-            'file_surat' => $namaSurat,
-            'tanggal_surat' => $request->tanggal_surat,
-        ]);
+        $surat->update($dataSurat);
+        // dd('masuk');
 
         return redirect()->route('surat-keluar.index');
     }

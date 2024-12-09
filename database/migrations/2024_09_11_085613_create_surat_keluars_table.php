@@ -23,7 +23,14 @@ return new class extends Migration
             $table->string('file_surat');
             $table->string('file_arsip')->nullable();
             $table->date('tanggal_dikirim');
-            $table->enum('status', ['Disetujui', 'Dalam Proses', 'Ditolak']);
+            $table->enum('status', ['Disetujui',
+                                    'Menunggu Persetujuan Supervisor',
+                                    'Revisi Oleh Supervisor',
+                                    'Menunggu Persetujuan Wakil Dekan',
+                                    'Revisi Oleh Wakil Dekan',
+                                    'Menunggu Persetujuan Dekan',
+                                    'Revisi Oleh Dekan'])->default('Menunggu Persetujuan Supervisor');
+            $table->foreignId('next_verifikator_id')->nullable()->constrained('user');
             $table->timestamps();
         });
     }

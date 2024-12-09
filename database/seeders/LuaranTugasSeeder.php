@@ -26,9 +26,12 @@ class LuaranTugasSeeder extends Seeder
         // for each user get uraian tugas by jabatan and supervisor
         foreach ($users as $user) {
 
-            if ($user->supervisor == null) {
-                continue;
+            // if ($user->supervisor == null) {
+            //     continue;
 
+            // }
+            if ($user->hasAnyRole(['Dekan', 'Wakil Dekan','Supervisor'])) {
+                continue;
             }
             $response = Http::get('http://anjab-abk.test/api/uraian-tugas-by-jabatan-and-supervisor', 
             [
@@ -43,7 +46,7 @@ class LuaranTugasSeeder extends Seeder
                     'pegawai_id' => $user->id,
                     'uraian_tugas' => $uraianTugas['nama_tugas'],
                     'judul' => $uraianTugas['nama_tugas'],
-                    'bobot' => $uraianTugas['bobot'],
+                    'bobot' => $uraianTugas['bobot'] ?? 10,
                     'target' => $uraianTugas['target']
                 ])->each(function ($luaranTugas) {
                     if ($luaranTugas->status != 'sedang diperiksa') {

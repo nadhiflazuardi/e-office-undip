@@ -54,7 +54,7 @@ Route::get('/surat-keluar/edit/{surat}', [SuratKeluarController::class, 'edit'])
 Route::patch('/surat-keluar/update/{surat}', [SuratKeluarController::class, 'update'])->name('surat-keluar.update');
 Route::delete('/surat-keluar/destroy/{surat}', [SuratKeluarController::class, 'destroy'])->name('surat-keluar.destroy');
 
-Route::middleware('can:revisi')->group(function () {
+Route::middleware('can:revisi surat')->group(function () {
     Route::get('/surat-keluar/verifikasi', [VerifikasiSuratKeluarController::class, 'index'])->name('surat-keluar.verifikasi.index');
     Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/terima', [VerifikasiSuratKeluarController::class, 'terima'])->name('surat-keluar.verifikasi.terima');
     Route::post('/surat-keluar/verifikasi/{surat:nomor_surat}/tolak', [VerifikasiSuratKeluarController::class, 'tolak'])->name('surat-keluar.verifikasi.tolak');

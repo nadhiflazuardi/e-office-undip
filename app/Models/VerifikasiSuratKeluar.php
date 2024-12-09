@@ -12,4 +12,12 @@ class VerifikasiSuratKeluar extends Model
     protected $table = 'verifikasi_surat_keluar';
 
     protected $guarded = ['id'];
+
+    public function verifikator() {
+        return $this->belongsTo(User::class, 'verifikatur_id');
+    }
+
+    public function waktuVerifikasi() {
+        return $this->created_at->translatedFormat('l, j F Y H:i');
+    }
 }

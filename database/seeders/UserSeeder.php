@@ -34,12 +34,15 @@ class UserSeeder extends Seeder
         $permissionBuatSurat = Permission::firstOrCreate(['name' => 'buat surat']);
         $permissionLihatSurat = Permission::firstOrCreate(['name' => 'lihat surat']);
         $permissionBuatArsipSurat = Permission::firstOrCreate(['name' => 'buat arsip surat']);
+        $permissionRevisiSurat = Permission::firstOrCreate(['name' => 'revisi surat']);
 
         // assign permissions to roles
-        $supervisor->givePermissionTo([$permissionRevisi, $permissionLihatSurat, $permissionBuatSppd]);
+        $supervisor->givePermissionTo([$permissionRevisi, $permissionLihatSurat, $permissionBuatSppd, $permissionRevisiSurat]);
         $sekretaris->givePermissionTo($permissionBuatRapat);
         $pengelolaKeuangan->givePermissionTo($permissionBuatSppd);
         $pengadministrasiPersuratan->givePermissionTo([$permissionBuatSurat, $permissionLihatSurat, $permissionBuatArsipSurat]);
+        $wakilDekanRole->givePermissionTo([$permissionRevisiSurat, $permissionLihatSurat]);
+        $dekanRole->givePermissionTo([$permissionRevisiSurat, $permissionLihatSurat]);
 
         $units = UnitKerja::all();
         $jabatanSekretaris = Jabatan::where('nama', 'Sekretaris')->first();
@@ -55,7 +58,7 @@ class UserSeeder extends Seeder
                 ->user()
                 ->create([
                     'jabatan_id' => $jabatanDekan->id,
-                    'nama' => 'Dekan' . $unit->nama,
+                    'nama' => 'Dekan ' . $unit->nama,
                     'email' => 'dekan' . $unitName . '@gmail.com',
                     'password' => bcrypt('password'),
                 ])
@@ -70,7 +73,7 @@ class UserSeeder extends Seeder
                 ->user()
                 ->create([
                     'jabatan_id' => $jabatanWakilDekanSumberdaya->id,
-                    'nama' => 'Wakil Dekan Sumberdaya' . $unit->nama,
+                    'nama' => 'Wakil Dekan Sumberdaya ' . $unit->nama,
                     'email' => 'wakildekan' . $unitName . '@gmail.com',
                     'password' => bcrypt('password'),
                     'supervisor_id' => $dekan->id,

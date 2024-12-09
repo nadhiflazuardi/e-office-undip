@@ -27,7 +27,13 @@ class SuratKeluarFactory extends Factory
             'file_surat' => $this->faker->word,
             'file_arsip' => null,
             'tanggal_dikirim' => $this->faker->date(),
-            'status' => $this->faker->randomElement(['Disetujui', 'Dalam Proses', 'Ditolak']),
+            'status' => $this->faker->randomElement(['Disetujui',
+                                    'Menunggu Persetujuan Supervisor',
+                                    'Revisi Oleh Supervisor',
+                                    'Menunggu Persetujuan Wakil Dekan',
+                                    'Revisi Oleh Wakil Dekan',
+                                    'Menunggu Persetujuan Dekan',
+                                    'Revisi Oleh Dekan']),
         ];
     }
 }

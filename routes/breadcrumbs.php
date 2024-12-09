@@ -131,6 +131,12 @@ Breadcrumbs::for('surat-keluar.show', function (BreadcrumbTrail $trail, $surat) 
     $trail->push($surat->nomor_surat, route('surat-keluar.show', $surat));
 });
 
+// Surat Keluar Edit
+Breadcrumbs::for('surat-keluar.edit', function (BreadcrumbTrail $trail, $surat) {
+    $trail->parent('surat-keluar.index');
+    $trail->push('Edit Surat Keluar', route('surat-keluar.edit', $surat));
+});
+
 // Verifikasi Surat Keluar Index
 Breadcrumbs::for('surat-keluar.verifikasi.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');

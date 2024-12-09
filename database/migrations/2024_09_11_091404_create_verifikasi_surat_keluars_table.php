@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('surat_keluar_id');
             $table->foreignId('verifikatur_id')->constrained('user');
-            $table->enum('status', ['Disetujui', 'Ditolak']);
+            $table->enum('status', ['Disetujui',
+                                    'Ditolak'])->default('Disetujui');
             $table->string('catatan')->nullable();
             $table->timestamps();
 

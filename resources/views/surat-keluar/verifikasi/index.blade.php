@@ -14,106 +14,121 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <ul class="nav nav-tabs pt-0">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id="dalamProses">Menunggu Verifikasi</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" id="selesai">Selesai Diverifikasi</a>
-        </li>
-    </ul>
-    <table class="" id="suratKeluarTable">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Hal</th>
-                <th>Asal</th>
-                <th>Tujuan</th>
-                <th>Tanggal Diarsipkan</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-menunggu-tab" data-bs-toggle="tab" data-bs-target="#nav-menunggu"
+                type="button" role="tab" aria-controls="nav-menunggu" aria-selected="true">Menunggu
+                Verifikasi Anda</button>
+            <button class="nav-link " id="nav-perbaikan-tab" data-bs-toggle="tab" data-bs-target="#nav-perbaikan"
+                type="button" role="tab" aria-controls="nav-perbaikan" aria-selected="true">Dalam Proses</button>
+            <button class="nav-link " id="nav-selesai-tab" data-bs-toggle="tab" data-bs-target="#nav-selesai" type="button"
+                role="tab" aria-controls="nav-selesai" aria-selected="false">Selesai
+                Diverifikasi</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="nav-menunggu" role="tabpanel" aria-labelledby="nav-menunggu-tab"
+            tabindex="0">
+            <table class="datatable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Hal</th>
+                        <th>Asal</th>
+                        <th>Tujuan</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($suratMenungguVerifikasi as $surat)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $surat->perihal }}</td>
+                            <td>{{ $surat->asal }}</td>
+                            <td>{{ $surat->tujuan }}</td>
+                            <td>{{ $surat->tanggalDibuat() }}</td>
+                            <td>{{ $surat->status }}</td>
+                            <td>
+                                <a href="{{ route('surat-keluar.verifikasi.show', ['surat' => $surat]) }}">Lihat</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade show" id="nav-perbaikan" role="tabpanel" aria-labelledby="nav-perbaikan-tab"
+            tabindex="0">
+            <table class="datatable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Hal</th>
+                        <th>Asal</th>
+                        <th>Tujuan</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($suratPerluPerbaikan as $surat)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $surat->perihal }}</td>
+                            <td>{{ $surat->asal }}</td>
+                            <td>{{ $surat->tujuan }}</td>
+                            <td>{{ $surat->tanggalDibuat() }}</td>
+                            <td>{{ $surat->status }}</td>
+                            <td>
+                                <a href="{{ route('surat-keluar.show', ['surat' => $surat]) }}">Lihat</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade show" id="nav-selesai" role="tabpanel" aria-labelledby="nav-selesai-tab" tabindex="0">
+            <table class="datatable">
+                
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Hal</th>
+                        <th>Asal</th>
+                        <th>Tujuan</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($suratDisetujui as $surat)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $surat->perihal }}</td>
+                            <td>{{ $surat->asal }}</td>
+                            <td>{{ $surat->tujuan }}</td>
+                            <td>{{ $surat->tanggalDibuat() }}</td>
+                            <td>{{ $surat->status }}</td>
+                            <td>
+                                <a href="{{ route('surat-keluar.show', ['surat' => $surat]) }}">Lihat</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
     <script>
         $('document').ready(function() {
 
-            var table = $('#suratKeluarTable').DataTable();
-            var suratKeluar = @json($suratKeluar);
-
-            console.log(suratKeluar);
-            var suratKeluarBaseRoute = "{{ route('surat-keluar.verifikasi.show', ['surat' => '__ID__']) }}"; 
-            var initialStatus = 'dalamProses';
-            loadData(initialStatus);
+            $('.datatable').DataTable();
             
-            
-            // Event handler untuk tab klik
-            $('.nav-link').on('click', function(e) {
-                e.preventDefault();
-                console.log('Tab clicked');
-                $('.nav-link').removeClass('active');
-                $(this).addClass('active');
-
-                var status = e.target.id; // Ambil status dari id tab
-                console.log(status);
-                loadData(status);
-            });
-
-            // Fungsi untuk load data surat berdasarkan status
-            function loadData(status) {
-                // Destroy existing DataTable sebelum update data
-                table.destroy();
-
-                // Filter data berdasarkan status yang dipilih
-                var filteredData = suratKeluar.filter(function(surat) {
-                    if (status === 'dalamProses') {
-                        return surat.status === 'Dalam Proses';
-                    } else {
-                        return surat.status === 'Disetujui' || surat.status === 'Ditolak';
-                    }
-                });
-                console.log(filteredData);
-
-                // Kosongkan tbody
-                $('#suratKeluarTable tbody').empty();
-
-                // Populate tbody dengan data yang sudah difilter
-                filteredData.forEach(function(surat, index) {
-                    var laporanDinasRoute = suratKeluarBaseRoute.replace('__ID__', surat.nomor_surat);
-                    $('#suratKeluarTable tbody').append(`
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${surat.perihal}</td>
-                            <td>${surat.asal}</td>
-                            <td>${surat.tujuan}</td>
-                            <td>${formatDate(new Date(surat.tanggal_dikirim)) }</td>
-                            <td>${surat.status}</td>
-                            <td><a href="${laporanDinasRoute}">Lihat</a></td>
-                        </tr>
-                    `);
-                });
-
-                // Re-initialize DataTable
-                table = $('#suratKeluarTable').DataTable();
-            }
-
-            // Fungsi untuk format tanggal ke format "Kamis, 3 Oktober 2024"
-            function formatDate(date) {
-                const options = {
-                    weekday : 'long',
-                    day : 'numeric',
-                    month : 'long',
-                    year : 'numeric'
-                };
-
-                return new Intl.DateTimeFormat('id-ID', options).format(date);
-            }
         })
     </script>
 @endsection

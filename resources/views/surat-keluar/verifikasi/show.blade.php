@@ -32,10 +32,11 @@
 
         <h5>Verifikasi Surat Keluar</h5>
         <div class="mb-3">
-            <a href="{{ Storage::url($surat->file_surat) }}" target="blank" class="d-inline-block btn btn-primary">Lihat
+            <a href="{{ asset('storage/surat_keluar/' . $surat->file_surat) }}" target="blank"
+                class="d-inline-block btn btn-primary">Lihat
                 File Surat</a>
 
-            @if ($surat->status == 'Dalam Proses')
+            @if ($surat->next_verifikator_id == auth()->user()->id)
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTerima">
                     Setujui Draf Surat
                 </button>
@@ -76,7 +77,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Laporan</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Surat</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -87,7 +88,7 @@
                                     <div class="mb-3">
                                         <label for="catatan" class="form-label">Alasan Penolakan</label>
                                         <textarea class="form-control @error('catatan') is-invalid @enderror" name="catatan" id="catatan" rows="3"
-                                            placeholder="Mohon jelaskan alasan penolakan laporan" required></textarea>
+                                            placeholder="Mohon jelaskan alasan penolakan Surat" required></textarea>
                                         @error('catatan')
                                             <label for="catatan" class="invalid-feedback">{{ $message }}</label>
                                         @enderror
@@ -95,7 +96,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Tolak Laporan</button>
+                                    <button type="submit" class="btn btn-danger">Tolak Surat</button>
                                 </div>
                             </form>
                         </div>
@@ -105,16 +106,40 @@
             <h6 class="mt-3">Status Verifikasi Surat Keluar</h6>
             <p
                 class="badge rounded-pill 
-    {{ $surat->status == 'Dalam Proses' ? 'text-bg-primary' : '' }}
+    {{ str_contains($surat->status, 'Menunggu') ? 'text-bg-primary' : '' }}
     {{ $surat->status == 'Disetujui' ? 'text-bg-success' : '' }}
-    {{ $surat->status == 'Ditolak' ? 'text-bg-danger' : '' }} fs-6">
+    {{ str_contains($surat->status, 'Revisi') ? 'text-bg-danger' : '' }} fs-6">
                 {{ $surat->status }}</p>
             @if ($surat->status == 'Ditolak')
                 <h6 class="m-0 p-0">Alasan penolakan : </h6>
                 <p>{{ $surat->alasanPenolakan() }}</p>
-
             @endif
+            @if ($surat->riwayatVerifikasi->count())
+                <h6>Riwayat Verifikasi</h6>
+                <ol class="list-group list-group-numbered w-50">
+                    @foreach ($surat->riwayatVerifikasi as $item)
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-semibold">{{ $item->verifikator->nama }}</div>
+                                <p class="fs-6 text-muted">{{ $item->created_at->diffForHumans() }}</p>
 
+                                @if ($item->status == 'Ditolak')
+                                    <p>Alasan : {{ $item->catatan }}</p>
+                                @endif
+                            </div>
+                            <span
+                                class="badge {{ $item->status == 'Disetujui' ? 'text-bg-success' : 'text-bg-danger' }} rounded-pill">{{ $item->status }}</span>
+                        </li>
+                    @endforeach
+                </ol>
+            @endif
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        });
+    </script>
 @endsection

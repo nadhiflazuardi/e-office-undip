@@ -38,16 +38,34 @@
             <h6 class="mt-3">Status Verifikasi Surat Keluar</h6>
             <p
                 class="badge rounded-pill 
-    {{ $surat->status == 'Dalam Proses' ? 'text-bg-primary' : '' }}
+    {{ str_contains($surat->status, 'Menunggu') ? 'text-bg-primary' : '' }}
     {{ $surat->status == 'Disetujui' ? 'text-bg-success' : '' }}
-    {{ $surat->status == 'Ditolak' ? 'text-bg-danger' : '' }} fs-6">
+    {{ str_contains($surat->status, 'Revisi') ? 'text-bg-danger' : '' }} fs-6">
                 {{ $surat->status }}</p>
-            @if ($surat->status == 'Ditolak')
+            @if (str_contains($surat->status, 'Revisi'))
                 <h6 class="m-0 p-0">Alasan penolakan : </h6>
                 <p>{{ $surat->alasanPenolakan() }}</p>
-
+                <a href="{{ route('surat-keluar.edit',['surat' => $surat]) }}" class="button btn btn-warning mb-3">Perbaiki</a>
             @endif
+            @if ($surat->riwayatVerifikasi->count())
+                <h6>Riwayat Verifikasi</h6>
+                <ol class="list-group list-group-numbered w-50">
+                    @foreach ($surat->riwayatVerifikasi as $item)
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-semibold">{{ $item->verifikator->nama }}</div>
+                                <p class="fs-6 text-muted">{{ $item->created_at->diffForHumans() }}</p>
 
+                                @if ($item->status == 'Ditolak')
+                                    <p>Alasan : {{ $item->catatan }}</p>
+                                @endif
+                            </div>
+                            <span
+                                class="badge {{ $item->status == 'Disetujui' ? 'text-bg-success' : 'text-bg-danger' }} rounded-pill">{{ $item->status }}</span>
+                        </li>
+                    @endforeach
+                </ol>
+            @endif
         </div>
     </div>
 @endsection

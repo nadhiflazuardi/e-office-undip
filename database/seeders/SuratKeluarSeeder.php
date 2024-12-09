@@ -19,9 +19,9 @@ class SuratKeluarSeeder extends Seeder
 
         // Generate 10 fake data
         SuratKeluar::factory(100)->create()->each(function ($suratKeluar) {
-            if ($suratKeluar->status != 'Dalam Proses') {
+            if ($suratKeluar->status != 'Menunggu Persetujuan Supervisor') {
                 $suratKeluar->verifikasi()->save(VerifikasiSuratKeluar::factory([
-                    'status' => $suratKeluar->status
+                    'status' => str_contains($suratKeluar->status, 'Revisi') ? 'Ditolak' : 'Disetujui',
                 ])->make());
             }
 
