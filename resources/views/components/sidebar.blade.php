@@ -117,15 +117,15 @@
                                 Surat Keluar
                             </button>
                         </h2>
-                        <a href="{{ route('surat-keluar.index') }}" class="text-decoration-none text-black">
-                            <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
-                                data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    Daftar Surat
-                                </div>
-                            </div>
-                        </a>
                         @can('buat surat')
+                            <a href="{{ route('surat-keluar.index') }}" class="text-decoration-none text-black">
+                                <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Daftar Surat
+                                    </div>
+                                </div>
+                            </a>
                             <a href="{{ route('surat-keluar.create') }}" class="text-decoration-none text-black">
                                 <div id="flush-collapseFour" class="accordion-collapse collapse border-bottom border-black"
                                     data-bs-parent="#accordionFlushExample">
