@@ -54,6 +54,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
                                 <div class="fw-semibold">{{ $item->verifikator->nama }}</div>
+                                <p class="fw-semibold">{{ $item->verifikator->jabatan->nama }}</p>
                                 <p class="fs-6 text-muted">{{ $item->created_at->diffForHumans() }}</p>
 
                                 @if ($item->status == 'Ditolak')
