@@ -121,7 +121,7 @@ class LogController extends Controller
         foreach ($dataUraianTugas as $uraianTugas) {
             $arrayUraianTugas[] = [
                 'nama' => $uraianTugas->uraian_tugas,
-                'target' => $uraianTugas->target,
+                'target' => $uraianTugas->target / 12,
                 'total' => $uraianTugas->total_bobot
             ];
         }
