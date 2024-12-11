@@ -26,6 +26,10 @@ class VerifikasiTugasController extends Controller
 
     public function terima(LuaranTugas $tugas)
     {
+        if ($tugas->status == 'disetujui') {
+            return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id])->with('error', 'Tugas sudah diverifikasi');
+        };
+
         $tugas->update([
             'status' => 'disetujui',
         ]);
@@ -47,6 +51,10 @@ class VerifikasiTugasController extends Controller
 
     public function tolak(Request $request, LuaranTugas $tugas)
     {
+        if ($tugas->status == 'ditolak') {
+            return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id])->with('error', 'Tugas sudah diverifikasi');
+        };
+
         $tugas->update([
             'status' => 'ditolak',
         ]);
@@ -58,6 +66,6 @@ class VerifikasiTugasController extends Controller
             'catatan' => $request->catatan,
         ]);
 
-        return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id]);
+        return redirect()->route('tugas.verifikasi.show', ['tugas' => $tugas->id])->with('success', 'Tugas berhasil diverifikasi');
     }
 }

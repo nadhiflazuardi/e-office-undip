@@ -118,7 +118,28 @@
                     
                 @endif
 
-            </div>               
+            </div>
+            @if ($perjalananDinas->laporanPerjalananDinas->riwayatVerifikasi->count())
+                <h6 class="mt-3">Riwayat Verifikasi</h6>
+                <ol class="list-group list-group-numbered w-50">
+                    @foreach ($perjalananDinas->laporanPerjalananDinas->riwayatVerifikasi as $item)
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-semibold">{{ $item->verifikator->nama }}</div>
+                                <p class="fw-semibold">{{ $item->verifikator->jabatan->nama }}</p>
+                                <p class="fs-6 text-muted">{{ $item->created_at->diffForHumans() }}</p>
+
+                                @if ($item->status == 'Ditolak')
+                                    <p class="text-capitalize">Alasan : {{ $item->catatan }}</p>
+                                @endif
+                            </div>
+                            <span
+                                class="text-capitalize badge {{ $item->status == 'Disetujui' ? 'text-bg-success' : 'text-bg-danger' }} rounded-pill">{{ $item->status }}</span>
+                        </li>
+                    @endforeach
+                </ol>
+            @endif               
         @endif
+        
     </div>
 @endsection

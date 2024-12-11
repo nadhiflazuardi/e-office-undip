@@ -16,9 +16,25 @@ class SuratKeluarFactory extends Factory
      */
     public function definition(): array
     {
+        $perihalOptions = [
+            'Pengajuan Pembelian Barang',
+            'Pengajuan Pelatihan',
+            'Pengajuan Penelitian',
+            'Pengajuan Pengadaan Barang',
+            'Pengajuan Pengembalian Barang',
+            'Pengajuan Penghapusan Barang',
+            'Pengajuan Pengunduran Diri',
+            'Pengajuan Penugasan',
+            'Pengajuan Perbaikan Barang',
+            'Pengajuan Perpanjangan Kontrak',
+            'Pengajuan Perubahan Data',
+            'Pengajuan Pindah Unit Kerja',
+            'Pengajuan Pindah Jabatan',
+            'Pengajuan Pindah Tugas'
+        ];
         return [
             'penulis_id' => 1,
-            'perihal' => $this->faker->sentence,
+            'perihal' => fake()->randomElement($perihalOptions),
             'nomor_surat' => 'SK-' . time(),
             'asal' => $this->faker->name(),
             'tujuan' => $this->faker->name(),

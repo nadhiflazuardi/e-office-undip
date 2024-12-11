@@ -17,6 +17,19 @@
     </div>
     <h1>Edit Unggahan Bukti Tugas</h1>
     <hr>
+    <a href="{{ asset('storage/luaran_tugas/' . $tugas->file_luaran) }}" target="blank"
+            class="d-inline-block btn btn-primary">Lihat Bukti Tugas</a>
+    <h5 class="mt-3">Status Verifikasi Tugas</h5>
+    <p
+        class="badge rounded-pill text-capitalize
+    {{ $tugas->status == 'sedang diperiksa' ? 'text-bg-primary' : '' }}
+    {{ $tugas->status == 'disetujui' ? 'text-bg-success' : '' }}
+    {{ $tugas->status == 'ditolak' ? 'text-bg-danger' : '' }} fs-6">
+        {{ $tugas->status }}</p>
+    @if ($tugas->status == 'ditolak')
+        <h6 class="m-0 p-0">Alasan penolakan : </h6>
+        <p>{{ $tugas->alasanPenolakan()[0] }}</p>
+    @endif
     <form method="POST" action="{{ route('tugas.update', ['tugas' => $tugas]) }}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
@@ -55,9 +68,10 @@
         </div>
         <div class="mb-3">
             <label for="fileInput" class="form-label">Upload File</label>
-            <input class="form-control @error('file') is-invalid @enderror" type="file" name="file" id="fileInput" aria-describedby="passwordHelpBlock">
+            <input class="form-control @error('file') is-invalid @enderror" type="file" name="file" id="fileInput"
+                aria-describedby="passwordHelpBlock">
             <div id="passwordHelpBlock" class="form-text">
-                Silakan unggah file baru jika ingin mengganti file yang sudah ada. 
+                Silakan unggah file baru jika ingin mengganti file yang sudah ada.
             </div>
             @error('file')
                 <label for="fileInput" class="invalid-feedback">{{ $message }}</label>

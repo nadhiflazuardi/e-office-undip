@@ -24,7 +24,13 @@ class RapatSeeder extends Seeder
             $durasiRapat = rand(1, 3); // Durasi rapat antara 1-3 jam
             $waktuSelesai = (clone $waktuMulai)->addHours($durasiRapat); // Tambah durasi rapat
 
-
+            $judulOptions = [
+                'Rapat Kerja',
+                'Rapat Koordinasi Staf',
+                'Rapat Evaluasi Kinerja',
+                'Rapat Pembahasan Proyek',
+                'Rapat Persiapan Acara',
+                'Rapat Penyusunan Peraturan',];
 
             // Pilih pemimpin rapat secara acak
             $pemimpinRapat = User::inRandomOrder()->first();
@@ -35,7 +41,7 @@ class RapatSeeder extends Seeder
                 'id' => $customId,
                 'pemimpin_rapat_id' => $pemimpinRapat->id,
                 'creator_id' => $sekretaris->id,
-                'judul' => fake()->sentence(),
+                'judul' => fake()->randomElement($judulOptions),
                 'perihal' => fake()->paragraph(),
                 'waktu_mulai' => $waktuMulai,
                 'waktu_selesai' => $waktuSelesai,

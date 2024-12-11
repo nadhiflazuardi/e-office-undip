@@ -21,7 +21,7 @@
         @csrf
         <div class="d-flex justify-content-end gap-1">
             <button class="btn btn-primary header1" style="width: 100px" type="submit">Simpan</button>
-            <button class="btn btn-outline-primary" style="width: 100px">Batal</button>
+            <a href="{{ route('dashboard') }}" class="btn btn-outline-primary" style="width: 100px">Batal</a>
         </div>
         <div class="mb-3">
             <label for="judulInput" class="form-label">Judul Rapat</label>

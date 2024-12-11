@@ -12,4 +12,8 @@ class VerifikasiLaporanPerjalananDinas extends Model
     protected $table = 'verifikasi_laporan_perjalanan_dinas';
 
     protected $guarded = ['id'];
+
+    public function verifikator() {
+        return $this->belongsTo(User::class, 'verifikatur_id');
+    }
 }

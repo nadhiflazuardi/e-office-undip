@@ -12,7 +12,7 @@ class TugasController extends Controller
     public function index()
     {
         $title = 'Tugas';
-        $daftarTugas = LuaranTugas::where('pegawai_id', auth()->id())->latest()->get();
+        $daftarTugas = LuaranTugas::where('pegawai_id', auth()->id())->orderBy('waktu_pengumpulan','desc')->get();
         return view('tugas.index', compact('title', 'daftarTugas'));
     }
 
@@ -59,6 +59,7 @@ class TugasController extends Controller
     public function show(LuaranTugas $tugas)
     {
         $title = 'Detail Tugas';
+        $tugas->load(['pegawai', 'verifikasi', 'riwayatVerifikasi']);
         return view('tugas.show', compact('title', 'tugas'));
     }
 

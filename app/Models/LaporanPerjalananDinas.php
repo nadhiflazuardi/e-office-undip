@@ -24,6 +24,11 @@ class LaporanPerjalananDinas extends Model
 
     public function verifikasi()
     {
-        return $this->hasOne(VerifikasiLaporanPerjalananDinas::class, 'laporan_id');
+        return $this->hasOne(VerifikasiLaporanPerjalananDinas::class, 'laporan_id')->latestOfMany();
+    }
+
+    public function riwayatVerifikasi()
+    {
+        return $this->hasMany(VerifikasiLaporanPerjalananDinas::class, 'laporan_id');
     }
 }

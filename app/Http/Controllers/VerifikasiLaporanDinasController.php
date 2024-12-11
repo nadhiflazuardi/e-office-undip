@@ -42,12 +42,16 @@ class VerifikasiLaporanDinasController extends Controller
             'bobot' => $bobot,
         ]);
 
-        return redirect()->route('laporan-dinas.show', ['laporan' => $laporan->id]);
+        return redirect()->route('laporan-dinas.index')->with('success', 'Laporan perjalanan dinas berhasil diverifikasi');;
 
     }
 
     public function tolak(Request $request, LaporanPerjalananDinas $laporan)
     {
+        if ($laporan->status == 'Ditolak') {
+            return redirect()->route('laporan-dinas.index')->with('error', 'Laporan sudah diverifikasi');
+        };
+
         $request->validate([
             'catatan' => 'required',
         ]);

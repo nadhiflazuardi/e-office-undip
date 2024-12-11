@@ -31,10 +31,12 @@ class SppdController extends Controller
     public function create()
     {
         $title = 'Buat SPPD';
-        $supervisorQuery = User::role('supervisor')->where('unit_kerja_id', auth()->user()->unit_kerja_id);
+        $supervisorQuery = User::role(['supervisor','Wakil Dekan', 'Dekan'])->where('unit_kerja_id', auth()->user()->unit_kerja_id);
         $supervisors = $supervisorQuery->with('jabatan')->get();
         $superVisorIds = $supervisors->pluck('id');
-        $users = User::whereNotIn('id', $superVisorIds)->where('unit_kerja_id', auth()->user()->unit_kerja_id)->with('jabatan')->get();
+        $users = User::whereDoesntHave('roles', function($query) {
+            $query->whereIn('name', ['supervisor', 'Wakil Dekan', 'Dekan']);
+        })->where('unit_kerja_id', auth()->user()->unit_kerja_id)->with('jabatan')->get();
         return view('sppd.create', compact('title', 'users','supervisors'));
     }
 

@@ -12,6 +12,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (session()->has('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="">
         <h6>Pegawai</h6>
         <p>{{ $tugas->pegawai->nama }}</p>
@@ -99,6 +105,28 @@
                     </div>
                 </div>
             </div>
+
+            
+        @endif
+        @if ($tugas->riwayatVerifikasi->count())
+            <h6 class="mt-3">Riwayat Verifikasi</h6>
+            <ol class="list-group list-group-numbered w-50">
+                @foreach ($tugas->riwayatVerifikasi as $item)
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-semibold">{{ $item->verifikator->nama }}</div>
+                            <p class="fw-semibold">{{ $item->verifikator->jabatan->nama }}</p>
+                            <p class="fs-6 text-muted">{{ $item->created_at->diffForHumans() }}</p>
+    
+                            @if ($item->status == 'ditolak')
+                                <p class="text-capitalize">Alasan : {{ $item->catatan }}</p>
+                            @endif
+                        </div>
+                        <span
+                            class="text-capitalize badge {{ $item->status == 'disetujui' ? 'text-bg-success' : 'text-bg-danger' }} rounded-pill">{{ $item->status }}</span>
+                    </li>
+                @endforeach
+            </ol>
         @endif
     </div>
 @endsection

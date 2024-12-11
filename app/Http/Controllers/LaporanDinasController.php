@@ -84,20 +84,20 @@ class LaporanDinasController extends Controller
                 }
 
                 // Simpan file baru
-                $file->storeAs('laporan-dinas', $namaFile);
+                $file->storeAs('/public/laporan-dinas', $namaFile);
 
                 // Update file_laporan di database
-                $laporan->file_laporan = $namaFile;
+                $laporan->file_laporan = 'laporan-dinas/' . $namaFile;
             }
 
             // Update data laporan perjalanan dinas
             $laporan->update([
                 'keterangan' => $request->keterangan,
-                'waktu_pengumpulan' => $request->waktu_pengumpulan,
+                'waktu_pengumpulan' => now(),
                 'status' => 'Dalam Proses',
             ]);
 
-            return redirect()->route('laporan-dinas.index')->with('success', 'Laporan berhasil di-update');
+            return redirect()->back()->with('success', 'Laporan berhasil di-update');
         } catch (\Exception $e) {
             // Tangani exception dan beri feedback ke user
             return back()->withErrors(['msg' => 'Terjadi kesalahan: ' . $e->getMessage()]);

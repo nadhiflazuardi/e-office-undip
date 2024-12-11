@@ -45,7 +45,10 @@
             @if (str_contains($surat->status, 'Revisi'))
                 <h6 class="m-0 p-0">Alasan penolakan : </h6>
                 <p>{{ $surat->alasanPenolakan() }}</p>
+                @can('buat surat')
                 <a href="{{ route('surat-keluar.edit',['surat' => $surat]) }}" class="button btn btn-warning mb-3">Perbaiki</a>
+                    
+                @endcan
             @endif
             @if ($surat->riwayatVerifikasi->count())
                 <h6>Riwayat Verifikasi</h6>

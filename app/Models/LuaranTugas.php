@@ -53,6 +53,11 @@ class LuaranTugas extends Model
 
     public function verifikasi()
     {
-        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_tugas_id');
+        return $this->hasOne(VerifikasiLuaranTugas::class, 'luaran_tugas_id')->latestOfMany();
+    }
+
+    public function riwayatVerifikasi()
+    {
+        return $this->hasMany(VerifikasiLuaranTugas::class, 'luaran_tugas_id');
     }
 }

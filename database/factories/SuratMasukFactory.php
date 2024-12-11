@@ -21,9 +21,24 @@ class SuratMasukFactory extends Factory
             $query->where('nama', 'Pengelola Informasi Akademik')->orWhere('nama','Pengadministrasi Akademik')->orWhere('nama','Pengadministrasi Persuratan')->orWhere('nama','Sekretaris');
         })->inRandomOrder()->first()->id;
 
+        $perihalOptions = [
+            'Pengajuan Pembelian Barang',
+            'Pengajuan Pelatihan',
+            'Pengajuan Penelitian',
+            'Pengajuan Pengadaan Barang',
+            'Pengajuan Pengembalian Barang',
+            'Pengajuan Penghapusan Barang',
+            'Pengajuan Penugasan',
+            'Pengajuan Perbaikan Barang',
+            'Pengajuan Perubahan Data',
+            'Pengajuan Pindah Unit Kerja',
+            'Pengajuan Pindah Jabatan',
+            'Pengajuan Pindah Tugas'
+        ];
+
         return [
             'nomor_surat' => $this->faker->unique()->numerify('###/###/###'),
-            'perihal' => $this->faker->sentence,
+            'perihal' => fake()->randomElement($perihalOptions),
             'asal' => $this->faker->name(),
             'tujuan' => $this->faker->name(),
             'tanggal_diterima' => $this->faker->date(),

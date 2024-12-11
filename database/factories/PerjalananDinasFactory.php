@@ -18,9 +18,26 @@ class PerjalananDinasFactory extends Factory
      */
     public function definition(): array
     {
-        $pemberi_perintah = User::inRandomOrder()->first();
+        $pemberi_perintah = User::whereHas('roles', function ($query) {
+            $query->where('name', 'Supervisor');
+        })->inRandomOrder()->first();
 
-        $pelaksana = User::inRandomOrder()->where('id', '!=', $pemberi_perintah->id)->first();
+        $pelaksana = User::whereDoesntHave('roles', function($query) {
+            $query->whereIn('name', ['supervisor', 'Wakil Dekan', 'Dekan']);
+        })->where('unit_kerja_id', $pemberi_perintah->unit_kerja_id)->where('id', '!=', $pemberi_perintah->id)->inRandomOrder()->first();
+
+        $keperluanPerjalananOptions = [
+            'Menghadiri Rapat Koordinasi',
+            'Menghadiri Rapat Evaluasi',
+            'Menghadiri Rapat Kerja',
+            'Pelatihan Kompetensi',
+            'Sertiikasi Kompetensi',
+            'Peresmian Gedung',
+            'Pengawasan Proyek',
+            'Penelitian Lapangan',
+            'Kegiatan Pengembangan',
+            'Pendampingan Kegiatan',
+        ];
 
         return [
             'pemberi_perintah_id' => $pemberi_perintah->id,
@@ -33,7 +50,7 @@ class PerjalananDinasFactory extends Factory
             'tanggal_mulai' => $this->faker->dateTimeBetween('-1 week', 'now'),
             'tanggal_selesai' => $this->faker->dateTimeBetween('now', '+1 week'),
             'anggaran' => $this->faker->randomNumber('5'),
-            'keperluan_perjalanan' => $this->faker->sentence,
+            'keperluan_perjalanan' => $this->faker->randomElement($keperluanPerjalananOptions),
             'keterangan' => $this->faker->sentence,
             'file_sppd' => $this->faker->word,
 
